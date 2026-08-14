@@ -2063,6 +2063,18 @@ def test_broken_doc_links_ignores_external_urls(tmp_path):
     assert broken_doc_links(tmp_path) == []
 
 
+def test_broken_doc_links_ignores_examples_in_code(tmp_path):
+    """Docs show example link syntax for other repos; that is not a broken link."""
+    (tmp_path / "README.md").write_text(
+        "Switcher: `[English](./README.md) · [简体中文](./README.zh-CN.md)`\n"
+        "\n"
+        "```markdown\n"
+        "[English](./README.md) · [日本語](./README.ja-JP.md)\n"
+        "```\n",
+        encoding="utf-8")
+    assert broken_doc_links(tmp_path) == []
+
+
 def test_identifier_drift_flags_changed_code_line(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
@@ -2138,13 +2150,21 @@ def residual_cjk(repo_root: Path) -> list[tuple[str, int]]:
 
 
 def broken_doc_links(repo_root: Path) -> list[tuple[str, str]]:
-    """Relative markdown links whose target does not exist."""
+    """Relative markdown links whose target does not exist.
+
+    Code fences and inline code are masked out first. Documentation routinely
+    shows example link syntax describing *other* repos' layouts; a gate that
+    fires on every such example is a gate reviewers learn to ignore.
+    """
+    from gwt.extract_md import _mask
+
     root = Path(repo_root)
     bad = []
     for md in root.rglob("*.md"):
         if ".git" in md.parts or "node_modules" in md.parts:
             continue
-        for target in _MD_LINK.findall(md.read_text(encoding="utf-8", errors="replace")):
+        prose = bytes(_mask(md.read_bytes())).decode("utf-8", errors="replace")
+        for target in _MD_LINK.findall(prose):
             if target.startswith(("http://", "https://", "#", "mailto:")):
                 continue
             if not (md.parent / target.split("#")[0]).exists():
@@ -2208,7 +2228,7 @@ def run_gate(repo_root: Path, skip_build: bool = False) -> dict[str, list]:
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `python3 -m pytest tests/test_verify.py -v`
-Expected: PASS, 9 passed
+Expected: PASS, 10 passed
 
 - [ ] **Step 5: Baseline the gate against an untouched repo**
 

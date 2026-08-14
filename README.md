@@ -19,33 +19,74 @@ The approach here converges because it deduplicates first:
 
 Deduplicated payload lands around 450k characters — inside DeepL Free's 500k/month tier. Translation cost: $0.
 
-## Pipeline
+See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-translation.md) for the full argument and the evidence from the prior attempt.
+
+## Status
+
+**Planning complete. Implementation not started.** Task 1 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) is the entry point. The commands below describe the CLI that plan builds — they do not run yet.
+
+## Quick start (once implemented)
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e '.[dev]'
+export DEEPL_API_KEY='<your-key>:fx'      # free tier, no card required
+python3 -m pytest                          # must be green before touching any repo
+gwt run go-wind-bootstrap --engine deepl   # pilot repo
+```
+
+Target repos are expected as siblings of this one, under `~/Documents/GitHub/dhiazfathra/`.
+
+## Commands (planned CLI surface)
+
+| Command | Description |
+|---|---|
+| `gwt extract <repo>` | Parse the repo, write `work/<repo>/occurrences.jsonl`, report occurrence and unique-segment counts |
+| `gwt translate <repo> --engine deepl` | Translate segments not already in the cache; chains dictionary → engine |
+| `gwt splice <repo>` | Write cached translations back into the repo by byte span |
+| `gwt docs <repo> [--dry-run]` | Restructure READMEs and `docs/` to English-default, insert language switchers |
+| `gwt verify <repo> [--skip-build]` | Residual CJK, broken doc links, identifier drift, build |
+| `gwt run <repo> --engine deepl` | The whole pipeline: extract → translate → splice → docs → `make gen` → verify |
+
+## Architecture
 
 ```
-extract (tree-sitter, CJK-run spans only)
-  → dedup by content hash
-  → translate unseen segments (dictionary → DeepL → Argos)
-  → permanent cache/segments.jsonl
-  → splice back by byte span
-  → docs restructure (English default, Chinese as variant)
-  → make gen
-  → verify (residual CJK, links, identifier drift, build)
+extract   tree-sitter parse; spans narrow to the Chinese run only,
+          so adjacent identifiers are never part of a segment
+dedup     NFC + whitespace-collapse + SHA-1; 174,310 occurrences → ~61,000 segments
+translate chained engines, first hit wins: dictionary → DeepL → Argos
+cache     cache/segments.jsonl, committed and permanent
+splice    byte-span writeback, deepest offset first
+docs      README.md becomes English; Chinese moves to README.zh-CN.md via git mv
+regen     each repo's own `make gen` propagates translated proto / ent schema
+verify    residual CJK, link integrity, identifier drift, build
 ```
 
-The cache is committed and permanent. Re-running after an upstream merge only pays for genuinely new segments — the property the prior attempt lacked.
+The cache is committed, not gitignored — it *is* the artifact. Re-running after an upstream merge only pays for genuinely new segments, which is the property the prior attempt lacked.
+
+Design rationale lives in [`docs/decisions/`](docs/decisions/README.md):
+
+| # | Decision |
+|---|---|
+| [0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-translation.md) | Deduplicate segments and cache them, rather than translating files with an LLM |
+| [0002](docs/decisions/0002-translate-sources-regenerate-derived-artifacts.md) | Translate generator inputs, regenerate their outputs |
+| [0003](docs/decisions/0003-deepl-free-with-chained-engine-fallback.md) | DeepL Free as the primary engine, behind a chained fallback |
+| [0004](docs/decisions/0004-english-default-doc-layout.md) | English-default docs with Chinese preserved as a selectable variant |
+| [0005](docs/decisions/0005-ast-extraction-with-cjk-span-narrowing.md) | Extract with an AST, narrow spans to the Chinese run, mask what remains |
 
 ## Docs
 
-- [Execution options](docs/superpowers/specs/2026-08-14-go-wind-translation-options.md) — five approaches costed against the measured corpus, three of which involve no LLM inference
+- [Execution options](docs/superpowers/specs/2026-08-14-go-wind-translation-options.md) — spec; five approaches costed against the measured corpus, three of which involve no LLM inference
 - [Implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) — 14 task-by-task steps with tests
+- [Decision records](docs/decisions/README.md) — why the approach looks like this
 
 ## Scope rules
 
 **Never translated:** `locales/`, `messages/`, `langs/`, `i18n/`, `*.arb`, `[locale]/`, `*zh-CN*`, `README*.ja*` — these are deliberately Chinese runtime resources.
 
-**Never translated, regenerated instead:** `gen/`, `generated/`, `ent/` (except `ent/schema/`), `*.pb.go`, `*.pb.ts`, `migrate/schema.go`. The proto and ent schema sources are translated, then each repo's `make gen` propagates.
+**Never translated, regenerated instead:** `gen/`, `generated/`, `ent/` (except `ent/schema/`, which is hand-written), `*.pb.go`, `*.pb.ts`, `migrate/schema.go`. The proto and ent schema sources are translated, then each repo's `make gen` propagates. See [ADR-0002](docs/decisions/0002-translate-sources-regenerate-derived-artifacts.md).
 
-**Never altered:** any ASCII token that is camelCase, PascalCase, snake_case, dotted, a call site, a URL, or a printf verb.
+**Never altered:** any ASCII token that is camelCase, PascalCase, snake_case, dotted, a call site, a URL, or a printf verb. See [ADR-0005](docs/decisions/0005-ast-extraction-with-cjk-span-narrowing.md).
 
 ## Doc layout
 
@@ -59,6 +100,8 @@ docs/zh-CN/*.md    original Chinese
 
 Every variant carries a switcher line: `[English](./README.md) · [简体中文](./README.zh-CN.md)`.
 
-## Status
+## Target repos
 
-Planning complete. Implementation not started — Task 1 of the plan is the entry point.
+`go-wind`, `go-wind-admin`, `go-wind-admin-template`, `go-wind-bi`, `go-wind-bootstrap`, `go-wind-cms`, `go-wind-ledger`, `go-wind-plugins`, `go-wind-shop`, `go-wind-toolkit`, `go-wind-uba`
+
+One branch per repo (`chore/i18n-en-default`), one PR per repo.
