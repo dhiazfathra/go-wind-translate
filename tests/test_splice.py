@@ -21,6 +21,37 @@ def test_replaces_single_span(tmp_path):
     assert f.read_text(encoding="utf-8") == "// Create user\n"
 
 
+def test_string_kind_escapes_embedded_quotes(tmp_path):
+    # DeepL sometimes wraps a negation word in literal quotes for emphasis
+    # (observed: 非 -> "not"). Spliced raw into a Go string literal, that
+    # quote terminates it early and breaks the build.
+    f = tmp_path / "a.go"
+    f.write_text('t.Fatalf("Ctx.Err() 应为非 nil")\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "应为非 nil"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    en = 'Should be "not" nil'
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
+    assert n == 1
+    result = f.read_text(encoding="utf-8")
+    assert result == 't.Fatalf("Ctx.Err() Should be \\"not\\" nil")\n'
+
+
+def test_comment_kind_leaves_quotes_unescaped(tmp_path):
+    f = tmp_path / "a.go"
+    f.write_text("// 创建用户\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "创建用户"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, 'Create "user"')]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == '// Create "user"\n'
+
+
 def test_multiple_spans_keep_offsets_valid(tmp_path):
     f = tmp_path / "b.go"
     f.write_text("// 甲\nx := \"乙\"\n// 丙\n", encoding="utf-8")

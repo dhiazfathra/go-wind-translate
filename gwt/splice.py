@@ -24,6 +24,13 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
             continue
         if seg_hash(current) != o.h:
             continue
+        if o.kind == "string":
+            # MT output occasionally wraps a word in literal ASCII quotes
+            # for emphasis (DeepL does this on negation words like "非").
+            # Spliced verbatim into a double-quoted string literal, that
+            # quote terminates the literal early and breaks the build —
+            # escape it the same way the host language would.
+            en = en.replace("\\", "\\\\").replace('"', '\\"')
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1
     if n:

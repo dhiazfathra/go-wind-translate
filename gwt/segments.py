@@ -35,6 +35,7 @@ class Occurrence:
     start: int   # byte offset, inclusive
     end: int     # byte offset, exclusive
     h: str
+    kind: str = "comment"  # "string" spans need quote-escaping at splice time
 
 
 class Cache:
