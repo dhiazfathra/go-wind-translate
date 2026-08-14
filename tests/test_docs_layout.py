@@ -124,6 +124,36 @@ def test_switcher_replaces_stale_pipe_separated_line(tmp_path):
     assert switcher_line(variants) in text
 
 
+def test_switcher_replaces_stale_single_mention_line_near_h1(tmp_path):
+    # A 2-language switcher's current-language side needs no link (it's
+    # already this file) -- "README" appears only once on the line.
+    p = tmp_path / "README.zh-CN.md"
+    p.write_text(
+        "# Title\n\n[English](./README.en-US.md) | **中文**\n\nBody\n",
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert "README.en-US.md" not in text
+    assert switcher_line(variants) in text
+
+
+def test_switcher_leaves_unrelated_readme_mention_further_down(tmp_path):
+    # A single README mention away from the H1, with no switcher shape,
+    # is ordinary prose -- must survive untouched.
+    p = tmp_path / "README.md"
+    p.write_text(
+        "# Title\n\nIntro paragraph.\n\n"
+        "## Docs\n\nSee [the README](./README.md) for setup | more details.\n",
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    ensure_switcher(p, variants)
+    text = p.read_text(encoding="utf-8")
+    assert "See [the README](./README.md) for setup | more details." in text
+
+
 def test_switcher_goes_after_h1(tmp_path):
     p = tmp_path / "README.md"
     p.write_text("# Title\n\nBody\n", encoding="utf-8")

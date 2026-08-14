@@ -19,6 +19,10 @@ _EN_VARIANT = re.compile(r"^README[._-](en([-_]US)?|EN)\.md$", re.IGNORECASE)
 _JA_VARIANT = re.compile(r"^README[._-](ja([-_]JP)?|JA)\.md$", re.IGNORECASE)
 _ZH_VARIANT = re.compile(r"^README[._-](zh([-_]CN)?|ZH)\.md$", re.IGNORECASE)
 
+# A README *filename*, not the bare word: "[README](./README.md)" is one
+# link to one file and must count once, not twice (link text + href).
+_README_FILENAME = re.compile(r"README[\w.-]*\.md", re.IGNORECASE)
+
 
 def plan_moves(repo_root: Path) -> list[tuple[Path, Path]]:
     """Return (src, dst) pairs. Never returns a move onto an existing file."""
@@ -83,16 +87,30 @@ def switcher_line(variants: dict[str, str]) -> str:
     return " · ".join(parts)
 
 
-def _is_stale_switcher(text: str) -> bool:
+def _is_stale_switcher(text: str, near_h1: bool = False) -> bool:
     """A hand-written language-switcher line from before the doc move.
 
     Some repos already had their own language-switcher line pointing at
     the pre-move filenames (README_en.md, README_JA.md, ...) — separator
-    style varies by repo (" · ", " | ", ...), so detection doesn't depend
+    style varies by repo (' · ', ' | ', ...), so detection doesn't depend
     on one: any line naming two or more README variants is a switcher,
     since prose has no reason to link the same doc under two names.
+
+    A 2-language switcher's *current*-language side needs no link (it's
+    already this file), so it may name a README file only once — e.g.
+    "[English](./README.en-US.md) | **中文**". Only trust a single mention
+    when the line also has switcher shape (a separator plus a link or bold
+    span) AND sits right after the H1, where a real intro paragraph is
+    unlikely to look like this.
     """
-    return text.upper().count("README") >= 2
+    files = {m.upper() for m in _README_FILENAME.findall(text)}
+    if len(files) >= 2:
+        return True
+    if not near_h1 or not files:
+        return False
+    has_separator = " · " in text or " | " in text
+    has_emphasis = "[" in text or "**" in text
+    return has_separator and has_emphasis
 
 
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
@@ -100,7 +118,9 @@ def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     line = switcher_line(variants)
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
-    stale = [i for i, ln in enumerate(lines) if _is_stale_switcher(ln) and ln != line]
+    h1 = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
+    stale = [i for i, ln in enumerate(lines)
+             if _is_stale_switcher(ln, near_h1=h1 >= 0 and i <= h1 + 2) and ln != line]
     if line in text and not stale:
         return False
     for i in reversed(stale):
