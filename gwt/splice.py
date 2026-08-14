@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
+from gwt.quality import pad_comment_boundary
 from gwt.segments import Cache, Occurrence, read_occurrences, seg_hash
 
 
@@ -41,6 +42,8 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
             # this occurrence rather than emit a broken source file.
             if "`" in en:
                 continue
+        elif o.kind == "comment":
+            en = pad_comment_boundary(bytes(raw), o.start, o.end, en)
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1
     if n:

@@ -73,6 +73,23 @@ def test_raw_string_kind_skips_translation_containing_backtick(tmp_path):
     assert f.read_text(encoding="utf-8") == 'var tmpl = `原始`\n'
 
 
+def test_comment_kind_pads_glued_acronym_boundary(tmp_path):
+    # Chinese needs no space between a Latin identifier fragment and
+    # surrounding prose ("UserID无效"); splicing "Invalid" straight into
+    # that CJK-only span reproduces the same zero-width join in English
+    # ("UserIDInvalid"), which isn't readable. Comment-kind splicing pads it.
+    f = tmp_path / "a.go"
+    f.write_text("// UserID无效\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "无效"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "Invalid")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == "// UserID Invalid\n"
+
+
 def test_comment_kind_leaves_quotes_unescaped(tmp_path):
     f = tmp_path / "a.go"
     f.write_text("// 创建用户\n", encoding="utf-8")

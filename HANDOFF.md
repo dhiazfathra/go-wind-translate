@@ -1,4 +1,4 @@
-# Handoff: zh->en translation tooling — Tasks 1-13 done, resume at Task 14 (optional)
+# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 slice 1 done
 
 ## State as of this handoff
 
@@ -13,7 +13,7 @@
   go-wind-cms#1, go-wind-admin#1.
 - `cache/segments.jsonl` and `dictionary.tsv` here are up to date with all
   11 repos' resolved segments.
-- 121/121 tests passing in this repo.
+- 136/136 tests passing in this repo.
 
 ## Bugs found across Task 12-13 (fixed in this worktree's commits — see git log)
 
@@ -101,15 +101,35 @@ since they're data/content, not `gwt` logic):
 
 ## What's left
 
-- **Task 14 (optional, not started)**: scoped LLM quality pass over
-  short/prose segments MT handles poorly. Confirmed recurring patterns
-  worth targeting:
-  - Missing spaces around inline placeholders/acronyms in proto/Go comments
-    (`UserIDInvalid`, `URIToo long`, `180Tian` for "180 days") — cosmetic,
-    comment-only, appears in most `*.proto`/`admin_error.proto`-style files
-    across every repo.
-  - Full-width Chinese punctuation left adjacent to translated text in a
-    few comments (e.g. stray `、`/`（）`).
+- **Task 14 slice 1 done** (branch `worktree-task14-llm-quality-pass`, PR
+  against this branch): root-caused and fixed the `UserIDInvalid`/
+  `URIToo long`/`HTTPThis version...` pattern. It isn't an MT translation
+  error — the Chinese source has no space around a Latin identifier
+  fragment (`用户ID无效`), extraction correctly narrows to the CJK-only
+  spans either side of `ID`, and splicing the English back in place
+  faithfully reproduces that same zero-width join, which English can't
+  read. Fixed in `gwt/splice.py` + new `gwt/quality.py`:
+  `pad_comment_boundary` inspects the literal bytes immediately before/after
+  a comment-kind occurrence's span and inserts a space when a known acronym
+  (ID, URI, API, HTTP, etc.) glues directly onto the translated word —
+  scoped to `kind == "comment"` only, so it can never touch a real code
+  identifier. 15 new regression tests, including the exact `用户ID无效`
+  case and a multi-segment case (`查询API列表` → `Query API List`, both
+  sides pad independently without double-spacing).
+  **Not done in this slice**: re-splicing the already-open target-repo PRs
+  to apply this fix to their existing translated files — that means editing
+  10 already-open PRs' branches and was judged out of scope for a
+  tool-only fix PR; a follow-up run of `gwt run <repo>` after a
+  `git checkout -- . && git clean -fd` reset would pick it up for free
+  (cache is warm) next time any of those repos' translation gets touched.
+- **Task 14, remaining scope (not started)**: a genuine MT-quality miss
+  distinct from the spacing bug above — `180天` (a segment, not a boundary
+  artifact) came back from DeepL as `180Tian`, an untranslated
+  transliteration of 天/day. This needs either a `dictionary.tsv` pin for
+  the specific segment or a scoped LLM re-translation pass over
+  short/numeric-adjacent segments, not a spacing fix. Also unaddressed:
+  full-width Chinese punctuation left adjacent to translated text in a few
+  comments (stray `、`/`（）`).
 - **Known, accepted scope limit (not a bug — see Ruling #8 below, extended)**:
   the corpus-wide residual-CJK sweep (Task 13 Step 9, plan line ~2747) came
   back far above the plan's "well under 1,000 per repo" expectation (range:

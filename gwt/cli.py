@@ -10,6 +10,7 @@ from pathlib import Path
 from gwt.classify import iter_translatable
 from gwt.docs_layout import apply_moves, ensure_switcher, plan_moves
 from gwt.engines import get_engine
+from gwt.quality import fix_spacing
 from gwt.extract import extract_file
 from gwt.segments import Cache, Segment, write_occurrences
 from gwt.splice import splice_repo
@@ -56,7 +57,7 @@ def cmd_translate(segs: list[Segment], cache: Cache, engines: list) -> None:
                 f"engine {eng.name} returned {len(results)} results for {len(texts)} inputs")
         for h, src, en in zip(hashes, texts, results):
             if en and en.strip():
-                cache.put(h, src, en, eng.name)
+                cache.put(h, src, fix_spacing(en), eng.name)
                 pending.pop(h, None)
         print(f"  {eng.name}: resolved {len(hashes) - len(pending)}, {len(pending)} left")
     if pending:
