@@ -21,6 +21,38 @@ def test_replaces_single_span(tmp_path):
     assert f.read_text(encoding="utf-8") == "// Create user\n"
 
 
+def test_string_kind_leaves_glued_acronym_cache_value_unchanged(tmp_path):
+    # The cache is keyed by source hash and shared across every occurrence
+    # of that segment. If the SAME segment is also spliced into a comment
+    # elsewhere, the comment-only fix_spacing()/pad_comment_boundary() pass
+    # must never touch the cached value itself -- only the copy going into
+    # a "string"/"raw_string" span, where "APIClient" is a real identifier
+    # and must survive intact.
+    f = tmp_path / "a.go"
+    f.write_text('x := "接口客户端"\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "接口客户端"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "APIClient")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'x := "APIClient"\n'
+
+
+def test_raw_string_kind_leaves_glued_acronym_cache_value_unchanged(tmp_path):
+    f = tmp_path / "a.go"
+    f.write_text('var name = `接口客户端`\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "接口客户端"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="raw_string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "APIClient")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'var name = `APIClient`\n'
+
+
 def test_string_kind_escapes_embedded_quotes(tmp_path):
     # DeepL sometimes wraps a negation word in literal quotes for emphasis
     # (observed: 非 -> "not"). Spliced raw into a Go string literal, that

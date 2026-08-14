@@ -13,7 +13,7 @@
   go-wind-cms#1, go-wind-admin#1.
 - `cache/segments.jsonl` and `dictionary.tsv` here are up to date with all
   11 repos' resolved segments.
-- 136/136 tests passing in this repo.
+- 138/138 tests passing in this repo.
 
 ## Bugs found across Task 12-13 (fixed in this worktree's commits — see git log)
 
@@ -116,6 +116,18 @@ since they're data/content, not `gwt` logic):
   identifier. 15 new regression tests, including the exact `用户ID无效`
   case and a multi-segment case (`查询API列表` → `Query API List`, both
   sides pad independently without double-spacing).
+
+  **PR #3 CodeRabbit finding, fixed**: the first commit called
+  `fix_spacing()` unconditionally in `cmd_translate`, before caching —
+  but the cache is keyed by source hash and shared across every occurrence
+  of that segment, including ones spliced into a `string`/`raw_string`
+  span where the same Chinese term is a real identifier (e.g. `APIClient`).
+  Rewriting the cached value would have silently corrupted those. Fixed:
+  both `fix_spacing()` and `pad_comment_boundary()` now run only at splice
+  time, only for `kind == "comment"`, never touching the cached value
+  itself. 2 more regression tests confirm a cached `APIClient` value
+  survives unchanged through both `string` and `raw_string` splicing.
+
   **Not done in this slice**: re-splicing the already-open target-repo PRs
   to apply this fix to their existing translated files — that means editing
   10 already-open PRs' branches and was judged out of scope for a
