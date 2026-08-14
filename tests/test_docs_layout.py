@@ -90,6 +90,24 @@ def test_ensure_switcher_is_idempotent(tmp_path):
     assert p.read_text(encoding="utf-8") == once
 
 
+def test_switcher_replaces_stale_pre_move_line(tmp_path):
+    # The repo already had its own switcher pointing at the pre-move
+    # filenames (README_en.md); after the doc move renames those files
+    # away, that line's links 404. ensure_switcher must replace it, not
+    # leave it dangling alongside the new correct one.
+    p = tmp_path / "README.md"
+    p.write_text(
+        "# Title\n\n中文 · [English](./README_en.md) · [日本語](./README_ja.md)\n\nBody\n",
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md", "ja-JP": "./README.ja-JP.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert "README_en.md" not in text
+    assert "README_ja.md" not in text
+    assert switcher_line(variants) in text
+
+
 def test_switcher_goes_after_h1(tmp_path):
     p = tmp_path / "README.md"
     p.write_text("# Title\n\nBody\n", encoding="utf-8")

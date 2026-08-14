@@ -83,15 +83,30 @@ def switcher_line(variants: dict[str, str]) -> str:
     return " · ".join(parts)
 
 
+def _is_stale_switcher(text: str) -> bool:
+    """A hand-written language-switcher line from before the doc move.
+
+    Some repos already had their own " · "-joined language links pointing at
+    the pre-move filenames (README_en.md, README_ja.md, ...); once those
+    files are renamed, that line's targets 404. Detected, not parsed: any
+    line joining segments with " · " that also names a README variant.
+    """
+    return " · " in text and "README" in text
+
+
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     """Insert the language switcher after the H1. Returns True if it changed."""
     line = switcher_line(variants)
     text = Path(path).read_text(encoding="utf-8")
-    if line in text:
-        return False
     lines = text.splitlines()
+    stale = [i for i, ln in enumerate(lines) if _is_stale_switcher(ln) and ln != line]
+    if line in text and not stale:
+        return False
+    for i in reversed(stale):
+        del lines[i]
     idx = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
     at = idx + 1 if idx >= 0 else 0
-    lines[at:at] = ["", line]
+    if line not in lines:
+        lines[at:at] = ["", line]
     Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
     return True
