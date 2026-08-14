@@ -69,6 +69,29 @@ def test_docs_dir_chinese_files_move_under_zh_cn(repo):
     assert moves["docs/architecture.md"] == "docs/zh-CN/architecture.md"
 
 
+def test_docs_move_rewrites_relative_links_in_the_archived_copy(repo):
+    # docs/architecture.md -> docs/zh-CN/architecture.md drops one
+    # directory level deeper; its existing "../backend/x.md" link now
+    # needs an extra "../" to still resolve. The recreated original at
+    # docs/architecture.md stays at the same depth and must NOT change.
+    _commit(repo, "docs/architecture.md")
+    (repo / "docs/architecture.md").write_text(
+        "# 架构设计\n\n[部署](../backend/docs/deploy.md)\n[外部](https://example.com)\n",
+        encoding="utf-8",
+    )
+    subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-qm", "content"], cwd=repo, check=True)
+
+    apply_moves(repo, plan_moves(repo))
+
+    archived = (repo / "docs/zh-CN/architecture.md").read_text(encoding="utf-8")
+    assert "(../../backend/docs/deploy.md)" in archived
+    assert "(https://example.com)" in archived
+
+    recreated = (repo / "docs/architecture.md").read_text(encoding="utf-8")
+    assert "(../backend/docs/deploy.md)" in recreated
+
+
 def test_agent_files_are_never_moved(repo):
     _commit(repo, "CLAUDE.md", "AGENTS.md", "SKILL.md")
     names = {a.name for a, _ in plan_moves(repo)}

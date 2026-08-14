@@ -55,6 +55,33 @@ def plan_moves(repo_root: Path) -> list[tuple[Path, Path]]:
     return [(s, d) for s, d in moves if s.name not in NEVER_MOVE and s != d]
 
 
+_MD_LINK_TARGET = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def _rewrite_relative_links(path: Path, up_levels: int) -> None:
+    """Prepend `../` × up_levels to relative markdown link targets.
+
+    A doc moved into a deeper directory (docs/x.md -> docs/zh-CN/x.md)
+    keeps its original relative links, which now resolve one level too
+    shallow — "../backend/foo.md" needs to become "../../backend/foo.md".
+    Absolute paths, anchors, and full URLs are left alone.
+    """
+    if up_levels <= 0:
+        return
+    text = Path(path).read_text(encoding="utf-8")
+    prefix = "../" * up_levels
+
+    def repl(m: re.Match) -> str:
+        target = m.group(1)
+        if target.startswith(("http://", "https://", "#", "/", "mailto:")):
+            return m.group(0)
+        return f"]({prefix}{target})"
+
+    new_text = _MD_LINK_TARGET.sub(repl, text)
+    if new_text != text:
+        Path(path).write_text(new_text, encoding="utf-8")
+
+
 def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
     # Sources that something else in this batch will move onto — an `en`
     # variant being promoted to README.md, say. Recreating the archived
@@ -73,11 +100,18 @@ def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
         # it into the English default. The zh-CN copy is left untouched from
         # here on, which is what preserves the original Chinese. Skipped
         # when another move in this batch (e.g. an `en` variant) is about
-        # to be promoted onto that same path instead.
+        # to be promoted onto that same path instead. Must happen BEFORE
+        # any link rewrite below — src stays at the same directory depth,
+        # so it needs the original (unrewritten) link targets, not dst's.
         is_archival = "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name
         if is_archival and src not in incoming_dsts:
             shutil.copy2(dst, src)
             subprocess.run(["git", "add", str(src.relative_to(repo_root))],
+                           cwd=repo_root, check=True)
+        if dst.parent != src.parent:
+            up_levels = len(dst.parent.relative_to(src.parent).parts)
+            _rewrite_relative_links(dst, up_levels)
+            subprocess.run(["git", "add", str(dst.relative_to(repo_root))],
                            cwd=repo_root, check=True)
 
 
