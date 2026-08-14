@@ -1,0 +1,18 @@
+[project]
+name = "gwt"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "tree-sitter-language-pack>=0.9",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+local = ["argostranslate>=1.9"]
+
+[project.scripts]
+gwt = "gwt.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["gwt*"]

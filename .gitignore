@@ -11,3 +11,4 @@ venv/
 
 # macos
 .DS_Store
+.tokensave
