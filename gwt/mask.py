@@ -20,17 +20,19 @@ def load_glossary(path: Path | str = _GLOSSARY_PATH) -> set[str]:
 _GLOSSARY = load_glossary()
 
 # Ordered: earlier patterns win, so a URL is never re-split as camelCase.
+# Uses explicit lookaround (?<![A-Za-z0-9_])...(?![A-Za-z0-9_]) instead of \b
+# because \b treats CJK ideographs as \w, leaving identifiers adjacent to Chinese unmasked.
 _PATTERNS = [
     re.compile(r"`[^`\n]+`"),                                   # backticked code
     re.compile(r"https?://\S+"),                                # URLs
     re.compile(r"%[-+ #0]?[0-9.*]*[a-zA-Z]"),                   # printf verbs
     re.compile(r"\{[A-Za-z0-9_.]+\}"),                          # {placeholders}
     re.compile(r"\$\{[A-Za-z0-9_.]+\}"),                        # ${placeholders}
-    re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*(?=\()"),              # call sites
-    re.compile(r"\b[a-z]+(?:[A-Z][a-zA-Z0-9]*)+\b"),            # camelCase
-    re.compile(r"\b[A-Z][a-z0-9]+(?:[A-Z][a-zA-Z0-9]*)+\b"),    # PascalCase
-    re.compile(r"\b[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9_]+\b"),      # snake_case
-    re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]+)+\b"),  # dotted
+    re.compile(r"(?<![A-Za-z0-9_])[A-Za-z_][A-Za-z0-9_]*(?=\()"),              # call sites
+    re.compile(r"(?<![A-Za-z0-9_])[a-z]+(?:[A-Z][a-zA-Z0-9]*)+(?![A-Za-z0-9_])"),            # camelCase
+    re.compile(r"(?<![A-Za-z0-9_])[A-Z][a-z0-9]+(?:[A-Z][a-zA-Z0-9]*)+(?![A-Za-z0-9_])"),    # PascalCase
+    re.compile(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9_]+(?![A-Za-z0-9_])"),      # snake_case
+    re.compile(r"(?<![A-Za-z0-9_])[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]+)+(?![A-Za-z0-9_])"),  # dotted
 ]
 
 _TAGGED = re.compile(rf"</?{IGNORE_TAG}>")
@@ -67,4 +69,11 @@ def protect(text: str) -> str:
 
 
 def unprotect(text: str) -> str:
+    """Strip <x>…</x> wrapper tags added by protect().
+
+    Note: this is safe only because DeepL's tag_handling=xml requires well-formed
+    XML, so a literal unescaped <x> in the original source would fail XML parsing
+    before unprotect is called. If that assumption changes, escape < and > in
+    literal content first.
+    """
     return _TAGGED.sub("", text)

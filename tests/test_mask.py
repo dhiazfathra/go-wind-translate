@@ -38,3 +38,18 @@ def test_roundtrip_is_lossless():
 
 def test_unprotect_strips_only_our_tag():
     assert unprotect("<x>Foo</x> 和 <b>bold</b>") == "Foo 和 <b>bold</b>"
+
+
+def test_protects_camelcase_adjacent_to_cjk():
+    # Critical: Python \b treats CJK as \w, creating false word boundary.
+    # Must use explicit lookaround to mask identifiers directly adjacent to Chinese.
+    assert protect("GetUserList获取用户列表") == "<x>GetUserList</x>获取用户列表"
+    assert protect("执行doWork()后返回") == "执行<x>doWork</x>()后返回"
+
+
+def test_protects_snake_case_adjacent_to_cjk():
+    assert protect("设置max_retry次数") == "设置<x>max_retry</x>次数"
+
+
+def test_protects_dotted_identifier_adjacent_to_cjk():
+    assert protect("调用user.Repo.Get方法") == "调用<x>user.Repo.Get</x>方法"
