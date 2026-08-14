@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
+from gwt.quality import fix_spacing, pad_comment_boundary
 from gwt.segments import Cache, Occurrence, read_occurrences, seg_hash
 
 
@@ -41,6 +42,13 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
             # this occurrence rather than emit a broken source file.
             if "`" in en:
                 continue
+        elif o.kind == "comment":
+            # Both fixes are applied here, at splice time, never at cache
+            # time — the cache is keyed by source hash and shared across
+            # every occurrence of that segment, including ones spliced into
+            # a "string"/"raw_string" span (e.g. a real identifier like
+            # "APIClient"). Rewriting the cached value would corrupt those.
+            en = pad_comment_boundary(bytes(raw), o.start, o.end, fix_spacing(en))
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1
     if n:

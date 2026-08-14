@@ -21,6 +21,38 @@ def test_replaces_single_span(tmp_path):
     assert f.read_text(encoding="utf-8") == "// Create user\n"
 
 
+def test_string_kind_leaves_glued_acronym_cache_value_unchanged(tmp_path):
+    # The cache is keyed by source hash and shared across every occurrence
+    # of that segment. If the SAME segment is also spliced into a comment
+    # elsewhere, the comment-only fix_spacing()/pad_comment_boundary() pass
+    # must never touch the cached value itself -- only the copy going into
+    # a "string"/"raw_string" span, where "APIClient" is a real identifier
+    # and must survive intact.
+    f = tmp_path / "a.go"
+    f.write_text('x := "接口客户端"\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "接口客户端"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "APIClient")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'x := "APIClient"\n'
+
+
+def test_raw_string_kind_leaves_glued_acronym_cache_value_unchanged(tmp_path):
+    f = tmp_path / "a.go"
+    f.write_text('var name = `接口客户端`\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "接口客户端"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="raw_string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "APIClient")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'var name = `APIClient`\n'
+
+
 def test_string_kind_escapes_embedded_quotes(tmp_path):
     # DeepL sometimes wraps a negation word in literal quotes for emphasis
     # (observed: 非 -> "not"). Spliced raw into a Go string literal, that
@@ -71,6 +103,23 @@ def test_raw_string_kind_skips_translation_containing_backtick(tmp_path):
     n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
     assert n == 0
     assert f.read_text(encoding="utf-8") == 'var tmpl = `原始`\n'
+
+
+def test_comment_kind_pads_glued_acronym_boundary(tmp_path):
+    # Chinese needs no space between a Latin identifier fragment and
+    # surrounding prose ("UserID无效"); splicing "Invalid" straight into
+    # that CJK-only span reproduces the same zero-width join in English
+    # ("UserIDInvalid"), which isn't readable. Comment-kind splicing pads it.
+    f = tmp_path / "a.go"
+    f.write_text("// UserID无效\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "无效"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "Invalid")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == "// UserID Invalid\n"
 
 
 def test_comment_kind_leaves_quotes_unescaped(tmp_path):

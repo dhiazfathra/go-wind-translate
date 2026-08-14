@@ -23,7 +23,7 @@ See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-
 
 ## Status
 
-**Tasks 1-13 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 121/121 tests passing.** All 11 `go-wind*` repos have been translated and have open PRs on `chore/i18n-en-default`. The fan-out and a CodeRabbit review pass on this repo's own PR surfaced and fixed 14 real bugs in `gwt` itself — see [HANDOFF.md](HANDOFF.md) for the full list, including two recurring runtime-i18n corruption patterns (self-referential language labels, locale-keyed message catalogs) now guarded against via `dictionary.tsv` identity pins and a `classify.py` glob. The optional LLM quality pass (Task 14) is next; see HANDOFF.md's "What's left" for the specific patterns worth targeting.
+**Tasks 1-13 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, plus a first slice of the optional Task 14 quality pass — 138/138 tests passing.** All 11 `go-wind*` repos have been translated and have open PRs on `chore/i18n-en-default`. The fan-out and two CodeRabbit review passes surfaced and fixed 16 real bugs in `gwt` itself — see [HANDOFF.md](HANDOFF.md) for the full list, including two recurring runtime-i18n corruption patterns (self-referential language labels, locale-keyed message catalogs) guarded against via `dictionary.tsv` identity pins and a `classify.py` glob, and a comment-splicing gap (`gwt/quality.py`) that glued acronyms directly onto translated words wherever Chinese needed no space but English does. See HANDOFF.md's "What's left" for remaining Task 14 scope.
 
 ## Quick start
 
