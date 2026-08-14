@@ -23,7 +23,7 @@ See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-
 
 ## Status
 
-**Tooling built (Tasks 1-11 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md)), 100/100 tests passing.** The `gwt` CLI below runs end to end against a stub engine; a live pilot run against `go-wind-bootstrap` (Task 12) needs a `DEEPL_API_KEY`. Fan-out to the other ten repos (Task 13) and the optional LLM quality pass (Task 14) follow after the pilot.
+**Tasks 1-12 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 104/104 tests passing.** The Task 12 pilot run against `go-wind-bootstrap` (70 files, real DeepL translation, `go build`/`go vet` clean) surfaced and fixed three real bugs in `gwt` itself: a doc-move collision in `docs_layout.apply_moves`, a missing README-variant exclusion in `classify.EXCLUDE_GLOBS`, and a markdown false-positive in `verify.identifier_drift`. `cache/segments.jsonl` now carries bootstrap's 904 translated segments. Fan-out to the other ten repos (Task 13) and the optional LLM quality pass (Task 14) are next.
 
 ## Quick start
 
