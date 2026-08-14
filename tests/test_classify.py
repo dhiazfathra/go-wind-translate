@@ -22,6 +22,10 @@ def test_translatable_sources(path):
     "go-wind-cms/frontend/app/react/src/app/[locale]/login/page.tsx",
     "go-wind-cms/README.ja-JP.md",
     "go-wind-shop/README.zh-CN.md",
+    # pre-move underscore variants (docs_layout hasn't renamed these yet
+    # when extraction runs first in cmd_run's pipeline)
+    "go-wind-bootstrap/README_ja.md",
+    "go-wind-bootstrap/README_en.md",
     # generated: regenerate, do not translate
     "go-wind-cms/backend/api/gen/go/admin/service/v1/user.pb.go",
     "go-wind-admin/frontend/admin/react/src/api/generated/admin/service/v1/index.ts",

@@ -14,7 +14,9 @@ EXCLUDE_GLOBS: tuple[str, ...] = (
     "*/[[]locale[]]/*",
     "*.arb",
     "*zh-CN*", "*zh_CN*", "*.zh.*",
-    "*README*.ja*", "*README*.zh*", "*README.en*", "*README_en*", "*README_EN*",
+    "*README*.ja*", "*README*_ja*", "*README*_JA*",
+    "*README*.zh*", "*README*_zh*", "*README*_ZH*",
+    "*README.en*", "*README_en*", "*README_EN*",
     "*/.git/*", "*/node_modules/*", "*/vendor/*", "*/dist/*", "*/.next/*",
     "*/build/*", "*/.dart_tool/*",
 )
