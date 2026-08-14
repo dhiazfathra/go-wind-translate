@@ -149,11 +149,15 @@ since they're data/content, not `gwt` logic):
   of the segment and never touched by translation, leaving it stuck
   directly against the English word on the other side of the splice.
   `pad_comment_boundary` (`gwt/quality.py`) now pads a leading/trailing
-  space on either side when a full-width mark is glued to a capitalized
-  word (leading side) or a lowercase-ending word (trailing side) —
-  mirrors the acronym heuristic's scope exactly, reusing the same
-  boundary-inspection function rather than a new one. 4 new regression
-  tests (unit-level in `test_quality.py`, one end-to-end splice test).
+  space whenever a full-width mark is glued to the translated span, on
+  either boundary — unlike the acronym-glue check, the leading side has
+  no capitalization gate: a full-width punctuation mark can never be
+  part of a real code identifier, so the padding applies unconditionally
+  (a lowercase-first translated phrase like `（response value` needed
+  padding too, caught by post-merge review and fixed same-day, PR #7).
+  Trailing-side padding still requires the translated text to end in a
+  lowercase letter, matching the acronym case. 4 regression tests
+  (unit-level in `test_quality.py`, one end-to-end splice test).
 - **Known, accepted scope limit (not a bug — see Ruling #8 below, extended)**:
   the corpus-wide residual-CJK sweep (Task 13 Step 9, plan line ~2747) came
   back far above the plan's "well under 1,000 per repo" expectation (range:
