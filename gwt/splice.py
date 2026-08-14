@@ -8,8 +8,31 @@ from gwt.quality import fix_spacing, pad_comment_boundary
 from gwt.segments import Cache, Occurrence, read_occurrences, seg_hash
 
 
+def _escape_string(en: str, suffix: str) -> str:
+    """Escape `en` for a string literal in the language `suffix` names.
+
+    Keyed off the file suffix rather than the occurrence's `kind` because
+    `kind` records *what construct* the span sits in, not *whose quoting
+    rules* apply. Splitting on `kind` alone is what produced bug 13: a
+    `.sql` literal got Go/TS escaping.
+    """
+    if suffix == ".sql":
+        # Standard SQL (and Postgres, the target here) escapes a quote inside
+        # a single-quoted literal by DOUBLING it. Backslash is an ordinary
+        # byte, and a double quote delimits identifiers rather than strings —
+        # so Go-style escaping of either writes visible garbage into the data.
+        return en.replace("'", "''")
+    # Go, TypeScript, proto, JSON, YAML: backslash-escaped double quotes.
+    # MT output occasionally wraps a word in literal ASCII quotes for emphasis
+    # (DeepL does this on negation words like "非"). Spliced verbatim into a
+    # double-quoted literal, that quote terminates it early and breaks the
+    # build.
+    return en.replace("\\", "\\\\").replace('"', '\\"')
+
+
 def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
     raw = bytearray(Path(path).read_bytes())
+    suffix = Path(path).suffix
     n = 0
     for o in sorted(occs, key=lambda o: o.start, reverse=True):
         en = cache.get(o.h)
@@ -26,12 +49,7 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
         if seg_hash(current) != o.h:
             continue
         if o.kind == "string":
-            # MT output occasionally wraps a word in literal ASCII quotes
-            # for emphasis (DeepL does this on negation words like "非").
-            # Spliced verbatim into a double-quoted string literal, that
-            # quote terminates the literal early and breaks the build —
-            # escape it the same way the host language would.
-            en = en.replace("\\", "\\\\").replace('"', '\\"')
+            en = _escape_string(en, suffix)
         elif o.kind == "raw_string":
             # A raw string literal (Go: backtick-delimited) treats backslash
             # and double-quote as plain bytes, not escapes — applying the

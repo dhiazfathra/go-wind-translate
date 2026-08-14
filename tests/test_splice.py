@@ -197,3 +197,68 @@ def test_result_is_valid_utf8(tmp_path):
     occ = [Occurrence(file="e.go", start=s, end=s + len("甲乙丙".encode()), h=seg_hash("甲乙丙"))]
     splice_file(f, occ, _cache(tmp_path, [("甲乙丙", "ABC")]))
     f.read_text(encoding="utf-8")  # raises if invalid
+
+
+def test_sql_string_kind_doubles_apostrophe_instead_of_backslash_escaping(tmp_path):
+    # go-wind-admin bug 13: splicing English containing an apostrophe into a
+    # .sql single-quoted literal broke the file, because the escape path
+    # applied Go/TS rules (backslash-escape) to SQL. Standard SQL escapes a
+    # quote by DOUBLING it; a backslash is not an escape character at all.
+    f = tmp_path / "seed.sql"
+    f.write_text("INSERT INTO t (name) VALUES ('余额宝');\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "余额宝"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="seed.sql", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "Yu'ebao")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == "INSERT INTO t (name) VALUES ('Yu''ebao');\n"
+
+
+def test_sql_string_kind_leaves_double_quote_and_backslash_alone(tmp_path):
+    # Inside a SQL single-quoted literal, a double quote is ordinary content
+    # (it delimits *identifiers*, not strings) and a backslash is a literal
+    # byte. Go-style escaping of either corrupts the stored data.
+    f = tmp_path / "seed.sql"
+    f.write_text("INSERT INTO t (note) VALUES ('路径说明');\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "路径说明"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="seed.sql", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    en = r'Path "note" C:\tmp'
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == (
+        'INSERT INTO t (note) VALUES (\'Path "note" C:\\tmp\');\n')
+
+
+def test_non_sql_string_kind_keeps_backslash_escaping(tmp_path):
+    # The SQL branch must key off the file suffix only -- a .go string
+    # literal keeps the interpreted-string escaping from bug 7.
+    f = tmp_path / "a.go"
+    f.write_text('x := "撇号测试"\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "撇号测试"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "It's \"quoted\"")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'x := "It\'s \\"quoted\\""\n'
+
+
+def test_sql_comment_kind_is_not_quote_escaped(tmp_path):
+    # A `--` comment is not a string literal: doubling an apostrophe there
+    # would put a visible stray quote in the comment text.
+    f = tmp_path / "seed.sql"
+    f.write_text("-- 用户表\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "用户表"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="seed.sql", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "The user's table")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == "-- The user's table\n"

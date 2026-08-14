@@ -183,3 +183,24 @@ def test_cmd_verify_baseline_suppresses_pre_existing_findings(tmp_path, monkeypa
     baseline_path.write_text(json.dumps({"broken_links": [["README.md", "./missing.md"]]}),
                              encoding="utf-8")
     assert cli.cmd_verify("acme", skip_build=True, baseline_path=str(baseline_path)) == 0
+
+
+def test_cmd_verify_out_writes_untruncated_result(tmp_path, monkeypatch):
+    # stdout truncates each finding list to 20 items for readability. A
+    # baseline captured from that truncated output silently fails to suppress
+    # anything past the 20th pre-existing defect, so every one of them reads
+    # as "new" on the next run. --out writes the full result for that use.
+    root = tmp_path / "root"
+    repo = root / "acme"
+    repo.mkdir(parents=True)
+    links = "".join(f"[x](./missing{i}.md)\n" for i in range(25))
+    (repo / "README.md").write_text(links, encoding="utf-8")
+    monkeypatch.setattr(cli, "ROOT", root)
+
+    out = tmp_path / "before.json"
+    assert cli.cmd_verify("acme", skip_build=True, out_path=out) == 1
+    written = json.loads(out.read_text(encoding="utf-8"))
+    assert len(written["broken_links"]) == 25
+
+    # Round-trip: that full baseline suppresses every finding.
+    assert cli.cmd_verify("acme", skip_build=True, baseline_path=out) == 0
