@@ -1,0 +1,904 @@
+{"h": "005a8926e773b9d9ac7f1a85b10dabdd8bd3fe8d", "src": "等。", "en": "etc.", "engine": "deepl"}
+{"h": "0158847d4fd8acadb9dbcb08d6959cc038e84cbe", "src": "运行环境标签，如", "en": "Runtime environment tags, such as", "engine": "deepl"}
+{"h": "019ca35f5ab93df3adac4e933951c152f1f22187", "src": "消费者组名称。", "en": "Consumer Group Name.", "engine": "deepl"}
+{"h": "01d153b8d8549e48777ca8f1a41390a18d64620e", "src": "配置字段", "en": "Configuration Fields", "engine": "deepl"}
+{"h": "01d201011517d4c4ebfa6cb5f079a19fe2c247a5", "src": "它不直接依赖任何基础设施（数据库、缓存、", "en": "It does not directly rely on any infrastructure (databases, caches,", "engine": "deepl"}
+{"h": "01d58a398fb63afc054eb4351bcf593414eb8571", "src": "路由（依赖", "en": "Routes (Dependencies)", "engine": "deepl"}
+{"h": "01d7329b2167cb2469c3274ab0b89440a814a998", "src": "中间件。", "en": "Middleware.", "engine": "deepl"}
+{"h": "0309c9f4da6140c8a8d90deb2f4357b38c9f756f", "src": "返回按类型名索引的", "en": "Return the index by type name", "engine": "deepl"}
+{"h": "03451a7c4944a2fcff0be7156b846061be893534", "src": "指标监控。", "en": "Metrics Monitoring.", "engine": "deepl"}
+{"h": "03cd7c540a59ef272885b37674fbe67ed4c37eb6", "src": "工作流引擎。", "en": "Workflow Engine.", "engine": "deepl"}
+{"h": "04157a6310326ceaf2339c49cf6f91aa718bba85", "src": "被所有层引用", "en": "Referenced by all layers", "engine": "deepl"}
+{"h": "0449321ca259f001a8cc83b52e22ed7fcc596516", "src": "服务注册发现。", "en": "Service Registration Discovery.", "engine": "deepl"}
+{"h": "04b923c9fca27a4558994ac9909bb3245fd7c475", "src": "定義", "en": "Definition", "engine": "deepl"}
+{"h": "04ec08797b2efc0892c4b7f0b79a93e7d00c9031", "src": "中核思想", "en": "CNNC Philosophy", "engine": "deepl"}
+{"h": "04f82a467c5adae5e5005ad9a2452f6cdb03ca5a", "src": "返回按引擎类型名索引的实例映射和统一的", "en": "Returns instance mappings indexed by engine type name and unified", "engine": "deepl"}
+{"h": "0588b27079a0ff60e95ceaed0419417ae7dd186a", "src": "的核心思想是", "en": "The core idea is", "engine": "deepl"}
+{"h": "06a993b1cb1abae64f6d626f18a022b0549180bc", "src": "并完成", "en": "and complete", "engine": "deepl"}
+{"h": "06ab65f6987fe4f335387211dd01f27f3d77e1da", "src": "应用密钥。", "en": "Application Key.", "engine": "deepl"}
+{"h": "0716e8e152f523dad5b3431a9142bd6d19e72d77", "src": "注册到", "en": "Register at", "engine": "deepl"}
+{"h": "0746bd624955e27081c6419ac31b592d6b683e95", "src": "的", "en": "'s", "engine": "deepl"}
+{"h": "0778b6f2c704fdaaeb6fd920bcd98e45b93bec32", "src": "定义实体（", "en": "Define an entity (", "engine": "deepl"}
+{"h": "07b85df3bd3b64df6c719d67d7357d12ee072c8d", "src": "中实现业务逻辑", "en": "Implement business logic in", "engine": "deepl"}
+{"h": "07d1c9b2dd7cbcb68e3b07851796ed0ae21ae302", "src": "传输层。", "en": "Transport Layer.", "engine": "deepl"}
+{"h": "07eae4a64023a3fc7df5788eb32feb8da1ffbb96", "src": "前端复用", "en": "Front-End Reuse", "engine": "deepl"}
+{"h": "0810468b6f78db5dadcec2338d9088b34617ad00", "src": "使用可能", "en": "Possible Uses", "engine": "deepl"}
+{"h": "0868365e637b63f2865cf14028e90e30a6d9f9d6", "src": "获取缓存实例（本示例仅打印信息）", "en": "Get a cache instance (this example only prints information)", "engine": "deepl"}
+{"h": "0869071c92c0c11170ac87036bebedb52ea0c993", "src": "中", "en": "Chinese", "engine": "deepl"}
+{"h": "087db63ab10b0e22edccfc04217a2f81b54ebdad", "src": "安装", "en": "Installation", "engine": "deepl"}
+{"h": "093b07ca0c93c3e758f4f29bbe012e4bc1d41a41", "src": "缓冲区大小限制（字节）。", "en": "Buffer size limit (bytes).", "engine": "deepl"}
+{"h": "093dea88c930dd57c9a6191610f40aacb14eb8d1", "src": "更新时间", "en": "Update time", "engine": "dictionary"}
+{"h": "0968b7c08b9f350c49f19b2fd787f5f83a7c00cd", "src": "（适配层已通过", "en": "(The adaptation layer has passed", "engine": "deepl"}
+{"h": "09ceea7644dc378fbcf983266c4113b24966d318", "src": "内置", "en": "Built-in", "engine": "deepl"}
+{"h": "0a080f18ad994dc7e175ee8e46c22b61fb09b26a", "src": "来源配置。", "en": "Source Configuration.", "engine": "deepl"}
+{"h": "0a94cc4ee46bedacb974e4830a58d99727a43a2d", "src": "中间件配置，按字段顺序注册。", "en": "Middleware configuration: Register in field order.", "engine": "deepl"}
+{"h": "0b27c10ddfd628f8598fb74b6e2e45b62004bb87", "src": "加密盐值。", "en": "Encrypt the salt value.", "engine": "deepl"}
+{"h": "0b2d1514021d191c204e6fdab7d4b144f290d81a", "src": "域名。", "en": "Domain name.", "engine": "deepl"}
+{"h": "0b4f59ccaa7d6583d403b45dab7a4c8add0e8749", "src": "认证令牌。", "en": "Authentication token.", "engine": "deepl"}
+{"h": "0b5d7ed54bee16756a7579c6718ab01e3d1b75eb", "src": "测试", "en": "Test", "engine": "deepl"}
+{"h": "0bb8b8009d4dd395351c64e66859da0f220a5f15", "src": "协议（", "en": "Agreement (", "engine": "deepl"}
+{"h": "0bba1dbcbbd6f808670c094ca44ad4ea6da6a77d", "src": "最大空闲时间（秒）", "en": "Maximum Idle Time (seconds)", "engine": "deepl"}
+{"h": "0bf0c0292042ce46247ada7236708833169e98ae", "src": "服务器名称标签。", "en": "Server Name Tag.", "engine": "deepl"}
+{"h": "0c04bc2e34a4307cea4326ecf760da27cbdabf1b", "src": "节点发现间隔（秒）", "en": "Node Discovery Interval (seconds)", "engine": "deepl"}
+{"h": "0c193b7e9cf6e623437983e9a564e055a0a30462", "src": "枚举转换为", "en": "Enumeration conversion to", "engine": "deepl"}
+{"h": "0c3acd446f19a325ae32cf04b5ce1fd8661aa609", "src": "运行", "en": "Run", "engine": "deepl"}
+{"h": "0c85e43f1d075d24f11145415470290c8e9a5399", "src": "领域层：", "en": "Domain Layer:", "engine": "deepl"}
+{"h": "0ced93564a7d98768ccedf363958190da5c22232", "src": "是否优雅关闭。默认", "en": "Whether to shut down gracefully. Default", "engine": "deepl"}
+{"h": "0d0403762eb98d0a5133796839eac14e2fb00cfb", "src": "层处理。", "en": "Layer processing.", "engine": "deepl"}
+{"h": "0d060aa9621ac1f4cd89440ea7c878e3b062e9d3", "src": "宣言型設定駆動", "en": "Declarative Configuration-Driven", "engine": "deepl"}
+{"h": "0d3994f95f90e48fd0ca1999f6488811aba830eb", "src": "处理。", "en": "Processing.", "engine": "deepl"}
+{"h": "0da7850df08960589c99143a5b1af425e419a102", "src": "配置，查找对应的", "en": "Configuration: Find the corresponding", "engine": "deepl"}
+{"h": "0de7e6a69cdddbe967b64e5d7f5a745c8e3e9a6f", "src": "轻量引擎不支持文件加载", "en": "The lightweight engine does not support file loading.", "engine": "deepl"}
+{"h": "0e1b01dc769b95bba78a0fad714b490c6bb04353", "src": "、設定", "en": ", Settings", "engine": "deepl"}
+{"h": "0e2bc8213ee4d45eb22b9bd5a3c198c6bdefc96c", "src": "引擎。", "en": "Engine.", "engine": "deepl"}
+{"h": "0e2d3a3c09c26c16074039b7a2739f5111323ad0", "src": "使用", "en": "Use", "engine": "dictionary"}
+{"h": "0e5ef87c12da9f08eec7fc034febbe7931d92344", "src": "写入超时（毫秒）。", "en": "Write timeout (milliseconds).", "engine": "deepl"}
+{"h": "0e79a0d2eb8d632270c09576ea1b5809e5a144fd", "src": "算法验证", "en": "Algorithm Verification", "engine": "deepl"}
+{"h": "0ebb2089542c33f3ac0d6692a1f7fa79803453e8", "src": "描述工作流引擎客户端配置。", "en": "Describes the workflow engine client configuration.", "engine": "deepl"}
+{"h": "0edfd453097489c8d7f2015784446e3421dfd684", "src": "服务地址，如", "en": "Service address, such as", "engine": "deepl"}
+{"h": "0ee2089827790c4b8c17d20e4e390f701837b5bc", "src": "调试模式", "en": "Debug Mode", "engine": "deepl"}
+{"h": "0ef974f54b3a8e69fe310ec947dd4f8ab223c262", "src": "同一", "en": "The Same", "engine": "deepl"}
+{"h": "0f47968bff60b371c328929e62e7ec2f3f8066e6", "src": "传输层，支持通过", "en": "Transport layer, supports communication via", "engine": "deepl"}
+{"h": "102570658eef642491cfc74eee26a4c4c26425ab", "src": "、完全", "en": ", completely", "engine": "deepl"}
+{"h": "11a8d8a0b845f546c2796daf7050efd7cec879f9", "src": "游戏脚本", "en": "Game Scripts", "engine": "deepl"}
+{"h": "11b03b3f9b436c5994f65c8c2547615e84b4875b", "src": "最大重试次数", "en": "Maximum number of retries", "engine": "deepl"}
+{"h": "11b1bc4ff43c72df95e9b62e1527ca4e9dc06274", "src": "传输层（基于", "en": "Transport Layer (based on", "engine": "deepl"}
+{"h": "11b71b1bd4d1324579b1ff8df5fd205bb591bc51", "src": "推送间隔（秒）。", "en": "Push interval (seconds).", "engine": "deepl"}
+{"h": "1275f6feb703414d61aa82a4290fe3e12685d6e0", "src": "文件名", "en": "File Name", "engine": "deepl"}
+{"h": "12b116d559a9e2b16d72ac76ad9f48e38f62aa86", "src": "消息代理（", "en": "Message Broker (", "engine": "deepl"}
+{"h": "12e45fd52c15472506bc16a92cdc65df89b95902", "src": "路径。", "en": "Path.", "engine": "deepl"}
+{"h": "1369be719153a678d8430efa921c2cbbbd55485c", "src": "传输层（腾讯", "en": "Transport Layer (Tencent)", "engine": "deepl"}
+{"h": "13be31556fc56d48773d945aadfe5562f4a4976a", "src": "刷新间隔（毫秒）。默认", "en": "Refresh interval (milliseconds). Default", "engine": "deepl"}
+{"h": "13de24a1c27ffcc440351801d3dc61f8ed8a74ee", "src": "中实现仓储（注册", "en": "Warehousing in China (Registration)", "engine": "deepl"}
+{"h": "148b55f1d7ba3afb274a75c68b3604804dd6ffde", "src": "对象键（文件路径）。", "en": "Object key (file path).", "engine": "deepl"}
+{"h": "14cc773209512e20cf853c5ffb63444d5ca40aa6", "src": "请求日志中间件。", "en": "Request log middleware.", "engine": "deepl"}
+{"h": "151a6c0e724ea2dd8b55cc3b8b532ca0fac14f16", "src": "测试）。", "en": "(Test).", "engine": "deepl"}
+{"h": "153e31447410864c2fb7218b1e333b673117f9bc", "src": "自动组装", "en": "Automated Assembly", "engine": "deepl"}
+{"h": "157c95ce0c7dd1a884eb8130f6e90334a9886531", "src": "是否启用秒级精度。默认", "en": "Whether to enable sub-second precision. Default", "engine": "deepl"}
+{"h": "159a811dfd7c9109b17628d456cba2ece83c715c", "src": "服务端地址，默认", "en": "Server address (default)", "engine": "deepl"}
+{"h": "15c85030551d61bed6eb989fca4019bd12ace3e9", "src": "三层", "en": "Third Floor", "engine": "deepl"}
+{"h": "1678a30e50946a570894e36f0859c197c16c7e04", "src": "创建用户服务。", "en": "Create a user service.", "engine": "deepl"}
+{"h": "17248f2580c9cd789eb269b8e45f5d746df3ba51", "src": "）日志配置。", "en": ") Log configuration.", "engine": "deepl"}
+{"h": "18016f1d3728f4fe3b31410cfbc666df067b3a20", "src": "默认存储桶。", "en": "Default bucket.", "engine": "deepl"}
+{"h": "187595a20b2f3646683345bd421514a757544c40", "src": "对已设置的数据库类型分别调用对应", "en": "For each database type that has been configured, call the corresponding", "engine": "deepl"}
+{"h": "192812389624738a7370a2625fb279d05c8bd7ca", "src": "（基于", "en": "(Based on", "engine": "deepl"}
+{"h": "194a9ed1a27c93d00b05501d2cfccff115e9670f", "src": "分離", "en": "Separation", "engine": "deepl"}
+{"h": "196e11130931c88c308563a8fbbda4a9c12fa514", "src": "初始化", "en": "Initialization", "engine": "deepl"}
+{"h": "1990171f8c79646281ba18d6331a1ccd54a5b69a", "src": "半密封", "en": "Semi-sealed", "engine": "deepl"}
+{"h": "199b34fd3b915ff24fb33e8191244f2126163c43", "src": "全局日志为", "en": "The global log is", "engine": "deepl"}
+{"h": "19a8668b39c931f24b8430de36f03749500da32a", "src": "全局注册模型即可。", "en": "Simply register the model globally.", "engine": "deepl"}
+{"h": "19bc7825f264a3e7d3e1ac20a31c8e3e5a2975a3", "src": "工作流引擎，支持", "en": "Workflow engine, supports", "engine": "deepl"}
+{"h": "19da0c94efa2d69eb9a24036afc4c2f05a567d64", "src": "路由", "en": "Routing", "engine": "deepl"}
+{"h": "1a032ab95d1b79e8b2ea997cd2d784fc6d24909d", "src": "地址列表", "en": "List of Addresses", "engine": "deepl"}
+{"h": "1a0fdce8f88fbf4546c79557b061f6fbe7420d6e", "src": "通用", "en": "General", "engine": "deepl"}
+{"h": "1a72bf940692e19324426afabec8df7b3cab714b", "src": "一致性级别", "en": "Consistency Level", "engine": "deepl"}
+{"h": "1a97d78647ed12391a719668f4782c199c0db3cd", "src": "层的仓储接口完成用例。", "en": "Use cases for the storage interface at the layer level.", "engine": "deepl"}
+{"h": "1aeff5056066a1448eadfaaf5379baf557cb8477", "src": "路由注册", "en": "Route Registration", "engine": "deepl"}
+{"h": "1c27de8517f29d889f1a4c21eac9c97f03f50d7d", "src": "跨域资源共享，支持", "en": "Cross-domain resource sharing, supported", "engine": "deepl"}
+{"h": "1c65fc08344bb4ded0ce8751ce6f207f9c32164d", "src": "。业务代码只需在", "en": ". The business logic code only needs to be in", "engine": "deepl"}
+{"h": "1cb63f35c87870d422ef290c25a765f1b7822785", "src": "合", "en": "Total", "engine": "deepl"}
+{"h": "1d2b62082dc56c747af3901cc947ab97a8334dff", "src": "配置即可描述完整的应用拓扑", "en": "The configuration alone can describe the complete application topology", "engine": "deepl"}
+{"h": "1d82409bcdae7b43f2090a63268a0a72a8bdb6ae", "src": "适配层子模块，通过空导入自注册", "en": "Adapter Layer Submodule: Self-Registration via Empty Import", "engine": "deepl"}
+{"h": "1d99da17c3c2ed86576229cd58e84d488b6b7cd8", "src": "定义应用元数据，对应", "en": "Define application metadata, corresponding to", "engine": "deepl"}
+{"h": "1db689edcbdd98fdb7830e3afdffe8cd94133ebb", "src": "创建用户并返回", "en": "Create a user and return", "engine": "deepl"}
+{"h": "1e3def2fc7666b0b5f4e68caf10937d02f10f63b", "src": "虚拟主机。", "en": "Web hosting.", "engine": "deepl"}
+{"h": "1ed6ed7facba98052fe734f6f3cad0ce31b4cd17", "src": "对已设置的", "en": "For those that have been set up", "engine": "deepl"}
+{"h": "1f8642994bdf960a2e562690e1267b8390c0b6eb", "src": "声明式描述一个应用的完整拓扑：传输层、配置中心、注册中心、日志、追踪、指标、消息代理。", "en": "A declarative description of an application's complete topology: transport layer, configuration center, registry, logging, tracing, metrics, and message broker.", "engine": "deepl"}
+{"h": "1f8b47fc337f755493228ece14a85ee8a774ebd5", "src": "单次查询超时（毫秒）。", "en": "Timeout for a single query (milliseconds).", "engine": "deepl"}
+{"h": "1fb0d62939167a4d8de225f3976f46a919426476", "src": "默认超时时间（毫秒）。", "en": "Default timeout (in milliseconds).", "engine": "deepl"}
+{"h": "20a23442cd5a16688c65d79fd6c5b2fe107e3c92", "src": "空导入将", "en": "Import an empty file", "engine": "deepl"}
+{"h": "20ef379bd7bc8a18c93083ee945d54899496de04", "src": "阿里云", "en": "Alibaba Cloud", "engine": "deepl"}
+{"h": "211b6efc775679aee183e308e99fb534830ef683", "src": "服务层：业务逻辑", "en": "Service Layer: Business Logic", "engine": "deepl"}
+{"h": "21292e579239710b74e4b4d69844e7fcc2c2de90", "src": "注册，", "en": "Sign up,", "engine": "deepl"}
+{"h": "21368d15a706115586c18c8134a870da259ffe75", "src": "启动所有基础设施", "en": "Start all infrastructure", "engine": "deepl"}
+{"h": "213a0926973cb9b945f83abe09313a45ac8d16c1", "src": "記述", "en": "Description", "engine": "deepl"}
+{"h": "21dd0e5ebca5281fe90aa3acd1cb19b241467f18", "src": "确保", "en": "Ensure", "engine": "deepl"}
+{"h": "21e9a897eb1aaed11376a0d786644d388e729533", "src": "注入，可选", "en": "Injection, optional", "engine": "deepl"}
+{"h": "21ff2332d295172edae10115932be61f865a2e90", "src": "可能", "en": "Possibly", "engine": "deepl"}
+{"h": "22336e6b892f14855e9f71b6ff9d861510dbe57b", "src": "项目", "en": "Project", "engine": "deepl"}
+{"h": "22cc47a0bbe6fd1a0369af22da2ade0ec4d0332a", "src": "服务实例唯一标识，留空则自动生成。", "en": "Unique identifier for the service instance; if left blank, one will be automatically generated.", "engine": "deepl"}
+{"h": "232527fe0d1a47a773c00511bf2c8812b2f6ef75", "src": "编解码器。", "en": "Codecs.", "engine": "deepl"}
+{"h": "23313c100358f5b40c67028c5b1426474380d6c3", "src": "模型客户端配置。", "en": "Model client configuration.", "engine": "deepl"}
+{"h": "2366e8ef809ea5618e8765fb143e6204d253c7fc", "src": "可恢复为默认的静默日志。", "en": "Can be restored to the default silent logging.", "engine": "deepl"}
+{"h": "2368721aa9acf858491bb5f799962db56febf58d", "src": "描述对象存储配置。", "en": "Describes the object storage configuration.", "engine": "deepl"}
+{"h": "239c0de4984dc419aeb4ee26d927ae77282a7403", "src": "自注册模式", "en": "Self-Registration Mode", "engine": "deepl"}
+{"h": "23d018cf77e2f4b573197fba1cd908bd39fa2c12", "src": "中调用", "en": "Called in", "engine": "deepl"}
+{"h": "23f8f06e955e003e52fc4a7e695bfc47ecd1471d", "src": "常量，用于注册", "en": "Constants used for registration", "engine": "deepl"}
+{"h": "24141dec0a660fea96166053e39842007511f99c", "src": "批量推送阈值（条数）。默认", "en": "Bulk push threshold (number of items). Default", "engine": "deepl"}
+{"h": "242e9ea1f630555a5d4d7e5e3171cac35b861ccd", "src": "定义的", "en": "Defined", "engine": "deepl"}
+{"h": "24a123b972bd58c7fa41387f676d8d39deebff87", "src": "多源聚合", "en": "Multi-Source Aggregation", "engine": "deepl"}
+{"h": "251bb169e2c2eae95fa3d83ba580f767e4b21929", "src": "用户名。", "en": "Username.", "engine": "deepl"}
+{"h": "254027151090f03d563e24a5e2feb517d0696530", "src": "项目结构", "en": "Project Structure", "engine": "deepl"}
+{"h": "25f7cfb78ad242afea8216351857f7f3cf3e6316", "src": "指标类型：", "en": "Indicator Type:", "engine": "deepl"}
+{"h": "260d177c7b582e67fa8c08df5adbc8bb2c06508b", "src": "完全", "en": "Completely", "engine": "deepl"}
+{"h": "266106a39392dc8902c3101cb1d446d9811a144d", "src": "框架）。", "en": "(Framework).", "engine": "deepl"}
+{"h": "26670dda421f5c59afaef3a71cda4df93a6c17cd", "src": "说明", "en": "Description", "engine": "dictionary"}
+{"h": "266cb1be955629c1385802097e5a09687b7d067c", "src": "日志目录，留空使用系统临时目录。", "en": "Log directory; leave blank to use the system's temporary directory.", "engine": "deepl"}
+{"h": "26b4e26638edbe61f2a41ef0976a27a38f90672f", "src": "是否启用心跳。", "en": "Whether to enable heartbeat.", "engine": "deepl"}
+{"h": "26b608de05c1d3d7a39de7b55c25da01a4087df4", "src": "超时时间（秒）。", "en": "Timeout (seconds).", "engine": "deepl"}
+{"h": "281103dd791aae672322bc4d687e520aed18ad32", "src": "：从一行代码启动的全密封模式，到手写", "en": ": From fully sealed mode launched with a single line of code to hand-coding", "engine": "deepl"}
+{"h": "28373d8f9b837f10dd721e3b503a07ac4c5697da", "src": "文件路径（集群外使用）。", "en": "File path (for use outside the cluster).", "engine": "deepl"}
+{"h": "28555fd95bdb4795ef26a74006a95cb9595c46a7", "src": "实例映射和统一的", "en": "Instance Mapping and Unification", "engine": "deepl"}
+{"h": "2906959c94467646b5e69497b3b9c3e2b4009772", "src": "创建用户请求。", "en": "Create a user request.", "engine": "deepl"}
+{"h": "29cc153659d1252209d8920be79a04cecbfdfdce", "src": "嵌入", "en": "Embed", "engine": "deepl"}
+{"h": "2a2b777ae485ecb8159c68a5c90c2f5b1289521c", "src": "行", "en": "OK", "engine": "deepl"}
+{"h": "2a33e2f4fa486e9dbcb801c79c2b7787ff0ae55c", "src": "内部常量，用于", "en": "Internal constant, used for", "engine": "deepl"}
+{"h": "2a3e4fa7fde969020b98bb48c4864e23cc25d666", "src": "枚举转换为注册表", "en": "Converting Enumerations to the Registry", "engine": "deepl"}
+{"h": "2a52e7db401751384f8cc06225ec5bf931b51526", "src": "起動", "en": "Startup", "engine": "deepl"}
+{"h": "2a7b172ddaa32e0c62159747dcafcbeda84fe326", "src": "密码。", "en": "Password.", "engine": "deepl"}
+{"h": "2a956dca803fc75ae68b0af40c8fa82e1deda2fa", "src": "中间件：捕获", "en": "Middleware: Capture", "engine": "deepl"}
+{"h": "2ad574bdbfa2b6ba1506f267f0dc0f769ffad349", "src": "例", "en": "Example", "engine": "deepl"}
+{"h": "2afb6a64385cf36e58f63b2c5740a37e30dd0e0b", "src": "错误。", "en": "Error.", "engine": "deepl"}
+{"h": "2b43abf0b1736e9aa6880f297a09d3e61b49ed3c", "src": "跨语言模块复用", "en": "Cross-Language Module Reuse", "engine": "deepl"}
+{"h": "2b9502a5aa13957043806c321bae1468fbcfba48", "src": "、必要", "en": ", Necessary", "engine": "deepl"}
+{"h": "2bf500642cac4cc6836ac67d66d75bc0cad5d536", "src": "分布式追踪（", "en": "Distributed Tracing (", "engine": "deepl"}
+{"h": "2c5b56ead1c32a2e34b7c33f6bbf8f498f14d297", "src": "声明式配置，契约优先", "en": "Declarative Configuration, Contracts First", "engine": "deepl"}
+{"h": "2c8115fe322a610076e5e64714ddcd9642f85819", "src": "自動登録。", "en": "Automatic registration.", "engine": "deepl"}
+{"h": "2dfbc2b9b824e81b0d888fd8d51a36231a4ddbd7", "src": "标准库）", "en": "(Standard Library)", "engine": "deepl"}
+{"h": "2e282a5cb1a9e71ddb4c2b2905e74e352536f320", "src": "禁止主机查找", "en": "Host Lookup Prohibited", "engine": "deepl"}
+{"h": "2e6ee3d1773b7e1be36ae1b5f95db399b59dced2", "src": "消息队列", "en": "Message Queue", "engine": "deepl"}
+{"h": "2ea0382aae80b4dc924248e1401583b4c95686d6", "src": "脚本引擎，支持", "en": "Script engine, supports", "engine": "deepl"}
+{"h": "2f23416c0f1f6ceeb293481fa6b21730ba29e8fd", "src": "消息代理（基于", "en": "Message Broker (based on", "engine": "deepl"}
+{"h": "2f949e0ae73d9a9634d85eab7dabb16a02a27153", "src": "加载预加载脚本和入口脚本。", "en": "Load the preload script and the entry script.", "engine": "deepl"}
+{"h": "2fa4d173c1ca191e2253f18dace45c129e9b0786", "src": "内置来源。", "en": "Built-in sources.", "engine": "deepl"}
+{"h": "2fec3a40302ca181ac68c519fa8fa082271d6d95", "src": "返回按类型名索引的工作流客户端实例映射和统一的", "en": "Return the workflow client instance mappings indexed by type name and the unified", "engine": "deepl"}
+{"h": "30160a21b92a049fc2befcdb70039ed5099df41f", "src": "是", "en": "Yes", "engine": "deepl"}
+{"h": "3079bc7a697fc4d419971ad263c2f2b05149073f", "src": "是否启用", "en": "Whether enabled", "engine": "dictionary"}
+{"h": "309fa56fde8aca7b72d33f98084d39b1a928e13b", "src": "引数解析", "en": "Argument Analysis", "engine": "deepl"}
+{"h": "30bc56dd803509a08e0a3d828c8116d97c719c67", "src": "层负责", "en": "Responsible for the floor", "engine": "deepl"}
+{"h": "30f4d7cfe8c3be030bf15c28d622ab91d7e85c2f", "src": "或", "en": "or", "engine": "deepl"}
+{"h": "3124402bb1d0fe258a5a617ff4c3f23bec3a9547", "src": "手動制御、高度", "en": "Manual Control, Altitude", "engine": "deepl"}
+{"h": "3141ee0cc062bb0662a7182195d9b73acbae9eb2", "src": "移行", "en": "Transition", "engine": "deepl"}
+{"h": "31dd1fd76549c8192d759bf9330a31b4dbeb3d5c", "src": "示例：用户管理", "en": "Example: User Management", "engine": "deepl"}
+{"h": "31eecb3ddc6da9013c005151fd5077f833a71a09", "src": "言語", "en": "Language", "engine": "deepl"}
+{"h": "31f9fc94a0d6fea3d2598caf5c54cb9bccdbf108", "src": "云端日志服务。", "en": "Cloud Log Service.", "engine": "deepl"}
+{"h": "321e1103cdf8086767ec30f0fdf82dce92591df6", "src": "环境变量配置源。", "en": "Source for environment variable configuration.", "engine": "deepl"}
+{"h": "324a07f345c96a25788453bd3aa56e9926e686fe", "src": "对已设置的对象存储类型分别调用对应", "en": "Call the corresponding methods for each of the configured object storage types", "engine": "deepl"}
+{"h": "327a65b47f5c31f1c6c32b4bc7f0b5e444b70fe9", "src": "入口：", "en": "Entry:", "engine": "deepl"}
+{"h": "32c07432f405cdb1766901072ced25ce2dae98d0", "src": "脚本来源。", "en": "Script source.", "engine": "deepl"}
+{"h": "32c808cbe57a6d82d8e07fd565b13aa182d7bc55", "src": "认证", "en": "Certification", "engine": "deepl"}
+{"h": "32f92d62c9968d403064a09f1cbf68881fd0542e", "src": "最大打开连接数", "en": "Maximum Number of Open Connections", "engine": "deepl"}
+{"h": "331cb0a418ce5fde0acb9baa664f0e9738c4c1a5", "src": "地址列表。", "en": "List of addresses.", "engine": "deepl"}
+{"h": "336c3cb506cbec9bc0da8d14d61897be8a6988c1", "src": "认证类型：", "en": "Certification Type:", "engine": "deepl"}
+{"h": "3371e73eb03f719b73721eed53714010e48d1f68", "src": "文件加载配置", "en": "File Loading Configuration", "engine": "deepl"}
+{"h": "337e918a37f60b1c83e934ade411ae2620355faf", "src": "根据配置创建", "en": "Create Based on Configuration", "engine": "deepl"}
+{"h": "346870609c64bf282b509217c4a8715d7e76e747", "src": "加载配置", "en": "Load Configuration", "engine": "deepl"}
+{"h": "3497a2e0b99888ebb8619557f9bc242f4f2e166b", "src": "配置前缀路径。", "en": "Configure the prefix path.", "engine": "deepl"}
+{"h": "353a7f7dee9cd340de75508e9a51f7710b456de9", "src": "层通过接口调用。", "en": "The layer is called through an interface.", "engine": "deepl"}
+{"h": "355c650eaf70436206b5ccf20a8ecb316ace6eec", "src": "字节跳动) 客户端。", "en": "ByteDance) client.", "engine": "deepl"}
+{"h": "3568205fa0758c57217c2bc8474e5d21834f0af8", "src": "键空间", "en": "Key Space", "engine": "deepl"}
+{"h": "357c72e573ffb60128baa416a2b502fe67a6b30e", "src": "是否跳过", "en": "Skip?", "engine": "deepl"}
+{"h": "35ebb143ca20bec4beb1ee7bfaa6787830d80fc2", "src": "健康检查间隔（秒）。", "en": "Health check interval (seconds).", "engine": "deepl"}
+{"h": "35fb4a37b5e60de839c73e432b63fbb511504401", "src": "核心流程：", "en": "Core Processes:", "engine": "deepl"}
+{"h": "363a8c7dab931d97d9d2b76c66628aff20db8335", "src": "兼容对象存储（", "en": "Compatible with object storage (", "engine": "deepl"}
+{"h": "36695efdd8a389d43024ba307310d59282e75580", "src": "拨号超时（秒）", "en": "Dial-up Timeout (seconds)", "engine": "deepl"}
+{"h": "3680eb6e5c7566db02293a3760794d944b3bc6c8", "src": "使用命令行", "en": "Using the Command Line", "engine": "deepl"}
+{"h": "37974448b048ac0384c2f1f854b952f38f9ce8d8", "src": "允许的源列表，为空表示允许所有源（", "en": "List of allowed sources; an empty list means all sources are allowed (", "engine": "deepl"}
+{"h": "37cfde84a65e0346da81795cb5ba93eb71d84dab", "src": "，一份", "en": ", one", "engine": "deepl"}
+{"h": "38e3f106337cf5987d8749b0a555e496d7246103", "src": "前向纠错校验分片数。", "en": "Number of forward error correction check blocks.", "engine": "deepl"}
+{"h": "39231438a764d5690cee756eb6469312801df4a9", "src": "中间件", "en": "Middleware", "engine": "deepl"}
+{"h": "39c234085884f544c0981eec973b266790db45ac", "src": "安全令牌（可选）。", "en": "Security token (optional).", "engine": "deepl"}
+{"h": "3a597bbe104282b545507d15313423dbe034da6f", "src": "本地文件系统", "en": "Local File System", "engine": "deepl"}
+{"h": "3b05370cd8e7c5372c171ae7e243d44e74673871", "src": "适用场景", "en": "Applicable Scenarios", "engine": "deepl"}
+{"h": "3b0eba02d1f0b1de1c215b0583b22fb4416acb68", "src": "键路径。", "en": "Key path.", "engine": "deepl"}
+{"h": "3b25ebe3f96fba5d765aa4dbdbac23a96b5a3a76", "src": "本地备份路径。", "en": "Local backup path.", "engine": "deepl"}
+{"h": "3b7ac19fcbb876c0f48d04b1228bf568498d2769", "src": "认证密钥", "en": "Authentication Key", "engine": "deepl"}
+{"h": "3b7f9fe10ee2e54c393baad7f4ad1b48f3d97126", "src": "对象存储配置源（", "en": "Object Storage Configuration Source (", "engine": "deepl"}
+{"h": "3bb37d6f5df9799f15b86e8b05689d8fc5362993", "src": "每个适配层在", "en": "Each adaptation layer in", "engine": "deepl"}
+{"h": "3c442fcd7b67dd3bab745e98c41fc6552508b70a", "src": "不支持推送通知。", "en": "Push notifications are not supported.", "engine": "deepl"}
+{"h": "3c4fc97fc06e62f3bf3c32cf86b63bdde6bf3896", "src": "数据库名（", "en": "Database Name (", "engine": "deepl"}
+{"h": "3c572961075b6444c215beee908de4bd1506c899", "src": "自注册，零胶水代码即可扩展新组件", "en": "Once registered, new components can be extended without any glue code", "engine": "deepl"}
+{"h": "3c9647d7adb5fbce2926d274d669ccb038a74ffb", "src": "：内置命令行支持，通过", "en": ": Built-in command-line support, via", "engine": "deepl"}
+{"h": "3c9acf9bfcd755ebb6ac520bc56c2f13ae566250", "src": "内部日志（引擎初始化、脚本执行、热更新等）能够", "en": "Internal logs (engine initialization, script execution, hot updates, etc.) can", "engine": "deepl"}
+{"h": "3ca26001bb281e64972df10a7967bb346b5165d6", "src": "文件配置源。", "en": "File configuration source.", "engine": "deepl"}
+{"h": "3d3e17a162e710c76fbf40198cb24246ffb78a81", "src": "等", "en": "etc.", "engine": "deepl"}
+{"h": "3d41773c9e432faea8af3d8c84b5f73716c17c1f", "src": "。默认", "en": ". Default", "engine": "deepl"}
+{"h": "3d60998da4cf61ca306de3d9568aae2ab8eb9b01", "src": "消息代理。", "en": "Message Broker.", "engine": "deepl"}
+{"h": "3d889895b511e048da1785ee426457dd26eab477", "src": "代码。", "en": "Code.", "engine": "deepl"}
+{"h": "3d8f6245d2a109fdfdbd3953cba53209301e0f69", "src": "声明式引导框架快速搭建一个用户管理", "en": "A Declarative Bootstrap Framework for Quickly Setting Up User Management", "engine": "deepl"}
+{"h": "3e05881a55c7c096e3ac0ace2d602bb9503c38f5", "src": "服务名称。", "en": "Service Name.", "engine": "deepl"}
+{"h": "3e0dd9263b749365a93876f5652dc3adcae799fb", "src": "秒优雅停机。", "en": "Instant, graceful shutdown.", "engine": "deepl"}
+{"h": "3e35d7ac27944580af01a47ec26f70df4aeae033", "src": "优雅停机超时时间。", "en": "Graceful shutdown timeout.", "engine": "deepl"}
+{"h": "3e438bd6cb703fd42a3f3fec718386bbc50fa0b3", "src": "渡", "en": "Crossing", "engine": "deepl"}
+{"h": "3e73b2add9db16083b81712beca581aff109874e", "src": "是否使用等待模式（平滑限流）。", "en": "Whether to use wait mode (smooth rate limiting).", "engine": "deepl"}
+{"h": "3f1a0e2818ae722e47bedccf6edb83744e18f2a7", "src": "任务队列（基于", "en": "Task Queue (Based on", "engine": "deepl"}
+{"h": "3f95f1a0bb7f48c7d5241f8bf91ff85f4ca20b5c", "src": "兼容对象存储", "en": "Object Storage Compatibility", "engine": "deepl"}
+{"h": "3fb0b3eab80e49a221838dd50c0e376df9c59aa0", "src": "搜索路径", "en": "Search Path", "engine": "deepl"}
+{"h": "3fdb3a4c402e9c819b75361b4849b530f25dfb41", "src": "統合", "en": "Integration", "engine": "deepl"}
+{"h": "3ff4aa7aee50294c5119ab4957a8c9af123bf534", "src": "本示例混合使用适配层和自定义", "en": "This example uses a combination of adapter layers and custom", "engine": "deepl"}
+{"h": "4030f3d8521970540d5be585003a7a48b1a03b3e", "src": "自動識別、", "en": "Automatic Identification,", "engine": "deepl"}
+{"h": "406b87ffcb8e660b084bfabe47c0945755098151", "src": "依赖方向", "en": "Dependency Direction", "engine": "deepl"}
+{"h": "40a5bb8787d162960c2f473ecd42beffa670645f", "src": "配置即应用", "en": "Configuration Is Application", "engine": "deepl"}
+{"h": "40aee4517915d06f59017fb8839b0dee7700e039", "src": "级别记录日志。", "en": "Level logging.", "engine": "deepl"}
+{"h": "40ffb34860e71de82970a3e403de97c4728fc76c", "src": "检查", "en": "Inspection", "engine": "deepl"}
+{"h": "41165ec438bc405b0cebae48f21eb1d5785324dc", "src": "演示从", "en": "The presentation begins at", "engine": "deepl"}
+{"h": "412f54dc38e642eda535746e715503df35ad768f", "src": "描述", "en": "Description", "engine": "deepl"}
+{"h": "4170cd50639e50e019d6f8bd2af0bfd0c630b5ef", "src": "将", "en": "Will", "engine": "deepl"}
+{"h": "41e165daeeb0588107b7410e41ae689f358a9ec7", "src": "最低输出级别（", "en": "Minimum Output Level (", "engine": "deepl"}
+{"h": "41f493f902e82b256c5a88b98aca61e280382cf0", "src": "目录结构", "en": "Directory Structure", "engine": "deepl"}
+{"h": "422c1a50e1175cf0f99bd4c88ac5607066496dbd", "src": "对已设置的注册中心类型分别调用对应", "en": "Call the corresponding methods for each of the configured registry center types", "engine": "deepl"}
+{"h": "427f23730e0be1a5cf2921023cc881965016203b", "src": "高精度定时器。", "en": "High-precision timer.", "engine": "deepl"}
+{"h": "4293cb5a7fbd627c0f30ea362a4d8a9d33ba1c04", "src": "，用户只引入需要的适配器，不污染依赖树", "en": "... Users only include the adapters they need, without cluttering the dependency tree.", "engine": "deepl"}
+{"h": "42a0354a05f7b50203a4149a41a11a56994e0a51", "src": "创建基于", "en": "Create a", "engine": "deepl"}
+{"h": "42f7da0af1b8c9f5f49fbb459bc1d07c8e1bff71", "src": "本地配置。", "en": "Local configuration.", "engine": "deepl"}
+{"h": "43980cc89786f1b1bee2bab711315d2745260639", "src": "技术", "en": "Technology", "engine": "deepl"}
+{"h": "43b34834b7c36af41928d3d6b851fd638bc45279", "src": "。留空默认", "en": ". Leave blank for default", "engine": "deepl"}
+{"h": "43cfd5371fcd59a42a4b478e591631c2634b8029", "src": "追加型登録", "en": "Add-On Registration", "engine": "deepl"}
+{"h": "442d9e857fe7b2aac8a4536fa20283b6781ac32c", "src": "更新用户。", "en": "Update the user.", "engine": "deepl"}
+{"h": "455de469739d67324b6aa4798bea158050274bb0", "src": "最大空闲连接数", "en": "Maximum Number of Idle Connections", "engine": "deepl"}
+{"h": "4564a18af032c8799708522b4bdd312afcffe837", "src": "高性能沙箱", "en": "High-Performance Sandbox", "engine": "deepl"}
+{"h": "45cc0c1746617ebad463633afc63bb3b5bfa69cd", "src": "是否隔离。", "en": "Whether to quarantine.", "engine": "deepl"}
+{"h": "45f20b524265a69f3e61eae28360747956aa2ff8", "src": "协议）。", "en": "(Agreement).", "engine": "deepl"}
+{"h": "469c04a0b4ec80e2540a1453d635c2d5a0b7b92d", "src": "（依赖", "en": "(Dependencies", "engine": "deepl"}
+{"h": "472cee03f05afb15b08f3743b92a4b1fbf17ff2b", "src": "缓存，支持", "en": "Caching, supported", "engine": "deepl"}
+{"h": "47583380b420afec4c4a823656c86e633d4b42fc", "src": "标志", "en": "Logo", "engine": "deepl"}
+{"h": "479a48d2c047db08f30fbeffb4e3131b7fb048f8", "src": "読", "en": "Read", "engine": "deepl"}
+{"h": "47c05d4519234c132a79c17aac621f095f4fa0a2", "src": "启用调试日志", "en": "Enable debug logging", "engine": "deepl"}
+{"h": "483088e0d3d6e0357a9b35e101d293e5d1510bd9", "src": "演示基于", "en": "The presentation is based on", "engine": "deepl"}
+{"h": "49044a78f90de7d6bfd6a74d4d45eb93322ef658", "src": "连接超时（毫秒）。", "en": "Connection timed out (milliseconds).", "engine": "deepl"}
+{"h": "4989b5cf94838935b231d38c0c49db7088c20a67", "src": "管理", "en": "Management", "engine": "deepl"}
+{"h": "4997793a0e127b94d13590f645f961033227e085", "src": "。初期化", "en": ". Initialization", "engine": "deepl"}
+{"h": "49b303cea5bcfd6a81d3026d848966d6eddbb215", "src": "默认服务类型。", "en": "Default service type.", "engine": "deepl"}
+{"h": "4a57b3adcba5eb41e6f7987a5950217f7c466203", "src": "根路径", "en": "Root Path", "engine": "deepl"}
+{"h": "4a91347b990bd9bb5cdf783195ac7480cf3f47a7", "src": "客户端创建时自动通过", "en": "Automatically passed when the client is created", "engine": "deepl"}
+{"h": "4b41cd329d61bb860e61130ddf688ca744f002d9", "src": "获取基础设施实例（依赖注入）", "en": "Retrieving Infrastructure Instances (Dependency Injection)", "engine": "deepl"}
+{"h": "4ba99d1600f4bea51a68c95f43b0088e24619fb7", "src": "相关项目", "en": "Related Projects", "engine": "deepl"}
+{"h": "4bd80407f712c8c7ffd049d1577dd5ecd8649a00", "src": "需要访问", "en": "Access Required", "engine": "deepl"}
+{"h": "4c0abdef83504c499be0b6b728aea9bf8f54290e", "src": "适配层：", "en": "Adaptation Layer:", "engine": "deepl"}
+{"h": "4c3a2183dce7b97163daaa992d91df7e67d578fe", "src": "最简示例", "en": "A Simple Example", "engine": "deepl"}
+{"h": "4c93127c71751c12a368aedac883fbdf75ba972a", "src": "安全脚本", "en": "Security Scripts", "engine": "deepl"}
+{"h": "4cf37cfd067fb0a0f98e1b5e008f1fd59ece6bc5", "src": "项目亮点", "en": "Project Highlights", "engine": "deepl"}
+{"h": "4da1217ad4e233faeb8136fbfb752845e4396150", "src": "的可靠传输）。", "en": "(reliable transmission).", "engine": "deepl"}
+{"h": "4e0aab05912f75c44a833078577049fc9a302028", "src": "各", "en": "Each", "engine": "deepl"}
+{"h": "4e44649b29594e1271dde876524ecf6732569481", "src": "每个适配子包通过", "en": "Each subpackage is adapted through", "engine": "deepl"}
+{"h": "4eeffa077e3fc78a156b8a30a6fe2f1e4b6330f5", "src": "消息代理，支持通过", "en": "Message broker, supports communication via", "engine": "deepl"}
+{"h": "4fbc5b3d09605d14cb1f38b8c50ddbd7a6defc85", "src": "阶段根据配置自动查找并调用。", "en": "Stages are automatically detected and invoked based on the configuration.", "engine": "deepl"}
+{"h": "4fe92c7c47ba8ad372671604003df549769cf84c", "src": "状态码，默认", "en": "Status code, default", "engine": "deepl"}
+{"h": "502fce2b8d3683ec1274b06346a5cdb90c2a278a", "src": "主键", "en": "Primary key", "engine": "dictionary"}
+{"h": "511951d4286ecc1aacb1d6007bd311321ec34068", "src": "决定脚本从哪里加载。", "en": "Determines where the script is loaded from.", "engine": "deepl"}
+{"h": "517504d67e65d94908746fdf33f6b52d83f66137", "src": "它根据", "en": "It is based on", "engine": "deepl"}
+{"h": "51882325b49c19ec3f86cd6ad1b02ea8fc79f195", "src": "并发拉取，取最快返回", "en": "Concurrent fetching; take the fastest return", "engine": "deepl"}
+{"h": "518cf1c56b965f9f9a07d1ca318c06890abe1666", "src": "接口，与数据库", "en": "Interfaces and Databases", "engine": "deepl"}
+{"h": "51cc3b90224ce2f0e53fb18ccd8975a23d3261de", "src": "路径，默认", "en": "Path, default", "engine": "deepl"}
+{"h": "5207ea9e850a0dc687c6538f877213c5088ccbc6", "src": "密封流程，自动处理：", "en": "Sealing Process, Automated Handling:", "engine": "deepl"}
+{"h": "523c76f4d952b14ebb35d30d4f68dd75a607ca03", "src": "（内存）", "en": "(Memory)", "engine": "deepl"}
+{"h": "525502de3c86b3f0d9739fbd2f1f8dd2efb99544", "src": "运行并优雅退出", "en": "Run and Exit Gracefully", "engine": "deepl"}
+{"h": "52d92e931ba0e812fcf2ffccf43b90f273280c8d", "src": "分层的核心，不依赖任何外部框架或基础设施。", "en": "The core of the layered architecture does not rely on any external frameworks or infrastructure.", "engine": "deepl"}
+{"h": "5310c957ad4664dcc9622cd207634283922ec687", "src": "协议消息代理（如", "en": "Protocol Message Brokers (such as", "engine": "deepl"}
+{"h": "532e21e5707339054338a4fa3ae5ca8876a2f897", "src": "多模块依赖隔离", "en": "Isolation of Dependencies Across Multiple Modules", "engine": "deepl"}
+{"h": "53371498acea1d3033bc3584febc86e057256303", "src": "注册自定义的", "en": "Register a custom", "engine": "deepl"}
+{"h": "5355a9878ef3b861d488c5b79dacccc77f808e2a", "src": "定义用户持久化接口。", "en": "Define the user persistence interface.", "engine": "deepl"}
+{"h": "535690847c49dfb1be860ba7df63508ac58e4249", "src": "获取用户。", "en": "Acquire users.", "engine": "deepl"}
+{"h": "537796378b990839d381aac1bc181cd2531ac6b0", "src": "转换。", "en": "Convert.", "engine": "deepl"}
+{"h": "53834f37c55fdbe7755cdf81ff80df729a029716", "src": "用户业务逻辑。", "en": "User business logic.", "engine": "deepl"}
+{"h": "53cc30b6a592cf4cfdd8152a9e4c8f093fa5a761", "src": "構成", "en": "Composition", "engine": "deepl"}
+{"h": "53f2a221cf58088a3cd23dd28f34ca8049531710", "src": "优先级，值越小优先级越低。", "en": "Priority: The lower the value, the lower the priority.", "engine": "deepl"}
+{"h": "54e00359cc290757f145a8d70aeaca832ef7b6fe", "src": "本地内存缓存（基于", "en": "Local Memory Cache (based on", "engine": "deepl"}
+{"h": "5516382c182017a8c9fa8047accaba4e51d3ad6b", "src": "本示例使用适配层子模块提供的", "en": "This example uses the", "engine": "deepl"}
+{"h": "553c357ff715e88c8d040bf50b852e2eb3d23876", "src": "服务端点，如", "en": "Service endpoints, such as", "engine": "deepl"}
+{"h": "5575c5d512b3b2c888e416ec4cd47723216e9a5b", "src": "配置逻辑", "en": "Configuration Logic", "engine": "deepl"}
+{"h": "557911d76d49282a8f59fddf0a317916878bd7fa", "src": "独立", "en": "Independence", "engine": "deepl"}
+{"h": "55914e1c50df9c9ed6331be3da67a4f6f567a1d8", "src": "仓库", "en": "Warehouse", "engine": "deepl"}
+{"h": "55a3740ca870dddbcd039ce6a9433e44e6789c72", "src": "实例。实际使用中应返回真实的", "en": "Example. In actual use, you should return the real", "engine": "deepl"}
+{"h": "55cfb4f1aa15c8ed435b226095be02bb7983c765", "src": "引导创建应用", "en": "Guide to Creating an App", "engine": "deepl"}
+{"h": "56682473c78bc4bfa56ee8735a0dccfbcfb89345", "src": "入口脚本", "en": "Entry Script", "engine": "deepl"}
+{"h": "5716350c5783a0a0781873e68ebdae74d1564263", "src": "兼容）。", "en": "(Compatible).", "engine": "deepl"}
+{"h": "57222287d61d6924a9956c74576bbc61250e918c", "src": "自動化", "en": "Automation", "engine": "deepl"}
+{"h": "577c6346cb7bae945c26a697eb1a9436d4bf2761", "src": "中定义实体和仓储接口", "en": "Define entities and repository interfaces", "engine": "deepl"}
+{"h": "57b74f16605f2465e2cf5afb21cef2bc10bb136b", "src": "配置文件路径。", "en": "Profile path.", "engine": "deepl"}
+{"h": "58253fe8f14e9fc3469d08101b7dd6498461250c", "src": "批量刷新阈值（条数）。默认", "en": "Batch refresh threshold (number of records). Default", "engine": "deepl"}
+{"h": "58b271e55df7af59330aefd3f9439df2be9ffb85", "src": "启动：", "en": "Start:", "engine": "deepl"}
+{"h": "59bfe6200870ef758938a4293957822027547798", "src": "返回已注册的迁移模型副本。", "en": "Returns a copy of the registered migration model.", "engine": "deepl"}
+{"h": "59f0c71d672ac0bb0b256449ce4951b6af58251b", "src": "创建并绑定", "en": "Create and Bind", "engine": "deepl"}
+{"h": "5a0d528edcf00b71f58c2335c68b539f2195894e", "src": "生产环境默认", "en": "Production Environment (Default)", "engine": "deepl"}
+{"h": "5a6843158c43bdb0ee6bb74ff4ad4ded5107b595", "src": "手書", "en": "Handwritten", "engine": "deepl"}
+{"h": "5a73a7397aabd5acc571acb3b08fcbaec0d29af0", "src": "（秒）。", "en": "(seconds).", "engine": "deepl"}
+{"h": "5ac3a87e634067fc240784ca34f7e21f2205be5c", "src": "依赖注入", "en": "Dependency Injection", "engine": "deepl"}
+{"h": "5adb4af8401f425c191dbfbea75b99df50d19e2c", "src": "之前）", "en": "(Previously)", "engine": "deepl"}
+{"h": "5b09becd16832302816c5adc5c60f91e430e8018", "src": "时的", "en": "At the time", "engine": "deepl"}
+{"h": "5b29682dea0a67513c4c1e7b2f68484f237f8aa5", "src": "服务器选择超时（秒）", "en": "Server selection timeout (seconds)", "engine": "deepl"}
+{"h": "5b3167ac9bda73a578466f2d90f3db1346fbc9e7", "src": "命令行集成", "en": "Command-Line Integration", "engine": "deepl"}
+{"h": "5b7bfdcd1eb846a6448e83650de9cf925a198e94", "src": "权重", "en": "Weight", "engine": "deepl"}
+{"h": "5c41ebde846a1bedcc543783c06f3e3e7caf64c4", "src": "共用）。", "en": "(Shared).", "engine": "deepl"}
+{"h": "5d1893d05037a32807b21a6ec1bd6871e448fae7", "src": "之上）。", "en": "(above).", "engine": "deepl"}
+{"h": "5d5818bb14c28b9b3abf57f5ae13094b50e5e4fb", "src": "注册用户相关的", "en": "Related to Registered Users", "engine": "deepl"}
+{"h": "5e2770cd61337e74e4989773bf040b21c5dfcdfe", "src": "的工厂函数签名。", "en": "the factory function signature.", "engine": "deepl"}
+{"h": "5f0e8e22516c288c86d0f1ff6b97a459cd9f29bc", "src": "层感知。", "en": "Layer-aware.", "engine": "deepl"}
+{"h": "5f190e0215116a5a44a2df63e5388dbf78cb09a1", "src": "是否备份配置到本地。", "en": "Whether to back up the configuration to a local location.", "engine": "deepl"}
+{"h": "5f4940722769fce2f1f05b5e295dc424cc7bf797", "src": "模板引擎", "en": "Template Engine", "engine": "deepl"}
+{"h": "5f49c1c38dc88c827b5c61f7d8043b19e1c2386d", "src": "获取", "en": "Get", "engine": "deepl"}
+{"h": "5f5446f92bf8aaa3c5d9640bd0d150255ac61b03", "src": "对已设置的传输层类型分别调用对应", "en": "For each configured transport layer type, call the corresponding", "engine": "deepl"}
+{"h": "614f2eaaffaf673b5cb5258a36e27c17905e85d3", "src": "作成", "en": "Created", "engine": "deepl"}
+{"h": "62179b478801fc9cea92a276e62c531356257b8c", "src": "启动热加载监听。", "en": "Start the hot-load listener.", "engine": "deepl"}
+{"h": "6261eb2d3d9d0a2c63ab56ff712ed3a7dd33eba5", "src": "演示如何注册自定义", "en": "Demonstration of How to Register a Custom", "engine": "deepl"}
+{"h": "62908bd98e60476f8e5ef783d7281328ceb2d4c9", "src": "依存", "en": "Dependence", "engine": "deepl"}
+{"h": "62e74b3d0474c6796a3f4a33884c9dcbeeffe92a", "src": "，如", "en": ", such as", "engine": "deepl"}
+{"h": "62e955fb334d3d78ad20ef9377df77fa3821550e", "src": "基于", "en": "Based on", "engine": "deepl"}
+{"h": "6329f21c41636e361bb9820900690cdfef309623", "src": "設定", "en": "Settings", "engine": "deepl"}
+{"h": "637678114f57f5c23b066df4b90047fd13954a42", "src": "证书指纹", "en": "Certificate Fingerprint", "engine": "deepl"}
+{"h": "640e3db9b036612d730e02d4c2d0cc446d19d533", "src": "記述不要", "en": "No description needed", "engine": "deepl"}
+{"h": "646a38d307f1bddb64e6acf55e18c83656070dfc", "src": "默认环境变量名。", "en": "Default environment variable name.", "engine": "deepl"}
+{"h": "64c7a60ced0082d8001e8b8fa458d26ab1037191", "src": "条件请求优化。", "en": "Optimization of conditional requests.", "engine": "deepl"}
+{"h": "654a6b06822c6bf0985cd2082a3731926c492e0c", "src": "拡張", "en": "Extension", "engine": "deepl"}
+{"h": "656e4b757d71663cbe7af9ea0f4c89705726cc25", "src": "中的键名，默认", "en": "Key names in the file, by default", "engine": "deepl"}
+{"h": "65d5eccfc647155ab4d4fad22ac1b712c3b99826", "src": "配置路由", "en": "Configure Routing", "engine": "deepl"}
+{"h": "65fb0be053ff38c039b3742bf705788ac6490f91", "src": "初期化", "en": "Initialization", "engine": "deepl"}
+{"h": "662c2a681253fbcf1a985c29e96aa40a293a0e33", "src": "地址，如", "en": "Address, such as", "engine": "deepl"}
+{"h": "66853b8487a642a9f28c74ee7cd0161aeb531b05", "src": "编解码器：", "en": "Codecs:", "engine": "deepl"}
+{"h": "66bf1e82fee76edbd798d35261ba11035916a0a0", "src": "函数。", "en": "Function.", "engine": "deepl"}
+{"h": "67cb1e89a9dc089be7632d7321d7111e16be73c5", "src": "是否同时输出到", "en": "Should it be output to both", "engine": "deepl"}
+{"h": "67d2d7970f4a51911fb505f1b40b6301f37f35de", "src": "地址", "en": "Address", "engine": "dictionary"}
+{"h": "68283e18b92674e4e2691a95750a11d08bd1ea49", "src": "是否启用链路追踪", "en": "Enable Link Tracing", "engine": "deepl"}
+{"h": "6860035f4f21ad199f51ed62d4d4ca5e81c2383e", "src": "传输层、配置中心、注册发现、日志、追踪、指标、消息代理", "en": "Transport Layer, Configuration Center, Registration and Discovery, Logging, Tracing, Metrics, Message Broker", "engine": "deepl"}
+{"h": "686b703f41f3d5f33b3f36dc2444e59469326078", "src": "在", "en": "At", "engine": "deepl"}
+{"h": "687424672c6f908796b53e00ccb73ef3e970994b", "src": "中可同时设置多种配置源。", "en": "Multiple configuration sources can be set up simultaneously.", "engine": "deepl"}
+{"h": "6882db319a3c913820178c7f23bf6e9c42210bde", "src": "描述消息代理配置。", "en": "Describes the message broker configuration.", "engine": "deepl"}
+{"h": "689addd6c22b81b2ca5218edaa7e6bc90f6d3d7b", "src": "层负责实现此接口。", "en": "This layer is responsible for implementing this interface.", "engine": "deepl"}
+{"h": "697b6e31bc1f85a600070741faabc6094cac3b3d", "src": "指定", "en": "Specify", "engine": "deepl"}
+{"h": "699cde0d21e8810c7dbb7e961a5729fd0c492e80", "src": "缓冲区大小（字节），默认", "en": "Buffer size (bytes), default", "engine": "deepl"}
+{"h": "69fffaf196a3ca7530aab2dc2871cd62afccd003", "src": "实例", "en": "Examples", "engine": "deepl"}
+{"h": "6a1ef8c3519cad196669ec8fa8503e0575e026ec", "src": "远程拉取", "en": "Remote Pull", "engine": "deepl"}
+{"h": "6a7f252fd9f94b2501b9dbc2f017dd82e6589ecd", "src": "连接超时（秒）", "en": "Connection Timeout (seconds)", "engine": "deepl"}
+{"h": "6a8bcc28131e3c0709c81fb7d6f8a0cab21ca401", "src": "追加式注册（推荐）", "en": "Retroactive Registration (Recommended)", "engine": "deepl"}
+{"h": "6becd05171986e7191700285e07dd6dc3dcd6fb8", "src": "中间件配置。", "en": "Middleware Configuration.", "engine": "deepl"}
+{"h": "6bf4d338d28a66168459eb72c332e262f31bbcaa", "src": "服务版本号。", "en": "Service version number.", "engine": "deepl"}
+{"h": "6c14d04acf1f35c5fcbd232dcb7ccf7dee761578", "src": "是否包含时间戳。", "en": "Whether it includes a timestamp.", "engine": "deepl"}
+{"h": "6c15b20e5ae03027aa485b77431d10e16f0b6ef3", "src": "満", "en": "Full", "engine": "deepl"}
+{"h": "6c4315ef4efd999d417bead2a7a1ac665c89496a", "src": "证书验证。", "en": "Certificate verification.", "engine": "deepl"}
+{"h": "6c484429fbbbd6eae34836e050b9ae2507989409", "src": "反射。", "en": "Reflection.", "engine": "deepl"}
+{"h": "6c7efbb26401390af262cfe314c6f7ac90232617", "src": "暴露地址。", "en": "Exposed address.", "engine": "deepl"}
+{"h": "6cdba4aad0c18e15f62f0d4d1530fedcb60b2270", "src": "缓存", "en": "Cache", "engine": "deepl"}
+{"h": "6cfd5d83b9850c80a4cfc913817a42a4741ead3c", "src": "場合、", "en": "Occasion,", "engine": "deepl"}
+{"h": "6d912275ef7a6c2eb8d22bccbaabdfaa79053f91", "src": "的用户仓储。", "en": "the user repository.", "engine": "deepl"}
+{"h": "6dbcceb7f0060a797fccced6f80df681bc6ee5ce", "src": "向", "en": "To", "engine": "deepl"}
+{"h": "6dc1a2d7c1705b29907a97e982395e4bc2074020", "src": "规则引擎", "en": "Rule Engine", "engine": "deepl"}
+{"h": "6dc31a369e0fc90ab947f3d3627898023224599c", "src": "日志系统。", "en": "Logging system.", "engine": "deepl"}
+{"h": "6dc31f407da183d5da6c9c1ff082e4bb87194c14", "src": "启动时发现节点", "en": "Nodes detected at startup", "engine": "deepl"}
+{"h": "6dd0437b38d04bf0be15de842b86945cd0756d48", "src": "是否启用指标监控", "en": "Whether to Enable Metrics Monitoring", "engine": "deepl"}
+{"h": "6de25fa739ed1d27a7bb83cbed9bc230d8be83b8", "src": "绑定、预加载脚本、热加载等完整初始化流程。", "en": "The complete initialization process, including binding, script preloading, hot reloading, and more.", "engine": "deepl"}
+{"h": "6dfad66f0f63cc7e1561344bb0e7c0abd189b125", "src": "驱动名（", "en": "Driver Name (", "engine": "deepl"}
+{"h": "6e83bcf892d85d8934ce42410696e4786ff1f1da", "src": "引擎将此配置解析为", "en": "The engine parses this configuration as", "engine": "deepl"}
+{"h": "6e867ac0fe89900be6d666f14f1c2e0bc09ad43f", "src": "配置中每个", "en": "Each one in the configuration", "engine": "deepl"}
+{"h": "6e9bb32641412c6139daec24d1fec2e497217c40", "src": "追加型登録（推奨）", "en": "Add-On Registration (Recommended)", "engine": "deepl"}
+{"h": "6e9faa6146571c59531812fcd8a3d0f0d47acae4", "src": "模型客户端，支持", "en": "Model client, supports", "engine": "deepl"}
+{"h": "6eabde7d47aab8584d9df8b32c063a001717f8e6", "src": "一枚", "en": "One", "engine": "deepl"}
+{"h": "6efdb64a7fa78064d507772237df4525141e1927", "src": "日志主题", "en": "Log Topics", "engine": "deepl"}
+{"h": "6f106f6e80df7c71eac6d5cc338eec626f7690a2", "src": "分层说明", "en": "Explanation of Layers", "engine": "deepl"}
+{"h": "6f1339849452ac3793b0b8768b8af25608a1eb46", "src": "追踪类型：", "en": "Tracking Type:", "engine": "deepl"}
+{"h": "6fe52efdafdab7e02bfc94c296b60669db1887e5", "src": "创建引擎", "en": "Create Engine", "engine": "deepl"}
+{"h": "7059dc7ba1c137920a82fd292e2bb8fc3cc6111b", "src": "可选缓存层", "en": "Optional Caching Layer", "engine": "deepl"}
+{"h": "70b8782ba857b18119c4707791f77a077b070959", "src": "特徴", "en": "Features", "engine": "deepl"}
+{"h": "7143ce84ee201820a61ce1a40e765fc3ac51efaf", "src": "限流", "en": "Traffic Throttling", "engine": "deepl"}
+{"h": "7144387f1f9bd8ad1e72a194a214a83439ac2418", "src": "日志组名称。", "en": "Log group name.", "engine": "deepl"}
+{"h": "7149b3ac5555bee107b034900f57c07367d6b91f", "src": "名称。", "en": "Name.", "engine": "deepl"}
+{"h": "71654a4d96834e3785c46c05ab314d6704312f14", "src": "链路追踪", "en": "Link Tracing", "engine": "deepl"}
+{"h": "7193afacb99c646c3fb4f3e8c8dbf93867a4fd34", "src": "操作超时（秒）", "en": "Operation Timeout (seconds)", "engine": "deepl"}
+{"h": "71e549f73cecf89fa959ab7165d86cb9b8f26cb8", "src": "三层封装，灵活切换", "en": "Three-layer packaging, flexible switching", "engine": "deepl"}
+{"h": "7279a9c87573cb92657bd7b9b28a98076de6dc45", "src": "含", "en": "Includes", "engine": "deepl"}
+{"h": "7286e967e3d934cf8bbb2d215d2c4e462785b94e", "src": "监听地址，如", "en": "Listening address, such as", "engine": "deepl"}
+{"h": "72ff6b01fa692fd3685462bd90955e3fa25a305a", "src": "适配层引入", "en": "Introduction to the Adaptation Layer", "engine": "deepl"}
+{"h": "7328deebb5bc3ce53dc52471b73df331f6a0f707", "src": "连接", "en": "Connect", "engine": "deepl"}
+{"h": "738c805894899383449f6c4bb5f6cec9c07e6411", "src": "配置中心地址。", "en": "Configuration Center URL.", "engine": "deepl"}
+{"h": "744aadf2202ac177160251bed3f40240a20d0723", "src": "支持的组件", "en": "Supported Components", "engine": "deepl"}
+{"h": "745a32fc7a897c6cf0328fcb33b08713e1e6ebe9", "src": "心跳间隔（秒）。", "en": "Heartbeat interval (seconds).", "engine": "deepl"}
+{"h": "746cfb338d2ba095c87849bd0f1f5eea14381a28", "src": "描述指标监控配置。", "en": "Describes the configuration for metric monitoring.", "engine": "deepl"}
+{"h": "7471f30619c46313ee40fe1848891315661ce151", "src": "本地日志库。", "en": "Local log repository.", "engine": "deepl"}
+{"h": "74f8e6882cc2a62e5efdd5d90d41b5719bd650dd", "src": "半密封模式", "en": "Semi-sealed mode", "engine": "deepl"}
+{"h": "7506af329c23751ab874ed48f648bc9be86de94d", "src": "开放", "en": "Open", "engine": "deepl"}
+{"h": "752b56a4f270615e3e9a6e9ed847c9d365de950f", "src": "分层", "en": "Layering", "engine": "deepl"}
+{"h": "754c92e0379f1d5b1964be9683349166b8a712fd", "src": "中注册", "en": "Register in China", "engine": "deepl"}
+{"h": "754cd2d407e4bdaecfe0598dc02782dcbb41dd81", "src": "起動、", "en": "Startup,", "engine": "deepl"}
+{"h": "756e1ef91ef33822f976c9706c82480a65c13d9c", "src": "连接字符串。", "en": "Concatenate strings.", "engine": "deepl"}
+{"h": "75b778a17a6326a022f577c91f184df043b8102d", "src": "控制行为，设置默认值。", "en": "Control behavior and set default values.", "engine": "deepl"}
+{"h": "76237ddab54871a53c6400c3f6297d218e87be8a", "src": "嵌入式扩展", "en": "Embedded Expansion", "engine": "deepl"}
+{"h": "763f5050c86d9c02fc59a9b5be4c93b78fb30172", "src": "搜索路径或工作目录列表", "en": "List of Search Paths or Working Directories", "engine": "deepl"}
+{"h": "769c61a2cbd609b4202a3643297f6d50baf91c6c", "src": "配置键路径。", "en": "Configure the key path.", "engine": "deepl"}
+{"h": "76ecf2ece468214d0b7ae8ab2a93645d885b0750", "src": "组装", "en": "Assembly", "engine": "deepl"}
+{"h": "76fcd732751eb6f3d6a6e9c80008ebf6e1eb15b6", "src": "插件", "en": "Plug-in", "engine": "deepl"}
+{"h": "77821e6944140f8aab60639cdb239fc39a20033c", "src": "字段同时配置多种消息中间件。", "en": "Configure multiple message brokers for a field at the same time.", "engine": "deepl"}
+{"h": "77fbe19fb1cf8d89be47588d055f76025a398ab9", "src": "定义业务领域模型和仓储接口。", "en": "Define the business domain model and data warehouse interfaces.", "engine": "deepl"}
+{"h": "7801fe7fb0548b754ce5ad29aa155df5e8b5cfc2", "src": "、登録", "en": ", Registration", "engine": "deepl"}
+{"h": "7895e237ab170e28ef42fccde279ae1b8edb4c65", "src": "层", "en": "Floor", "engine": "deepl"}
+{"h": "78975f415654a36d9992479605c82cb41df80707", "src": "全密封模式", "en": "Fully Sealed Mode", "engine": "deepl"}
+{"h": "78d7ff10ae3f1af9b91d83d7088fd61bf638d6b5", "src": "确保在首次使用前解析", "en": "Be sure to resolve this before using it for the first time.", "engine": "deepl"}
+{"h": "78f0395c8b8f9a0abad991356a3bef36872182ef", "src": "请求校验", "en": "Request Validation", "engine": "deepl"}
+{"h": "7930a1b74e6d7aacb5f34fe1fe667d69210e398d", "src": "统一的引擎选项", "en": "Unified Engine Options", "engine": "deepl"}
+{"h": "799fa07b8f304b20049806ee131d64c9ee10ed86", "src": "重试等待时间（毫秒）。", "en": "Retry wait time (milliseconds).", "engine": "deepl"}
+{"h": "79d9f92cad83ddc4dc6b5949620294f268acc1ec", "src": "前向纠错数据分片数。", "en": "Number of data shards with forward error correction.", "engine": "deepl"}
+{"h": "79ebf21782a22e515d3c47f5ef73f128bf07a280", "src": "桥接到", "en": "Bridge to", "engine": "deepl"}
+{"h": "79fe430edd6883e7047366d303c5c1aa48ca168a", "src": "脚本引擎类型枚举。", "en": "Enumeration of script engine types.", "engine": "deepl"}
+{"h": "7a2d83d1b67431a45e26fdc630d72e1d5d920649", "src": "客户端。", "en": "Client.", "engine": "deepl"}
+{"h": "7a52d716ffeffb5ebda81833a44f86e14982223f", "src": "概要", "en": "Summary", "engine": "deepl"}
+{"h": "7a9a422126ec7dc9f713f72caef1bc55ea8942db", "src": "等选项。", "en": "and other options.", "engine": "deepl"}
+{"h": "7ac64a2b44786813708972ba9d254eb8cf033a66", "src": "模型：", "en": "Model:", "engine": "deepl"}
+{"h": "7b254bc9036d75e3c7c97febf3385312ada223ce", "src": "列出已注册的", "en": "List the registered", "engine": "deepl"}
+{"h": "7b2c523cee6a483877fe47ddebc10e809d3a2f90", "src": "访问密钥。", "en": "Access key.", "engine": "deepl"}
+{"h": "7b3f497abbc5275f8a0e3163012eb06269ae8f33", "src": "来源类型", "en": "Source Type", "engine": "deepl"}
+{"h": "7b5718c778afd31ee6f607b15b5c76e881409c2b", "src": "异常恢复，可选", "en": "Recovery from exceptions, optional", "engine": "deepl"}
+{"h": "7b5cb86007b7ea020fad540c05ce87f05ae57f3c", "src": "高性能", "en": "High Performance", "engine": "deepl"}
+{"h": "7b8a6bebd3076cdffaf2193f397d4d9fa399c148", "src": "新", "en": "New", "engine": "deepl"}
+{"h": "7bc0e3968fc1e987ad7fcd8250341b4722d9a1ba", "src": "服务注销临界时间（秒）。", "en": "Threshold time (in seconds) for service termination.", "engine": "deepl"}
+{"h": "7be234c6e4f83b3bf9685c6911d1c8373aef0375", "src": "字段启用，参数也通过配置传入。无需编写初始化代码：", "en": "The field is enabled, and the parameters are passed in via configuration. No initialization code is required:", "engine": "deepl"}
+{"h": "7be2d2d20c106eee0836c9bc2b939890a78e8fb3", "src": "中文", "en": "Chinese", "engine": "deepl"}
+{"h": "7cf8af07229886bd2af705157cd7c05334983d79", "src": "）、仓储接口（", "en": "), warehouse interface (", "engine": "deepl"}
+{"h": "7d072df62aeda36e9ea789416e5677f8f0365ff8", "src": "适配层的全局迁移模型表。", "en": "Table of global migration models for the adaptation layer.", "engine": "deepl"}
+{"h": "7d431a133fee41b6151e9ff5f0a9ab6ec152fb5b", "src": "。使用", "en": ". Use", "engine": "deepl"}
+{"h": "7debf9cb0372cb4396ae2a7451e507abac4d6fc3", "src": "设置", "en": "Settings", "engine": "deepl"}
+{"h": "7e1f71267f7885c1139865608423c839feeb9920", "src": "测试：", "en": "Test:", "engine": "deepl"}
+{"h": "7e396634c6ced0074b335fc1c9d69ea61d228359", "src": "包", "en": "Bag", "engine": "deepl"}
+{"h": "7e624fb492e1811a811de82ea45a7c47ad15a9af", "src": "传输层、配置中心、注册发现、日志、追踪、指标、消息代理，一气呵成", "en": "Transport layer, configuration center, registration and discovery, logging, tracing, metrics, and message broker—all in one seamless solution", "engine": "deepl"}
+{"h": "7efa44a0338e68852603219d93add6b40c718787", "src": "自定义端点（留空则使用", "en": "Custom endpoint (leave blank to use", "engine": "deepl"}
+{"h": "7fe316ce20948ed15d4eb0b05d21df66f25f6679", "src": "使得", "en": "causing", "engine": "deepl"}
+{"h": "7fee23c7648c45512a4e04463f629b7fba4803c8", "src": "环境变量分隔符。", "en": "Environment variable separator.", "engine": "deepl"}
+{"h": "801947aa9a2d1ad8ed34f62d86c9d302fbc82620", "src": "远程", "en": "Remote", "engine": "deepl"}
+{"h": "80388b2ca0776877b54e10d5e16f7bcfe55e6d2a", "src": "云端配置。", "en": "Cloud-based configuration.", "engine": "deepl"}
+{"h": "806202fe03829d9abf958b6089d7b3611d2a5de3", "src": "多格式自动识别", "en": "Automatic Multi-Format Recognition", "engine": "deepl"}
+{"h": "80661aa22d51c3ab4563e636fba6ed2521777f22", "src": "返回附加了指定键值对的新", "en": "Returns a new one with the specified key-value pairs appended", "engine": "deepl"}
+{"h": "81133523a9de7fc2e8c735ff8de77c4562e5452d", "src": "完全手动控制每一步，适合高级场景", "en": "Fully manual control at every step, suitable for advanced scenarios", "engine": "deepl"}
+{"h": "8126099282d86ab76e3a22cc1536886b9e9444e8", "src": "描述服务注册中心配置。", "en": "Describes the configuration of the service registry.", "engine": "deepl"}
+{"h": "81ab1259cd165f9ffccb3387ad1179a51445271d", "src": "级别：", "en": "Level:", "engine": "deepl"}
+{"h": "81cd94c83f100a8d06ceb516ddd92a6b78261d79", "src": "命名空间，默认", "en": "Namespace, default", "engine": "deepl"}
+{"h": "82786a0cfa6e504230df14e1dcec505dde552636", "src": "引擎（基于", "en": "Engine (based on", "engine": "deepl"}
+{"h": "829d07b9ab6d5fff342e9df67296a61b4be351c8", "src": "重试次数。", "en": "Number of retries.", "engine": "deepl"}
+{"h": "82bb0947bcf9cf9d24e69c8f6c9d2fb0fe5ee486", "src": "中的", "en": "in", "engine": "deepl"}
+{"h": "82ca058acc1649914cd86d092ed00898f091fddf", "src": "有効化", "en": "Activate", "engine": "deepl"}
+{"h": "82de17b131eb37a50e5b0de780c7b080153b20c0", "src": "表示永不过期。", "en": "Indicates that it never expires.", "engine": "deepl"}
+{"h": "83059293f03b83299953508ba58fcee1a082b115", "src": "）。零外部依赖。", "en": "). Zero external dependencies.", "engine": "deepl"}
+{"h": "833fbbc80970d4e710b5fbb5c6004ac379bbe2d8", "src": "設定読", "en": "Settings", "engine": "deepl"}
+{"h": "8347f89bcdfc6f7199e6e9cdfd192210172784fe", "src": "桥接全局注册的迁移模型到实例函数指针。", "en": "Bridge the migration model of global registration to instance function pointers.", "engine": "deepl"}
+{"h": "836e6b27d0e0e3c086157f0c24c5f929cba9cfef", "src": "会分别创建对应的实例。", "en": "The corresponding instances will be created separately.", "engine": "deepl"}
+{"h": "838e483f5ad6858a56b6907b902e29a2aab0c3c8", "src": "宣言型設定、", "en": "Declarative configuration,", "engine": "deepl"}
+{"h": "83ec6c8f02634b49c14ba9ebca45e5314e5d7576", "src": "层的接口定义，但不被", "en": "The interface definition for the layer, but it is not", "engine": "deepl"}
+{"h": "83fb7dc6381043fee6bb190dafa5d2af73326fed", "src": "配置源。", "en": "Configure the source.", "engine": "deepl"}
+{"h": "841fc7d80d388d515ee9360c291bf2b2375d8f7f", "src": "监听地址。", "en": "Listening address.", "engine": "deepl"}
+{"h": "844e57a8a8c37cc4cdaf566443b69c057a955ebb", "src": "配置。", "en": "Configuration.", "engine": "deepl"}
+{"h": "847240d45e496dfab5843cc7f5aba460f4342543", "src": "，触发优雅关闭。", "en": ", triggering a graceful shutdown.", "engine": "deepl"}
+{"h": "84e3802f60a7ea835595ed36a33fb7d3e9de82d4", "src": "创建时间", "en": "Creation time", "engine": "dictionary"}
+{"h": "856ddfb13392c48295418287316af5d9f36bd610", "src": "数据库客户端", "en": "Database Client", "engine": "deepl"}
+{"h": "857006ec263a0d47966df86e09df79b18a1ecdcf", "src": "实现业务逻辑层。", "en": "Implement the business logic layer.", "engine": "deepl"}
+{"h": "85c16415fbe3d350fda7e29117766d83d843d23e", "src": "适配层（", "en": "Adaptation Layer (", "engine": "deepl"}
+{"h": "8681c4bc8f93797d9d7a0425e9d29029c42dee7b", "src": "，运行在", "en": ", running on", "engine": "deepl"}
+{"h": "86943771836cf63fe52500559844055be27c451a", "src": "网络设备脚本", "en": "Network Device Scripts", "engine": "deepl"}
+{"h": "86df2228d0abe02a6aec1a74ebac26673fd0374b", "src": "参数指定配置文件，开箱即用", "en": "The parameter specifies the configuration file; it's ready to use right out of the box.", "engine": "deepl"}
+{"h": "871ad74694d22480f62c702b92d8139a296dc7d1", "src": "内蔵、", "en": "Internal,", "engine": "deepl"}
+{"h": "8750c372a12466391c9e65591de989f6a2df05b1", "src": "分层（手动依赖注入）", "en": "Layering (Manual Dependency Injection)", "engine": "deepl"}
+{"h": "87a155e4c2b078826effc2087f68d9967657e710", "src": "高性能编译型语言", "en": "High-Performance Compiled Languages", "engine": "deepl"}
+{"h": "87db03fe5d5b63fbb1c322826090324a064cf47b", "src": "聚合策略（仅", "en": "Aggregation Strategy (Only", "engine": "deepl"}
+{"h": "881b55f8f1f3b346ed087c35778e943360e59f32", "src": "用一份声明式配置，组装完整微服务应用", "en": "Build a complete microservice application using declarative configuration", "engine": "deepl"}
+{"h": "8866d0994e6fd135143a7ee52eb21d5043efb4f8", "src": "删除用户。", "en": "Delete a user.", "engine": "deepl"}
+{"h": "88eeae33e4a4085bc38f26e3177abc417c81b560", "src": "配置文件启动应用。", "en": "Launch the app using the profile.", "engine": "deepl"}
+{"h": "88f4c71ebda35cf77f87aa55c0c2be8753973d8b", "src": "腾讯云", "en": "Tencent Cloud", "engine": "deepl"}
+{"h": "89098d6597c1b5d75ea12de112d16abb6fe62905", "src": "无缝接入", "en": "Seamless Integration", "engine": "deepl"}
+{"h": "8924f9f0f3d128a2a7eeca8df86809f57f7157db", "src": "最大重试等待时间（毫秒）。", "en": "Maximum retry wait time (milliseconds).", "engine": "deepl"}
+{"h": "8a366df97ee6d879ce242969607585aa6e7e7c02", "src": "是用户聚合根。", "en": "It is a user aggregation root.", "engine": "deepl"}
+{"h": "8a98ff0618dc671f801a4a9b50b1bd4c1b463e32", "src": "数据库名", "en": "Database Name", "engine": "deepl"}
+{"h": "8aa56da804cb848655bd60c9c879f139033282a0", "src": "根据", "en": "According to", "engine": "deepl"}
+{"h": "8ab977960a698140cf24810d2f39a66d082d6f16", "src": "从", "en": "From", "engine": "deepl"}
+{"h": "8b37148f6ca41de31820ebcc3811a87869117257", "src": "统一日志体系。", "en": "Unified Logging System.", "engine": "deepl"}
+{"h": "8b48ee255c03157592b7cae8f7737101506a6cff", "src": "接口", "en": "Interface", "engine": "deepl"}
+{"h": "8c23b755fb251fff51b487256f3e1081eb21c51f", "src": "选择的脚本引擎类型", "en": "Selected Script Engine Type", "engine": "deepl"}
+{"h": "8c69a403e1f7fa3de6b0c0733854fcf9ca949ee1", "src": "表名。", "en": "Table name.", "engine": "deepl"}
+{"h": "8c7c1d2840c7c58f903be2ebdde2e84d7fe9d3e1", "src": "化", "en": "Transformation", "engine": "deepl"}
+{"h": "8ca0f5081fc0bdfbf812b4332b3865dfbaf04234", "src": "、構成", "en": ", Composition", "engine": "deepl"}
+{"h": "8ca63e80b7ec5861dfcee5a16a7b750ea355fe33", "src": "路径，如", "en": "Paths, such as", "engine": "deepl"}
+{"h": "8ce04c071256b8cfd64fcf5013146caa76bc48e4", "src": "注册数据库模型用于自动迁移。", "en": "Register the database model for automatic migration.", "engine": "deepl"}
+{"h": "8ceb44653d89f69fa6f486f79a0079d74011153a", "src": "这里返回一个", "en": "This returns a", "engine": "deepl"}
+{"h": "8d224c286cbef3750dfe9f0423d9c36b6339f000", "src": "設計思想", "en": "Design Philosophy", "engine": "deepl"}
+{"h": "8d3431fce6b2ec9ac1cf9c106ebe61a3fdb02ecb", "src": "通过注册的工厂创建", "en": "Created by a registered factory", "engine": "deepl"}
+{"h": "8d7f26378160306a5e99d4c843a53f54cc1d328c", "src": "関連", "en": "Related", "engine": "deepl"}
+{"h": "8d8cccf27ccc75e956d527ece91eb2a89ed5d73c", "src": "配置中心（", "en": "Configuration Center (", "engine": "deepl"}
+{"h": "8db9d27a24cc6c43974ffefe4ba446eae8caa17a", "src": "对已设置的配置源类型分别调用对应", "en": "Call the corresponding methods for each of the configured source types", "engine": "deepl"}
+{"h": "8ddc1feab855e4dd0ff7ae4852a3caf3b1253a52", "src": "无需手写任何", "en": "No need to write anything by hand", "engine": "deepl"}
+{"h": "8df0a89d5d9b0b3a8fa7559ba455945b4820f14f", "src": "协议类型：", "en": "Protocol Type:", "engine": "deepl"}
+{"h": "8e15805623788cd76527b70205035449aac9c682", "src": "服务版本。", "en": "Service Version.", "engine": "deepl"}
+{"h": "8e3c98a94a2b3d8abf2aba1cc8a124fcccce5732", "src": "定数", "en": "Constant", "engine": "deepl"}
+{"h": "8e51ce72abf0aff5a2f84e7e52eaf65927bf94f0", "src": "实现了", "en": "Implemented", "engine": "deepl"}
+{"h": "8e5903bc59ca4d4a37fd926a4eee00c2ac8a79ce", "src": "链，最终创建并运行", "en": "Blockchain: Finally Created and Operational", "engine": "deepl"}
+{"h": "8e6dce8e9d01bd86e3ebb693974ab7be7ac1043c", "src": "（诊断用）", "en": "(For diagnostic use)", "engine": "deepl"}
+{"h": "8efd4fb1dd500bb9b5cdec4427fb3f3b00e354ca", "src": "心跳间隔（秒）", "en": "Heartbeat Interval (seconds)", "engine": "deepl"}
+{"h": "8eff2a6ff815b17f24a3684c91e37525349a2c8d", "src": "顺序尝试，首个成功者胜出", "en": "Try them in order; the first one to succeed wins.", "engine": "deepl"}
+{"h": "8f3e0a1b81fa0184237f146245e020f4d020b2c4", "src": "日志格式：", "en": "Log Format:", "engine": "deepl"}
+{"h": "8f3e9e1fe7daaa0db4b681fb3bba2855302a12b1", "src": "类型：", "en": "Type:", "engine": "deepl"}
+{"h": "8f56ea2735fe7534ae6891c9395c6765720f0ad1", "src": "字段选择器。", "en": "Field Selector.", "engine": "deepl"}
+{"h": "8f8408f17933296b1013c4ac6bd8d3bc2e1c80d7", "src": "连接地址。", "en": "Connection address.", "engine": "deepl"}
+{"h": "8fd6d04b1246d2dcd7b538ddbe033b5c3ed476da", "src": "汚染", "en": "Pollution", "engine": "deepl"}
+{"h": "8fdc8ba382d56b121744988c29871470272bd46d", "src": "依存関係", "en": "Dependencies", "engine": "deepl"}
+{"h": "90399b7f1e7691dda6e9a188200018a0b9c297c2", "src": "分散", "en": "Dispersed", "engine": "deepl"}
+{"h": "9117ae0df0cacf32bfa927d6b542172dfad4e8a0", "src": "编号（用于", "en": "Number (used for", "engine": "deepl"}
+{"h": "9142484f3971d7e55968127508103b811e0d3eec", "src": "自動識別", "en": "Automatic Identification", "engine": "deepl"}
+{"h": "91f00ddfe735231912e618227ff0b65772a2f7e2", "src": "定时刷新间隔（毫秒）。默认", "en": "Refresh interval (milliseconds). Default", "engine": "deepl"}
+{"h": "9265242dd54f4eb3df7a1f3a4dca9d8182edf6ae", "src": "后端类型：", "en": "Backend Type:", "engine": "deepl"}
+{"h": "926f6b6b6a931807c20da291edaee2fc2c89a13a", "src": "请求", "en": "Request", "engine": "dictionary"}
+{"h": "92f61d7f72e8f1334b9c60d11bdf96153c181667", "src": "字段同时配置多种配置源（混合配置）。", "en": "Configure multiple configuration sources for a field at the same time (hybrid configuration).", "engine": "deepl"}
+{"h": "930ebc8d07c4fdaee12674874feb22a72628715a", "src": "是否使用", "en": "Whether to use", "engine": "deepl"}
+{"h": "93215f57b86a7eccd89b1ac0c009c0b274edf71a", "src": "访问密钥", "en": "Access Key", "engine": "deepl"}
+{"h": "935f715f208100e45ac340caba2a8e6e840afa69", "src": "封装", "en": "Packaging", "engine": "deepl"}
+{"h": "94070bd5f6637be57e8cf57f9fa10d17851758c1", "src": "创建用户。", "en": "Create a user.", "engine": "deepl"}
+{"h": "9421d949773e7ed0eb8c3eef76e88867774164e0", "src": "分页列出用户。", "en": "List users by page.", "engine": "deepl"}
+{"h": "94640c19a6beca2a9c96d16ceacc36f799cc2f70", "src": "创建实例。", "en": "Create an instance.", "engine": "deepl"}
+{"h": "94a9a327954397806fe20999847e3137f20ed65c", "src": "心跳", "en": "Heartbeat", "engine": "deepl"}
+{"h": "94de54492ced1fed87a7376f53a8943395053998", "src": "暴露给浏览器的响应头。", "en": "Response headers exposed to the browser.", "engine": "deepl"}
+{"h": "9554aef0acb5c4b618c3043a8201afd33993fbd9", "src": "配置中心，支持通过", "en": "Configuration Center, which supports", "engine": "deepl"}
+{"h": "95f4519aabf92e3c9caa7c43e4a933b44608cd92", "src": "权限规则", "en": "Permission Rules", "engine": "deepl"}
+{"h": "9669e26aaf6c0fb4b080a2a0794661dea8d99a72", "src": "并使用完整配置启动应用。", "en": "And start the application using the full configuration.", "engine": "deepl"}
+{"h": "974d816be9b490f5d9fae2ecf90800bd9342de01", "src": "配置路由（", "en": "Configure Routing (", "engine": "deepl"}
+{"h": "976d81068861b3c47f3c63794e5238c46568dc66", "src": "提供", "en": "Provide", "engine": "deepl"}
+{"h": "9839919877430299025f6729e827b0c299cbdf14", "src": "业务逻辑编排（校验、规则）。只依赖", "en": "Business logic orchestration (validation, rules). Depends solely on", "engine": "deepl"}
+{"h": "99833899e1d850bbb3459d9943b9bc389fee60bc", "src": "：自动识别", "en": ": Automatic Recognition", "engine": "deepl"}
+{"h": "99991c0ff5dfa29460451fdbfe5229a9aa21ccbe", "src": "路由和请求编解码。委托给", "en": "Routing and request encoding/decoding. Delegated to", "engine": "deepl"}
+{"h": "9a3eb340971ffc2dd9cf4da3994078519f53a568", "src": "和", "en": "and", "engine": "deepl"}
+{"h": "9a415914603e6e69a9ff1f1d0cecfd30fb7a5b3d", "src": "描述缓存配置。", "en": "Describes the cache configuration.", "engine": "deepl"}
+{"h": "9a555b44a7ba8f3ae3e78db6ad0a450a80d87d4e", "src": "自动注册）", "en": "(Automatic Registration)", "engine": "deepl"}
+{"h": "9a5ecb966a661f98d7119611a445079e72a08a5c", "src": "实现接口层（", "en": "Implement the interface layer (", "engine": "deepl"}
+{"h": "9b5d497116289682935c5e6837375df85635e123", "src": "执行以下", "en": "Perform the following", "engine": "deepl"}
+{"h": "9b676b438ee61042df7465aff6e067267b23634a", "src": "描述脚本引擎配置。", "en": "Describes the script engine configuration.", "engine": "deepl"}
+{"h": "9ba08c0bd9b93903a52c9f3a0b2873bd3e1bd59e", "src": "创建一个监听", "en": "Create a listener", "engine": "deepl"}
+{"h": "9ba763ea34238bdf5c2cb4407507e21a8fc6521b", "src": "用户", "en": "User", "engine": "dictionary"}
+{"h": "9c584c728f534e7b45685e49ed8d1ea3c65e1452", "src": "組", "en": "Group", "engine": "deepl"}
+{"h": "9c729d5d306818f511afc60cf1645b7b34d39d74", "src": "调用此函数注册", "en": "Call this function to register", "engine": "deepl"}
+{"h": "9c826b281b6160728d9a0f1843f6ffb280b3e9a6", "src": "注册到全局注册表。用户只需导入对应的适配器包，框架自动完成组件创建：", "en": "Register in the global registry. Users simply need to import the corresponding adapter package, and the framework automatically handles component creation:", "engine": "deepl"}
+{"h": "9c89c975a72ea17838d53b1d7a75b602666eb947", "src": "适配器", "en": "Adapter", "engine": "deepl"}
+{"h": "9d443b02236bf438951a2c6d006ec55cad7210c8", "src": "业务代码通过", "en": "Business code passed", "engine": "deepl"}
+{"h": "9d7177121aaaf11cfac3f680dc92d6fb0706cb76", "src": "指标监控（", "en": "Metrics Monitoring (", "engine": "deepl"}
+{"h": "9e033de16f63cd6f76880a298b73c3762a7c46e9", "src": "快速开始", "en": "Quick Start", "engine": "deepl"}
+{"h": "9e3dc0cb4fed34faab055d69f5f02d44fe8b10a0", "src": "宣言型", "en": "Declarative", "engine": "deepl"}
+{"h": "9e51673d291863783ff5a765a23c0c87d5a8c4f8", "src": "采样策略：", "en": "Sampling Strategy:", "engine": "deepl"}
+{"h": "9ea139dbb48f6e6d9cf392077bf104bcf5d57f0b", "src": "每秒允许的请求数。", "en": "Number of requests allowed per second.", "engine": "deepl"}
+{"h": "9ed627bcf63dc7f5eec520e245eca378fb44fa29", "src": "邮箱", "en": "Email", "engine": "deepl"}
+{"h": "9f3e0a137c42f1528333911622479362efdb30f2", "src": "认证密钥（", "en": "Authentication Key (", "engine": "deepl"}
+{"h": "9f978f73b74c9422abfd9b2b3e132fcb9b5e3755", "src": "客户端）。", "en": "(Client).", "engine": "deepl"}
+{"h": "a01e00c2f3b13e581b7278513abb47f7af706d7d", "src": "自己登録", "en": "Self-Registration", "engine": "deepl"}
+{"h": "a0523f8fa837fdd73b10238b4c6c442771189f62", "src": "文件格式：", "en": "File format:", "engine": "deepl"}
+{"h": "a0945efcd7b8afffc92afe74e9008108d264f726", "src": "健康检查超时（秒）。", "en": "Health check timed out (seconds).", "engine": "deepl"}
+{"h": "a1147b38ba4ff0bedf2e25e1fd30d5afb228771b", "src": "认证类型。", "en": "Authentication Type.", "engine": "deepl"}
+{"h": "a12838ec772d6afe672106ac3788e731a2f980e5", "src": "日志配置。", "en": "Log configuration.", "engine": "deepl"}
+{"h": "a13af330564374a823413c64e0313d8712ea8542", "src": "分层结构：", "en": "Layered Structure:", "engine": "deepl"}
+{"h": "a185e53b3e29c082f3aaec039261c3dc6b86c298", "src": "层的业务规则，调用", "en": "Business rules at the layer, call", "engine": "deepl"}
+{"h": "a1aaf352cb07ffc94d15265ba8e21efc821ca9e3", "src": "用户名", "en": "Username", "engine": "deepl"}
+{"h": "a1ab00957c95cd98547bd59490a632518152e47c", "src": "切换数据库", "en": "Switch Databases", "engine": "deepl"}
+{"h": "a217cfdf8673cecafaed988e8d81cc6770a43054", "src": "配置创建脚本引擎实例。", "en": "Configure an instance of the script engine.", "engine": "deepl"}
+{"h": "a2c6f15e72ecebcd97a0c7fc0c62701adb40b32e", "src": "技术栈", "en": "Technology Stack", "engine": "deepl"}
+{"h": "a2e3ddcd9229b7498536a9d7741acdf8fc397c2b", "src": "，因此需要显式桥接。", "en": ", so explicit bridging is required.", "engine": "deepl"}
+{"h": "a32ea6dd3e49e356559271ce2b04cd72cdd70c10", "src": "启动流程", "en": "Startup Process", "engine": "deepl"}
+{"h": "a3540e824bd48b4f7a0046f108ac4ead76493471", "src": "组织", "en": "Organization", "engine": "deepl"}
+{"h": "a3cbbfa192e309ac66029ec5cec76c21800a6a33", "src": "是否启用缓冲传输。", "en": "Whether to enable buffered transmission.", "engine": "deepl"}
+{"h": "a405c1747cfde3c9a49a3d1c357fbba78bfd5d4c", "src": "枚举映射到", "en": "Enumeration maps to", "engine": "deepl"}
+{"h": "a42d7149fde06ec9df0c912db442aae1c2df3ef0", "src": "命名空间名称。", "en": "Namespace name.", "engine": "deepl"}
+{"h": "a45474ae45b197e1a9ef1e28303bbce9c6e9a512", "src": "服务注册发现（", "en": "Service Registration Discovery (", "engine": "deepl"}
+{"h": "a4aa3d8f84fcfad460bcdc90a098afece9353252", "src": "请求日志，可选", "en": "Request log, optional", "engine": "deepl"}
+{"h": "a4b296738fadd40548bb5712fc612e0c495e5739", "src": "连接最大生命周期（秒）", "en": "Maximum Connection Lifespan (seconds)", "engine": "deepl"}
+{"h": "a4b87d41f22540650f6543e2ad615bfaa80ef417", "src": "可插拔功能模块库", "en": "Pluggable Function Module Library", "engine": "deepl"}
+{"h": "a4c2ca029ef2f97092f5f8ef6069ec6b898c3628", "src": "最大重试次数。", "en": "Maximum number of retries.", "engine": "deepl"}
+{"h": "a4cbc93e92736b79e351cfa5c2ddda9aead66d4b", "src": "连接串", "en": "Concatenation String", "engine": "deepl"}
+{"h": "a50b2ab590095378a3678232752a114ea355f899", "src": "实例。", "en": "Example.", "engine": "deepl"}
+{"h": "a582b324074e3d2ab05aef059e3528b980288412", "src": "最小限", "en": "Minimal", "engine": "deepl"}
+{"h": "a5b8e97711fffcd71e77f7c18726b4f586870799", "src": "业务表达式", "en": "Business Expressions", "engine": "deepl"}
+{"h": "a5ce07c03ebdae2ca3866a696a57b8830545e5f7", "src": "参数解析", "en": "Parameter Analysis", "engine": "deepl"}
+{"h": "a5d61aad505c67f724129fd8cec445aba2513ade", "src": "参数来自", "en": "Parameters from", "engine": "deepl"}
+{"h": "a60463a29cc941fe7b4ef131436a31c3614a15dd", "src": "参数校验中间件。", "en": "Parameter Validation Middleware.", "engine": "deepl"}
+{"h": "a6237b466659e51b8a3a7dff71193fe1662a1519", "src": "演示最简单的用法：一行代码启动应用。", "en": "Here's a demonstration of the simplest way to use it: Launch the app with a single line of code.", "engine": "deepl"}
+{"h": "a644bb887db3211db1339ddc6573a0696e954b50", "src": "信号监听（", "en": "Signal Monitoring (", "engine": "deepl"}
+{"h": "a64b31ee721083212b670fc3d262e954e0eee118", "src": "写入超时（秒）", "en": "Write Timeout (seconds)", "engine": "deepl"}
+{"h": "a671309d00aba059117c199e5ffb5e5c88dcfaba", "src": "时，", "en": "At that time,", "engine": "deepl"}
+{"h": "a6b389073485d23014d52bb2ecaa47f15987f7a6", "src": "连接地址，如", "en": "Connection address, such as", "engine": "deepl"}
+{"h": "a6ba340df6d0a653e0e076eb7c89bf592e2496cb", "src": "一行代码启动微服务", "en": "Launch a microservice with a single line of code", "engine": "deepl"}
+{"h": "a6de855b1789f6ffa467a485d4af7e83a0b03b13", "src": "注册的", "en": "Registered", "engine": "deepl"}
+{"h": "a7c3b41ee8f7405f82143a5850de9aeb7da277d3", "src": "预分配缓存大小（字节），默认", "en": "Preallocated cache size (bytes), default", "engine": "deepl"}
+{"h": "a8628e4f5d1910e45575cd286c42402e44d1bbca", "src": "的顶层配置，", "en": "the top-level configuration,", "engine": "deepl"}
+{"h": "a8ebc45c3a30d6fe30b62a5449b217135fe1f27f", "src": "池配置：初始实例数与最大实例数。", "en": "Pool Configuration: Initial number of instances and maximum number of instances.", "engine": "deepl"}
+{"h": "a9387a31ec56706fa5e0a36872d087029f9142c6", "src": "本适配层维护的迁移模型注册表。", "en": "This adapter layer maintains the migration model registry.", "engine": "deepl"}
+{"h": "a97779849eed68ddbcbe4d1ea5ac31d02522dfbd", "src": "区域。", "en": "Region.", "engine": "deepl"}
+{"h": "a9f1c4e9813c4995298333c023b53bbab7753a8a", "src": "架构总览", "en": "Architecture Overview", "engine": "deepl"}
+{"h": "aa83281865bb3d21e3c97e45acd675e7cd377002", "src": "而不是", "en": "rather than", "engine": "deepl"}
+{"h": "ab1ef551e44564a67f75821a47af67d8c26da899", "src": "的级别由命令行", "en": "The level is set via the command line", "engine": "deepl"}
+{"h": "ab35ddaaba067862cb92e284869d5df71c9da38d", "src": "依赖方向：", "en": "Dependency Direction:", "engine": "deepl"}
+{"h": "ab440c8ee491d3bc5f4124fad231d24daa1cb555", "src": "当", "en": "When", "engine": "deepl"}
+{"h": "ab51829d6c00b7dcbf9f80e79ba0d4fbfa259e2a", "src": "运行环境：", "en": "Runtime Environment:", "engine": "deepl"}
+{"h": "ac3d8629d710f43f9a9b6259a89b8bdd9b3aa242", "src": "允许的请求头。", "en": "Allowed request headers.", "engine": "deepl"}
+{"h": "ac5aa85562970e2acbfcb879d7134c59d6901ff7", "src": "），只依赖", "en": "), relying solely on", "engine": "deepl"}
+{"h": "aca7f60f46610ff670505459e94b002017e6e3fe", "src": "适配器提供", "en": "Adapters are provided", "engine": "deepl"}
+{"h": "acfbf793151a0c8126c9d1f9072fc13e8cd0e03b", "src": "策略引擎", "en": "Strategy Engine", "engine": "deepl"}
+{"h": "ad85bc1dcd2b21048985fc9f5adfe3756620926c", "src": "客户端实例映射和统一的", "en": "Client Instance Mapping and Unified", "engine": "deepl"}
+{"h": "adbe2468442708e9c5bfd9db4d41dc0dae8b09a2", "src": "不要", "en": "Don't", "engine": "deepl"}
+{"h": "adfaa2cff3b320bd83d19caa7ea794cf476966a9", "src": "。设为", "en": ". Set as", "engine": "deepl"}
+{"h": "aef2de28d336270f493d25c90c0a53499cefd1eb", "src": "缓存。", "en": "Cache.", "engine": "deepl"}
+{"h": "af5327a05874b0024b119dd7ac8c6a4aa1bb0892", "src": "自动注册，这里只注册没有适配层的组件。", "en": "Automatic registration: Only components without an adapter layer are registered here.", "engine": "deepl"}
+{"h": "af57b02c34e8b022b4311c5c1565eae8ee9c766d", "src": "解析", "en": "Analysis", "engine": "deepl"}
+{"h": "afc0df74f4bcf85e5065e28dd603788e7a270857", "src": "一行代码启动，自动处理信号监听、配置加载、生命周期", "en": "Launch with a single line of code; automatically handles signal listening, configuration loading, and lifecycle management", "engine": "deepl"}
+{"h": "afef306bf49e820a213ea7a7ee9f4ff48835711a", "src": "加密密码。", "en": "Encryption password.", "engine": "deepl"}
+{"h": "aff4c03b0476b143bf5c48aeb82c8589c98fdc5c", "src": "对已设置的缓存类型分别调用对应", "en": "Call the corresponding methods for each of the cache types that have been configured", "engine": "deepl"}
+{"h": "b00672cd9050aba5e0baea55315a7d995c13057e", "src": "压缩方法", "en": "Compression Methods", "engine": "deepl"}
+{"h": "b0120a79c56f4a38ef31bbcea11379ab19e22dd8", "src": "自动执行", "en": "Automatic Execution", "engine": "deepl"}
+{"h": "b078e953b3570cb869b2a9fc5f5c4e5b81cf8dd7", "src": "插件注册机制", "en": "Plugin Registration Mechanism", "engine": "deepl"}
+{"h": "b0f9aec6251bd96112ecbc3cbd08e1ebf5063d67", "src": "是否启用帧传输。", "en": "Whether to enable frame transmission.", "engine": "deepl"}
+{"h": "b10b8618c448bd1d98ce063bb3fb6efe8d213937", "src": "热加载", "en": "Hot Loading", "engine": "deepl"}
+{"h": "b193f5ef5b2a981fabe4a85b8f94c9821b24d19c", "src": "是否使用前缀模式（监听一个目录而非单个键）。", "en": "Whether to use prefix mode (listening to a directory rather than a single key).", "engine": "deepl"}
+{"h": "b1c3295c747e2613ad416b5d4da9274115137cf9", "src": "响应的编解码和路由，将请求委托给", "en": "Response encoding, decoding, and routing; delegate the request to", "engine": "deepl"}
+{"h": "b1f78090de82794731bda1758b26da2031c8948d", "src": "模型，", "en": "Model,", "engine": "deepl"}
+{"h": "b1fb011bbffae30940222f896a5de1ef70102854", "src": "调用", "en": "Call", "engine": "deepl"}
+{"h": "b296fa92a923f38867e5c7dd120805dfafa85662", "src": "：基于", "en": ": Based on", "engine": "deepl"}
+{"h": "b2ef5a605cc546cf07c27295252d0b93525d5328", "src": "链路追踪中间件。", "en": "Link-tracking middleware.", "engine": "deepl"}
+{"h": "b2fa6bc8d824cbf17a655577d048358585185c9a", "src": "兼容客户端。", "en": "Client compatibility.", "engine": "deepl"}
+{"h": "b30c782a63aa800b37fa49ae32a2dacef1a43bca", "src": "是否启用文件变更监听（基于", "en": "Whether to enable file change monitoring (based on", "engine": "deepl"}
+{"h": "b35c88c0d13c26be079a1bd6a02fa3331e5a8a58", "src": "层实现此包中定义的接口，", "en": "The layer implements the interfaces defined in this package,", "engine": "deepl"}
+{"h": "b3d78d56183846bc97af56a241a507baf49e55fc", "src": "化。", "en": "Transformation.", "engine": "deepl"}
+{"h": "b3e57b6f5b0afb238043a874601836cd52cedf3a", "src": "分布式任务队列。", "en": "Distributed task queue.", "engine": "deepl"}
+{"h": "b44a4cb6fa6f9a5680aa8490299f7abc71f6872b", "src": "发布版本标签，如", "en": "Release version tags, such as", "engine": "deepl"}
+{"h": "b4ae64ed947daf596bdb196062bb0dd482459426", "src": "键前缀", "en": "Key prefix", "engine": "deepl"}
+{"h": "b4b17f9c8bd4b3a8173bda68a96104cf319fce15", "src": "枚举决定创建哪种引擎，", "en": "The enumeration determines which type of engine to create,", "engine": "deepl"}
+{"h": "b4c33f46950d0cb97b1d858f548f83bc6a4aee8c", "src": "最大实例数", "en": "Maximum Number of Instances", "engine": "deepl"}
+{"h": "b522485772968156a2426609eb9edc47aa7f7467", "src": "模式下的采样比率", "en": "Sampling Rate in This Mode", "engine": "deepl"}
+{"h": "b612a3d5ac20102cbcf04b3293cda9384b19155c", "src": "配置路由（必须在", "en": "Configure routing (must be done in", "engine": "deepl"}
+{"h": "b6898269106a239f5e6bb663b41fc1eefcf05871", "src": "是否健康。", "en": "Is it healthy?", "engine": "deepl"}
+{"h": "b75f22afc6ff314120d09675726d8314d55da1a8", "src": "即可切换数据库，无需改代码：", "en": "You can switch databases right away without having to change the code:", "engine": "deepl"}
+{"h": "b76e50cd5e2f61a56c7853199b4edcd0d45c80c9", "src": "输出：", "en": "Output:", "engine": "deepl"}
+{"h": "b85e030e61ef39a147dfad033f92bda8b5b891a3", "src": "异常恢复", "en": "Recovery from Exceptions", "engine": "deepl"}
+{"h": "b9ca1e35d29f62186ae5171d35b7a6d73353e217", "src": "驱动：", "en": "Drivers:", "engine": "deepl"}
+{"h": "b9fa67abcaf9ed785a3ddc735b519548caed9869", "src": "選択", "en": "Select", "engine": "deepl"}
+{"h": "ba238b092fd5dc75535ffe15829800f6c508e05e", "src": "消息中可同时包含多种传输层配置，", "en": "A message may contain multiple transport-layer configurations at the same time,", "engine": "deepl"}
+{"h": "bad9e27cc13a03b367885e6198c6e7d406dd2c9b", "src": "実現", "en": "Realization", "engine": "deepl"}
+{"h": "baebc340b5b751b46754c54cee4bef32eb505d16", "src": "区域，如", "en": "Regions, such as", "engine": "deepl"}
+{"h": "bb449dafae7c02884c9641b7ac119efd846d98f0", "src": "服务协议。", "en": "Terms of Service.", "engine": "deepl"}
+{"h": "bb5b82ba5ffd7643813601e052608a11c0bddb4e", "src": "传输层（", "en": "Transport Layer (", "engine": "deepl"}
+{"h": "bbf1077b428f136ad9131959ac1a6cb285113ad7", "src": "端点。", "en": "Endpoint.", "engine": "deepl"}
+{"h": "bc2b0c1a36134504548972ac1191e529b0da906e", "src": "构建工具", "en": "Build Tools", "engine": "deepl"}
+{"h": "bc6cc11fd3d99fa350579f78ced381084ad9240b", "src": "常量。", "en": "Constants.", "engine": "deepl"}
+{"h": "bc7dbfb3d81f30ba015609df41e0d559796624b4", "src": "自定义端点（用于", "en": "Custom Endpoint (for", "engine": "deepl"}
+{"h": "bca22d7a8dd7b0a40c7257788437ef6f99384e31", "src": "脚本来源配置", "en": "Script Source Configuration", "engine": "deepl"}
+{"h": "bcef6376cf06de33b8f720fed68c5b12c3741ed6", "src": "層", "en": "Floor", "engine": "deepl"}
+{"h": "bd3203162650771afbdfeda52b496860d79685f1", "src": "数据处理", "en": "Data Processing", "engine": "deepl"}
+{"h": "bdc0e393d4bfacd1d7910ee8f111d8257633dc17", "src": "声明式中间件", "en": "Declarative Middleware", "engine": "deepl"}
+{"h": "bdc1d2b4cb409648a325700feb6eddb53118605b", "src": "添加新的业务模块", "en": "Add a New Business Module", "engine": "deepl"}
+{"h": "bdd122ce4ab15f59e5999e9435ee5cadc67422f7", "src": "网络类型，如", "en": "Network types, such as", "engine": "deepl"}
+{"h": "be4b4250226a3baa0b2a8ebf43cd7a33ee5f3d84", "src": "批量注册数据库模型用于自动迁移。", "en": "Batch registration database model for automated migration.", "engine": "deepl"}
+{"h": "be5c39fa18b08b8dca94b6f9aab926cd729eea3f", "src": "：各", "en": ": Each", "engine": "deepl"}
+{"h": "be66bc63a45ba37086e5b758ece4ea4136a53c31", "src": "的完全开放模式，按需选择", "en": "A fully open model, with on-demand selection", "engine": "deepl"}
+{"h": "be91a8fcfc17b887d3260377179d65ae97a8afd8", "src": "预加载脚本列表", "en": "List of Preloaded Scripts", "engine": "deepl"}
+{"h": "bebe39b952f800d47ba50863e7b45f8d4b95288c", "src": "流标签，如", "en": "Flow tags, such as", "engine": "deepl"}
+{"h": "beee95a1293209f00cd7f7a8976181f6f07ae4f8", "src": "（如", "en": "(For example,", "engine": "deepl"}
+{"h": "bef21932fe01c8ac36029b4cbd3a413641084035", "src": "通", "en": "Through", "engine": "deepl"}
+{"h": "bfeade56f6b46e620b0d227396e88ab5764669f1", "src": "区域，默认", "en": "Region, Default", "engine": "deepl"}
+{"h": "c01a709db5828b4e0691886611a082c000ba6e63", "src": "）控制。", "en": ") Control.", "engine": "deepl"}
+{"h": "c01c0d03c984ef9ecbba1c88cc4801425ce30907", "src": "实现领域层定义的仓储接口。", "en": "Implement the repository interface defined in the domain layer.", "engine": "deepl"}
+{"h": "c04e98ea80c6b757b9510ab751a404a03c3b2729", "src": "超时后返回的", "en": "Returned after a timeout", "engine": "deepl"}
+{"h": "c07b1a8b4ad273a878f6b0f58d98e572c6d97bd7", "src": "默认队列", "en": "Default Queue", "engine": "deepl"}
+{"h": "c0d123abdddc9de53133d387cf0dbbc626d48621", "src": "层次", "en": "Level", "engine": "deepl"}
+{"h": "c0e54ca720f2875448f1929d6186646dbe4e7e40", "src": "读取超时（秒）", "en": "Read timeout (seconds)", "engine": "deepl"}
+{"h": "c1170aaa10e573e3659baf142bc9045ece27b7ca", "src": "启动入口。加载配置、", "en": "Startup entry point. Load configuration,", "engine": "deepl"}
+{"h": "c12140a0ffb4e56481b4fe0a7a25040c2eafa9ca", "src": "日本語", "en": "Japanese", "engine": "deepl"}
+{"h": "c1741d38f90ba34554a986c339158e7cc6429dcc", "src": "预加载脚本", "en": "Preload Script", "engine": "deepl"}
+{"h": "c1b9e9ea03731b89b7493762281932b40734dc55", "src": "是否强制路径风格访问。", "en": "Whether to enforce path-style access.", "engine": "deepl"}
+{"h": "c289674b18fe8721896ac18c435de73b6c47545a", "src": "服务列表刷新间隔（秒）。", "en": "Service list refresh interval (seconds).", "engine": "deepl"}
+{"h": "c34442ad557c3c1f0ea8c0941f9e77f78a9a1b88", "src": "技術", "en": "Technology", "engine": "deepl"}
+{"h": "c37224f577f65dbebe4c244a46825b96de58efd7", "src": "、手書", "en": ", handwritten", "engine": "deepl"}
+{"h": "c3df5548314a2a4aa02e024f18dc4a6eac58b390", "src": "扩展来源。", "en": "Additional sources.", "engine": "deepl"}
+{"h": "c3ea48ef5225302bea2433d8f3f9ce2817e2849b", "src": "数据层：", "en": "Data Layer:", "engine": "deepl"}
+{"h": "c493338e8c33e181316e119fe7b519af4af7d5d6", "src": "自定义", "en": "Custom", "engine": "deepl"}
+{"h": "c4c372c228fa49d8775beddca8b927b1c0bad3c6", "src": "（手动注册）", "en": "(Manual Registration)", "engine": "deepl"}
+{"h": "c4e420289cc50a34d62608eb6418e540568655e4", "src": "分层架构的完整示例。", "en": "A complete example of a layered architecture.", "engine": "deepl"}
+{"h": "c4fa233521f884ece4b4bc1ad829cf6f283d7362", "src": "描述日志系统配置。", "en": "Describe the log system configuration.", "engine": "deepl"}
+{"h": "c5065260ae8c5702f1a3c67ca15f8ebe29ceade3", "src": "快速原型", "en": "Rapid Prototyping", "engine": "deepl"}
+{"h": "c50d30e69fe5f74c6012083eac3e9c56ba4aaf8b", "src": "缓存交互。", "en": "Cache Interaction.", "engine": "deepl"}
+{"h": "c523853f84ddf8b6f9ad0f74d0fe78593cb4bea7", "src": "框架", "en": "Framework", "engine": "deepl"}
+{"h": "c52e9531a10bb0e28b4eb0f4ab32ead412f00619", "src": "設定即", "en": "Set to", "engine": "deepl"}
+{"h": "c5370db16a3c1113f0367afed40265f79b200211", "src": "层负责所有与基础设施（数据库、缓存、消息队列）的交互。", "en": "This layer handles all interactions with the infrastructure (databases, caches, message queues).", "engine": "deepl"}
+{"h": "c54af6997970211577f86748fb605a9be10d6a3a", "src": "应用元数据。", "en": "Application metadata.", "engine": "deepl"}
+{"h": "c580605265da904dc3461784d00add3de761274b", "src": "是否自动迁移", "en": "Should it be migrated automatically?", "engine": "deepl"}
+{"h": "c5aedc00366778320938e9fc447fe45ab6c6d64b", "src": "一行启动", "en": "One-line startup", "engine": "deepl"}
+{"h": "c5db6b99f1ae43bbbc7abacceaac28864b3e1ff8", "src": "主机地址", "en": "Host Address", "engine": "deepl"}
+{"h": "c5e43ce24101b032db86c0111d40742b12b3e199", "src": "命名空间。", "en": "Namespace.", "engine": "deepl"}
+{"h": "c5ee3bea65e4548c72826817ad84d30ced8066ac", "src": "步：", "en": "Step:", "engine": "deepl"}
+{"h": "c635b0a93ead24ce85c827aaff50729e08f7146e", "src": "动态插件", "en": "Dynamic Plugins", "engine": "deepl"}
+{"h": "c63fb982e036c5a6c9a591dc4beac82eff0c25ea", "src": "配置格式", "en": "Configuration Format", "engine": "deepl"}
+{"h": "c6759628441ec1b0b7cd5f1ec0e001d9e5921c68", "src": "扩展指南", "en": "Extension Guide", "engine": "deepl"}
+{"h": "c6dca1604cdd5aed3743387fb3421b4ac1eeaab4", "src": "空导入实现", "en": "Implementation of Empty Import", "engine": "deepl"}
+{"h": "c701fee9d0b1795e189dc0dad072fbe4c11e493b", "src": "二进制格式，平滑迁移", "en": "Binary Format, Seamless Migration", "engine": "deepl"}
+{"h": "c73561b665ee3b032923284b9a2566836f422fe4", "src": "）进行定制", "en": ") to customize", "engine": "deepl"}
+{"h": "c76778f7a579ed717da3bf0799aabecf8060706f", "src": "描述配置中心来源。", "en": "Describes the source of the configuration center.", "engine": "deepl"}
+{"h": "c7ca8f11230a0b3a9c42cd83fa7b7cd7f9275918", "src": "扩展来源通过工厂注册表", "en": "Extension Sources via the Factory Registry", "engine": "deepl"}
+{"h": "c7d59233de2e643d8113751f4e6db41394212c82", "src": "接口层：", "en": "Interface Layer:", "engine": "deepl"}
+{"h": "c7d63fc76056da7a6416c32a43d1460b6124a74c", "src": "注册自定义", "en": "Register Custom", "engine": "deepl"}
+{"h": "c812307722f1e51458bd237288067501b2ce57cb", "src": "全密封", "en": "Fully Sealed", "engine": "deepl"}
+{"h": "c838ea42c53f391d63aef71b3a914d85aa62396e", "src": "全部通过一份", "en": "All in one document", "engine": "deepl"}
+{"h": "c839a8ff17885af0b098662ccc3ac5e3111b3b3b", "src": "密码", "en": "Password", "engine": "deepl"}
+{"h": "c855b53e5580829387a590304686b0bce165384c", "src": "以", "en": "Using", "engine": "deepl"}
+{"h": "c85986ac5a64e224b2e4947c6bf3d900531375ae", "src": "返回按类型名索引的数据库客户端映射和统一的", "en": "Returns database client mappings indexed by type name and unified", "engine": "deepl"}
+{"h": "c872fe41435d7084e0cdcbd989c1f05247e82ed9", "src": "服务注册", "en": "Service Registration", "engine": "deepl"}
+{"h": "c8d09cf955f59ce8c6e5eed43d7752fbf1ff5001", "src": "默认", "en": "Default", "engine": "dictionary"}
+{"h": "c8fca5f6914cf65336d9b2aa3165701115994ea3", "src": "层编排", "en": "Layer Arrangement", "engine": "deepl"}
+{"h": "c9000ba14f695c3ed1b046c4f6751f9bbf27981a", "src": "）已通过", "en": ") has been approved", "engine": "deepl"}
+{"h": "c918bffc5b9201d48336a949cc337c0b96f764c5", "src": "路径前缀。", "en": "Path prefix.", "engine": "deepl"}
+{"h": "c9a694a3d0367c93b9ac2e06888c2018bb36dbc7", "src": "查询超时（秒）", "en": "Query Timeout (seconds)", "engine": "deepl"}
+{"h": "c9c02e8adebf3ed780d18087bfdf041d9c5e08cd", "src": "按字段依次检查，调用对应", "en": "Check each field in turn and call the corresponding function", "engine": "deepl"}
+{"h": "c9c77517fe85af27c451c51811101c8867fae2f0", "src": "修改", "en": "Edit", "engine": "deepl"}
+{"h": "ca2f9c27477222c836b76f82768f5ea90b4d75a6", "src": "传统系统兼容", "en": "Compatibility with Legacy Systems", "engine": "deepl"}
+{"h": "ca6d9dfdab45e2e4fbf48e101cf61645a8f86c46", "src": "中间件通过配置文件的", "en": "The middleware uses the configuration file's", "engine": "deepl"}
+{"h": "caa6961a3cb49830d3e1400654d8245a785d99d5", "src": "模型类型分别调用对应", "en": "Each model type calls the corresponding one", "engine": "deepl"}
+{"h": "cbd0e4a4d7b29ac57139e8f5bf12cd4281344d40", "src": "跨域中间件。", "en": "Cross-domain middleware.", "engine": "deepl"}
+{"h": "cbd98681244fe3844cb1c631586b90607b57d91e", "src": "共有、", "en": "Total,", "engine": "deepl"}
+{"h": "cbedf7b56ff91c8f8525d4a992ae3293af2ca6b7", "src": "。留空则按扩展名推断。", "en": ". If left blank, the file extension will be inferred.", "engine": "deepl"}
+{"h": "ccca07c4084a630bd58562bd8ef3da9035d7cde6", "src": "微服务生命周期骨架", "en": "Microservice Lifecycle Framework", "engine": "deepl"}
+{"h": "cd121445e155cf603c0d05bca65d7aa486341e70", "src": "并调用。", "en": "and call it.", "engine": "deepl"}
+{"h": "cd35413f05e73e605dde6a98dc455e8ebc77945d", "src": "队列", "en": "Queue", "engine": "deepl"}
+{"h": "cd8bf15c0756a55dc39cb0b8eeb8ca8e7f59db81", "src": "请求超时中间件。", "en": "Request Timeout Middleware.", "engine": "deepl"}
+{"h": "cd99b225a08ea013db537f05cbf4814613665169", "src": "语言", "en": "Language", "engine": "deepl"}
+{"h": "cdd29abd78af3256ce21a328ffded045808ff203", "src": "分布式追踪。", "en": "Distributed Tracing.", "engine": "deepl"}
+{"h": "cec3d5c5996b82771cfb9259f05310446a4036b0", "src": "常量", "en": "Constants", "engine": "deepl"}
+{"h": "cedaa21383223f11128f60f06627a83bd8547462", "src": "等）。", "en": "(etc.).", "engine": "deepl"}
+{"h": "cf54fa78bfc8fc39225e6be503cad29ea10784b9", "src": "认证方案", "en": "Certification Program", "engine": "deepl"}
+{"h": "cfbdaed7397dc14f89b253b3d99ca32902e32b77", "src": "关键代码：", "en": "Key code:", "engine": "deepl"}
+{"h": "d014ab77038c50d8afc73ac9bccffe524f394cb6", "src": "内存", "en": "Memory", "engine": "deepl"}
+{"h": "d077a1e4517d002d98c8e8f111aec078fba62563", "src": "适配层子模块（空导入自注册）", "en": "Adaptation Layer Submodule (Empty Import with Self-Registration)", "engine": "deepl"}
+{"h": "d0806ad381c7a3114975cbd44d1034eb8aadd0a9", "src": "（設定、", "en": "(Settings,", "engine": "deepl"}
+{"h": "d0bf7682f8bb948167d6dbf225b6faf7e982f39d", "src": "接口。", "en": "Interface.", "engine": "deepl"}
+{"h": "d0c44969f97108c80539d40551334ad6a9ea15b0", "src": "数据库，支持", "en": "Database, Supported", "engine": "deepl"}
+{"h": "d0f26b822bb2728e31243d14c69fdcda87bc87e1", "src": "扩展自定义", "en": "Extend Customization", "engine": "deepl"}
+{"h": "d13f519fec76c5e55b394ff67654105cf171530a", "src": "模型到迁移表）", "en": "(Model to Migration Table)", "engine": "deepl"}
+{"h": "d2017d7da3ce78590eff54dde5423d43bb9c1a84", "src": "路由。", "en": "Routing.", "engine": "deepl"}
+{"h": "d201b14a1e9f7b1e14ac5c8d9c3d1ef5707a7952", "src": "描述。引导引擎读取配置，通过注册的", "en": "Description. Guides the engine to read the configuration through registered", "engine": "deepl"}
+{"h": "d21d1c2b2a3e84f9e180cf402946019662f4edfa", "src": "工具链", "en": "Toolchain", "engine": "deepl"}
+{"h": "d2318bc060bdd41ce1271a5bc9a3dda9948c2d94", "src": "会自动执行", "en": "Will run automatically", "engine": "deepl"}
+{"h": "d24f891e36bd34f3fd036bba2cbd8ac17696de83", "src": "检测变更。", "en": "Detect changes.", "engine": "deepl"}
+{"h": "d2917b06cba73dad656940ee44159a71586f92f4", "src": "对象存储。", "en": "Object storage.", "engine": "deepl"}
+{"h": "d3c35423a27f080d6fa4513d95c15fcacef53300", "src": "对已设置的消息代理类型分别调用对应", "en": "Call the corresponding methods for each configured message broker type", "engine": "deepl"}
+{"h": "d41ccb0df4f909d9a04bfc52d84769a438232bc0", "src": "对已设置的工作流引擎类型分别调用对应", "en": "Call the corresponding methods for each configured workflow engine type", "engine": "deepl"}
+{"h": "d4de970e1c28d888999b68fd8dc495eb1e410442", "src": "层：注册", "en": "Level: Registration", "engine": "deepl"}
+{"h": "d4dff09142a68ca3a3118bb5b43f993f720d74e3", "src": "端点，如", "en": "Endpoints, such as", "engine": "deepl"}
+{"h": "d60a44f603dbca9bbbad97cc860a6f41b1251d52", "src": "登録", "en": "Registration", "engine": "deepl"}
+{"h": "d6604767a6a57e25b2841056af2c2bf373aab128", "src": "（需要外部服务，仅打印配置）", "en": "(Requires an external service; print configuration only)", "engine": "deepl"}
+{"h": "d661e9e5d186dca17f3488f8b01fe7e5fcf81726", "src": "（配置、", "en": "(Configuration,", "engine": "deepl"}
+{"h": "d6cbf86c0557318f6c1977564e001a62342e1a18", "src": "日志（", "en": "Log (", "engine": "deepl"}
+{"h": "d727ff3ca6e433d270ac81ae96d683c47d25afd2", "src": "所有引擎共用同一组配置字段。", "en": "All engines share the same set of configuration fields.", "engine": "deepl"}
+{"h": "d75f36164193956ff48fc641a919e1ddeeffed68", "src": "创建工厂。", "en": "Create a factory.", "engine": "deepl"}
+{"h": "d7d7ce790b9a0b4205cdc6c126559ddea0b33b3b", "src": "配置", "en": "Configuration", "engine": "deepl"}
+{"h": "d7e2538c810f95441b7f814c30f826af4238f2b6", "src": "条件判断", "en": "Conditional Statements", "engine": "deepl"}
+{"h": "d87886a41d81647c5f1b6490ef3699feec70990c", "src": "地址。", "en": "Address.", "engine": "deepl"}
+{"h": "d8973b505d5f3e7e8c0da2ef2981645431c9374f", "src": "日志流名称。", "en": "Log stream name.", "engine": "deepl"}
+{"h": "d8b9f21a94b06ae0d82621cbbac4eb9a34b8f268", "src": "启用指标", "en": "Enable Metrics", "engine": "deepl"}
+{"h": "d8f80320e79ba8b318747f0f43d05eed681d053b", "src": "：通过", "en": ": Through", "engine": "deepl"}
+{"h": "d9d4d4e7ddcee2e4cd6c4cbde13da404fd8dfa97", "src": "请求日志", "en": "Request Logs", "engine": "deepl"}
+{"h": "da0e5f8dc9471dadbccafc06fccca2df94c50f3d", "src": "注册", "en": "Register", "engine": "deepl"}
+{"h": "da49db8e7480e9f3cf3275475fbe97449754380b", "src": "设计理念", "en": "Design Philosophy", "engine": "deepl"}
+{"h": "dac36cb8bb16b91d63b68dc0bd91b4e86d92f65d", "src": "层级", "en": "Level", "engine": "deepl"}
+{"h": "db181821a1e69c4888d9a2a24e88980c731695ca", "src": "职责", "en": "Responsibilities", "engine": "deepl"}
+{"h": "dbb6528978ec9a8c994303e9c0fdbf0283590d9c", "src": "数据库配置（", "en": "Database Configuration (", "engine": "deepl"}
+{"h": "dc596fd40dd2f3d561a14191df563dd127f2a81b", "src": "开放模式", "en": "Open Mode", "engine": "deepl"}
+{"h": "dca65955787951fa64e7b92055602329cb26d9b2", "src": "禁用定时刷新。", "en": "Disable automatic refresh.", "engine": "deepl"}
+{"h": "dcc4233255ab57a00c520b471e239e0b6158688e", "src": "通过", "en": "By", "engine": "dictionary"}
+{"h": "ddbac504cf96bbde1bac58762ed0b6cb9e127370", "src": "字段同时配置多种数据库。", "en": "Configure a field for multiple databases simultaneously.", "engine": "deepl"}
+{"h": "de23f524fde0fcf3663a3969de6339aa75c4e827", "src": "声明式配置驱动", "en": "Declarative Configuration-Driven", "engine": "deepl"}
+{"h": "de3bc5d2110d6174312e78f4239f27e5b7969c0d", "src": "引擎配置", "en": "Engine Specifications", "engine": "deepl"}
+{"h": "de3cc871a3576e8989927e62bc659668aa8c0297", "src": "默认端点）。", "en": "(Default endpoint).", "engine": "deepl"}
+{"h": "ded1b78d1c06a8fdd5adbe14924ef5785e9acb88", "src": "初始实例数", "en": "Initial Number of Instances", "engine": "deepl"}
+{"h": "df073a3c840224ea185c5a8b8729a666e0ad1853", "src": "嵌入文件系统内的文件路径。", "en": "A file path within the embedded file system.", "engine": "deepl"}
+{"h": "df6113fd13b025c6141df21b26702d8619882721", "src": "连接。", "en": "Connect.", "engine": "deepl"}
+{"h": "dfc70d7484bad840b1fd56467108eeaab2395224", "src": "中可同时配置多个消息代理。", "en": "Multiple message brokers can be configured simultaneously.", "engine": "deepl"}
+{"h": "e04632fd4520e0faa146b1bc146895e847a0fd03", "src": "跳过日志记录的路径（如", "en": "Paths to skip logging (such as", "engine": "deepl"}
+{"h": "e075607eb5f9d6fa9a3e7060238ccfcfc0d4b48d", "src": "所有层", "en": "All Levels", "engine": "deepl"}
+{"h": "e0870b42204dacaed5b29ebbd0c2c4a00b31ac59", "src": "多格式配置支持", "en": "Support for Multiple Format Configurations", "engine": "deepl"}
+{"h": "e09d23c34c773b71c632dda9482a7cf712050a55", "src": "：每个适配子包独立", "en": ": Each subpackage is independent", "engine": "deepl"}
+{"h": "e0c89df22e88b3df6f57d148051f8e63bc2b5cbd", "src": "方法，为空使用默认值。", "en": "Method: Use the default value if empty.", "engine": "deepl"}
+{"h": "e10cec651732e78dbc70082a8f2dbff4970650b5", "src": "数据筛选", "en": "Data Filtering", "engine": "deepl"}
+{"h": "e10f24efa4825807e1d6c6853a81c3233cd70e24", "src": "将持久化对象转换为领域实体。", "en": "Convert persistent objects to domain entities.", "engine": "deepl"}
+{"h": "e19ba4d305477f836c61328c764b4fa6719992e9", "src": "設定定義", "en": "Definition of Settings", "engine": "deepl"}
+{"h": "e19cba0e4879c1936cee94ecf226660537450fd6", "src": "）自动注册", "en": ") Automatic Registration", "engine": "deepl"}
+{"h": "e1c285ac714cd5fbca827359c94d240e398529cc", "src": "突发容量。", "en": "Sudden capacity.", "engine": "deepl"}
+{"h": "e22be484a2f0ea9b8f7482a6c044e44aa8004ec8", "src": "（领域驱动设计）分层架构的完整示例，演示如何使用", "en": "(Domain-Driven Design) A complete example of a layered architecture, demonstrating how to use", "engine": "deepl"}
+{"h": "e305c0357c2ff84167d50b6ebae664814d8fbc32", "src": "中间件通过配置启用和参数化，无需手写一行中间件初始化代码", "en": "Middleware is enabled and configured through configuration settings, eliminating the need to write a single line of middleware initialization code.", "engine": "deepl"}
+{"h": "e38c59337c274a51f056c7e2136a05a13d3dc81a", "src": "事件路径，默认", "en": "Event Path, Default", "engine": "deepl"}
+{"h": "e39a5c81370e37ba3a6ef1f6abf996b9a02f7e1d", "src": "模型名称。", "en": "Model Name.", "engine": "deepl"}
+{"h": "e3bce8fbd63b64ed6a5cbfac9c683c18592289e5", "src": "实现", "en": "Implementation", "engine": "deepl"}
+{"h": "e41ce24cf7b8a22892f5d4731481e9072d0b9565", "src": "请求超时", "en": "Request Timeout", "engine": "deepl"}
+{"h": "e4e46c7235d165987c4994b3bf698841f8ce2e26", "src": "类型", "en": "Type", "engine": "dictionary"}
+{"h": "e53cacebc6381fc835dd180c7491c8b025dbbaff", "src": "池配置", "en": "Pool Configuration", "engine": "deepl"}
+{"h": "e545bfbfee09725da201558aec9e2c6d74ff09f1", "src": "字段，", "en": "Field,", "engine": "deepl"}
+{"h": "e56f7f36b496cfb975ec43cd1838e2d29d4a4e0b", "src": "请求头名称，默认", "en": "Request header name, default", "engine": "deepl"}
+{"h": "e6323e90ce84c64a61f8dd56f976599f12d5a8c9", "src": "标准库）日志配置。", "en": "(Standard Library) Logging Configuration.", "engine": "deepl"}
+{"h": "e69b33b6392e883fac4b3639e1b08aff333db130", "src": "自動的", "en": "Automatic", "engine": "deepl"}
+{"h": "e7aafde96f6f247dd49a7bce7ec179713c1ebcd2", "src": "自定义端点（用于模拟器测试）。", "en": "Custom endpoints (for simulator testing).", "engine": "deepl"}
+{"h": "e7af2a57f281e26a72f6e2f3221903638d95e27c", "src": "数据库连接字符串或", "en": "Database connection string or", "engine": "deepl"}
+{"h": "e7bedd3fe3709384c7f527a1616b45a3a61c8e44", "src": "压缩请求体", "en": "Compress the request body", "engine": "deepl"}
+{"h": "e7d649bae2d7522f8bd643e58bab42b0b4289686", "src": "领域层是", "en": "The domain layer is", "engine": "deepl"}
+{"h": "e7d955c0b621990440748a540f433aa6c4e0e87a", "src": "配置可以混合使用，同一", "en": "Configurations can be used in combination; the same", "engine": "deepl"}
+{"h": "e81dbd2acbb1ffd5655990859460fc825d46f85d", "src": "持", "en": "Hold", "engine": "deepl"}
+{"h": "e8250474e34325a5a5ed3ee76156ca03515c00ae", "src": "（秒），", "en": "(seconds),", "engine": "deepl"}
+{"h": "e880f74ac5e4ae9cd2be5306ef6d4bb786a127da", "src": "本适配层后，通过", "en": "After applying this adaptation layer, through", "engine": "deepl"}
+{"h": "e9017d23535243c129a5df5e242cc0fade64d55a", "src": "轮询间隔（毫秒）。默认", "en": "Polling interval (milliseconds). Default", "engine": "deepl"}
+{"h": "e954ebe2460654b14583aebc983fe19c7e1b022d", "src": "创建应用并运行", "en": "Create and Run an App", "engine": "deepl"}
+{"h": "e98538d88f5b4547a8ce3799b2b6ead543275783", "src": "传入", "en": "Incoming", "engine": "deepl"}
+{"h": "e9cebffd0ca9f07c9edd258addb340e7d76f61f8", "src": "级别详细度（对应", "en": "Level of Detail (corresponding to", "engine": "deepl"}
+{"h": "e9dca73ae3fbacfb082a65fca03e588bbca5562b", "src": "临时凭证）。", "en": "(Temporary Voucher).", "engine": "deepl"}
+{"h": "e9e31fac3edf668a74cece4178c2db02e9d2c8d9", "src": "是否启用健康检查。", "en": "Whether to enable health checks.", "engine": "deepl"}
+{"h": "ea1e31753578b3eb124bea3680001e004cddb3e5", "src": "空闲连接超时（秒）", "en": "Idle Connection Timeout (seconds)", "engine": "deepl"}
+{"h": "ea326ecde80b8178297f4df73623ec10b49c0e2f", "src": "是否允许携带凭证（", "en": "Whether proof of eligibility is required (", "engine": "deepl"}
+{"h": "eaa526a04165cfbaf8778ba1c55f380417495253", "src": "环境变量前缀，如", "en": "Environment variable prefixes, such as", "engine": "deepl"}
+{"h": "ebd26da421712601278fb415c5aa8d0067779985", "src": "启动", "en": "Start", "engine": "deepl"}
+{"h": "ebdc9bf1dd004a475b448dfda1f44e4b4d98bdb5", "src": "一気", "en": "All at once", "engine": "deepl"}
+{"h": "ec1ece5a11bda7e7e9a6761154fb26bc2f20214b", "src": "字符串。", "en": "String.", "engine": "deepl"}
+{"h": "ec4a5ff3ec8243ea242401c7869263181c466911", "src": "対応", "en": "Response", "engine": "deepl"}
+{"h": "ec83d183dcee9828685bd09d009bb4f7941816e6", "src": "链路追踪中间件。无需额外配置，自动使用全局", "en": "Link tracing middleware. Automatically uses global settings without requiring additional configuration.", "engine": "deepl"}
+{"h": "ed51db1763733c161914e2971f6ce6de621dbaf0", "src": "时间格式。", "en": "Time format.", "engine": "deepl"}
+{"h": "ed6ad5d5595060402f2944d0c912bc94523817b8", "src": "对象。", "en": "Object.", "engine": "deepl"}
+{"h": "ed904c685ab04df603896f6a3ff27ecf3b5fa4fa", "src": "规则", "en": "Rules", "engine": "deepl"}
+{"h": "ed98d373ef1c9b83c518a08bbc9ee6641b27ae5a", "src": "，支持代码生成器和手写代码共存：", "en": ", supports both code generators and hand-written code:", "engine": "deepl"}
+{"h": "edfd32ba5a1dc2c5b069d004076c664883f915aa", "src": "允许的", "en": "Allowed", "engine": "deepl"}
+{"h": "ee10a2842bc263aa0f179412f67889841a767573", "src": "标签选择器，如", "en": "Tag selectors, such as", "engine": "deepl"}
+{"h": "ee32fee5341814cb25e9a370c2812625eb225707", "src": "声明式中间件编排", "en": "Declarative Middleware Orchestration", "engine": "deepl"}
+{"h": "eeb8e6cd44d818df1975a2965556a78320b79db5", "src": "描述数据库配置，支持通过", "en": "Describes the database configuration, which supports", "engine": "deepl"}
+{"h": "eed55a2100be2e6ed0624d230b56b66d56e4be49", "src": "是否记录堆栈跟踪。默认", "en": "Whether to record the stack trace. Default", "engine": "deepl"}
+{"h": "eeff232a9b4ffee476faed318ff93f115ae242da", "src": "键前缀，用于命名空间隔离。", "en": "Key prefix, used for namespace isolation.", "engine": "deepl"}
+{"h": "ef23bae79a92c97ffab718a9c830679e9a0893e9", "src": "适配为", "en": "Adapted to", "engine": "deepl"}
+{"h": "f06b5688c9536c3aec8d7b9905545e07977046b7", "src": "限流中间件。", "en": "Rate-limiting middleware.", "engine": "deepl"}
+{"h": "f07f49e3cecd5a353e1fec80b9feeae324dda397", "src": "字段同时配置多种传输协议。", "en": "Configure multiple transport protocols for a field at the same time.", "engine": "deepl"}
+{"h": "f0d87bd01786f5a61ab435351f600df3f41a676c", "src": "地址列表，如", "en": "List of addresses, such as", "engine": "deepl"}
+{"h": "f1e8c4b3c6928eee65ac1893cc09a6871b53f74c", "src": "配置定义", "en": "Configuration Definitions", "engine": "deepl"}
+{"h": "f21c590b9152e32b8336e8bdc68825f4a8ed5363", "src": "对象存储，支持", "en": "Object Storage, Supported", "engine": "deepl"}
+{"h": "f22c5bfc25a300f702ef310cf6d9155d2cf687a8", "src": "收到信号时自动", "en": "Automatically when a signal is received", "engine": "deepl"}
+{"h": "f24b8c6d981a891b83b634754b579413b9a8279c", "src": "预检请求缓存时间（秒）。", "en": "Cache duration for pre-check requests (seconds).", "engine": "deepl"}
+{"h": "f2dc8950de6bb9d94b8b9276c1762200b5dec281", "src": "它依赖", "en": "It relies on", "engine": "deepl"}
+{"h": "f33564627592c9043297def4cc625e95eab95668", "src": "是否异步发送。", "en": "Whether to send asynchronously.", "engine": "deepl"}
+{"h": "f3877cd6a97afc0ed61d608e744a476bf5e83717", "src": "并返回", "en": "and return", "engine": "deepl"}
+{"h": "f3b1e59a45ef9c4aadf19932d17990c19b9fcd70", "src": "中组装依赖", "en": "Dependencies in the middle of the assembly", "engine": "deepl"}
+{"h": "f3b58d381d52c4c9e0ac1344dd80a6479d770adb", "src": "列出用户。", "en": "List the users.", "engine": "deepl"}
+{"h": "f3ef32209987731f51a4dab2f59a2380d01bd2f1", "src": "是否启用热加载", "en": "Whether to Enable Hot Reloading", "engine": "deepl"}
+{"h": "f3f9b25bd57d4eaf79bba01b47d4ff944ef3e98a", "src": "命令行", "en": "Command Line", "engine": "deepl"}
+{"h": "f447e693104bc05196e1890ca6a6702f38dcfda0", "src": "数据库编号，默认", "en": "Database ID, default", "engine": "deepl"}
+{"h": "f4dbbc63a5557f7967d26bb072bc15759ec92940", "src": "数据库", "en": "Database", "engine": "deepl"}
+{"h": "f588e17b76b2c692d4e9b801e1af3782f283b942", "src": "。通过", "en": ". Through", "engine": "deepl"}
+{"h": "f58d9d74f60cdbfd8ba4751bd18375211699d22d", "src": "层：创建", "en": "Layer: Create", "engine": "deepl"}
+{"h": "f5b746874923b84e7423e59b2df7581c5078c7e1", "src": "描述一个传输层实例，对应", "en": "Describes a transport layer instance corresponding to", "engine": "deepl"}
+{"h": "f5b746e5c5056ac8d3cbbc3f8cd45dad65b841a1", "src": "内蔵", "en": "Internal", "engine": "deepl"}
+{"h": "f5ebb494f0f02dfc2eab88366a0f2acc5e86aa7d", "src": "服务账号凭证文件路径。", "en": "Path to the service account credentials file.", "engine": "deepl"}
+{"h": "f66aabbbff2db942084c62f37522955dd8b43799", "src": "宣言型設定", "en": "Declarative Configuration", "engine": "deepl"}
+{"h": "f6a8aacc477b9b9caf044c10f42be62403166296", "src": "共存", "en": "Coexistence", "engine": "deepl"}
+{"h": "f6ba8f25ea2512d3d619621836b82cd8cd81fd27", "src": "込", "en": "Included", "engine": "deepl"}
+{"h": "f6c2c8d0f4629d905c124c8a59694eb1343a2a5a", "src": "説明", "en": "Explanation", "engine": "deepl"}
+{"h": "f70f57eed1b691fe021526ea1cf558149e8406e9", "src": "驱动类型：", "en": "Drive Type:", "engine": "deepl"}
+{"h": "f8fd8f4a6306bb5c78ca38aae0808ef370f6eb85", "src": "立", "en": "Establish", "engine": "deepl"}
+{"h": "f9bab5d45a2bce023fd1af3a3b11d2126c0bb5c6", "src": "模型类型：", "en": "Model Type:", "engine": "deepl"}
+{"h": "f9ce3dbeacb90b7c3c05e01ab94ee1b863ae2c95", "src": "定时任务调度器。", "en": "Scheduled Task Scheduler.", "engine": "deepl"}
+{"h": "f9ef5c38e15d1869d747bbe5eb0846000a359578", "src": "本示例通过空导入（", "en": "This example uses an empty import (", "engine": "deepl"}
+{"h": "fa4949388fa0c68a2eafc394890483ea719187b2", "src": "描述分布式追踪配置。", "en": "Describes distributed tracing configuration.", "engine": "deepl"}
+{"h": "fa5cbe6b2a1a6911befdd69e2f4b41ac902efa10", "src": "健康检查", "en": "Health Checkup", "engine": "deepl"}
+{"h": "fa7fa786a59208b72aaa529c4e25fd7277a16cc4", "src": "形式", "en": "Form", "engine": "deepl"}
+{"h": "fb1d900ada8a1334f538110cac28a5fbda453452", "src": "适用于将配置文件嵌入二进制的场景。", "en": "Intended for scenarios where configuration files are embedded in binaries.", "engine": "deepl"}
+{"h": "fb2ea9e2dfbf5bcb2d50ea905e1320f2051b8b61", "src": "按", "en": "Press", "engine": "deepl"}
+{"h": "fc216f7dbd5606cc090bdbc22c2619337a3164e9", "src": "声明式应用引导框架", "en": "Declarative Application Guidance Framework", "engine": "deepl"}
+{"h": "fc559f25dc85c9a279c385b640e849545a2bcce6", "src": "配置路由注册回调", "en": "Configure the Route Registration Callback", "engine": "deepl"}
+{"h": "fc626b52b30f8cbf3b36fd687d84dc77df425d47", "src": "完成自注册，", "en": "Complete self-registration,", "engine": "deepl"}
+{"h": "fcac98c9143dc78987be922ece8f69b1213d0c90", "src": "端点地址。", "en": "Endpoint address.", "engine": "deepl"}
+{"h": "fcb09d7eabe0a5636f753aa2524261850b9fc9dc", "src": "结构体。", "en": "Structure.", "engine": "deepl"}
+{"h": "fcbd0932929ec7e69950f1e10d6a420ce61c89f5", "src": "创建", "en": "Create", "engine": "dictionary"}
+{"h": "fcc0cba3f5651c63c8c039a4d1532b27348e506f", "src": "持久化对象（数据库表结构）。", "en": "Persistent objects (database table structures).", "engine": "deepl"}
+{"h": "fcc4500394308999e901c54bfd82d4bfdc65beca", "src": "运维脚本", "en": "Operations Scripts", "engine": "deepl"}
+{"h": "fd0d4ab79d2551f4744e00fdae585405ed5b1751", "src": "。应用的完整拓扑", "en": ". Complete topology of the application", "engine": "deepl"}
+{"h": "fd27f93c785d0cb7d650338a6a6b1003c7826836", "src": "追加式注册", "en": "Retroactive Registration", "engine": "deepl"}
+{"h": "fd65af754fe15437a3e800a18fe21c2282a4d1ae", "src": "从传输层到消息代理", "en": "From the Transport Layer to the Message Broker", "engine": "deepl"}
+{"h": "fd8bdf3ec3010b36b6bb7ab0d1eba342c1d6fb1b", "src": "声明式配置", "en": "Declarative Configuration", "engine": "deepl"}
+{"h": "fe4cf5a839a6a3345c3dee38e4c0fe954e2c21ef", "src": "基础设施、组装依赖。", "en": "Infrastructure and assembly dependencies.", "engine": "deepl"}
+{"h": "fed54925ff1e884ba5e037b4691dcdbbf4b3b8a6", "src": "嵌入文件系统配置源（如", "en": "Embed file system configuration sources (such as", "engine": "deepl"}
+{"h": "fed7169398dae8fa2ae0e4f168e65d932e8f9983", "src": "前缀。", "en": "Prefix.", "engine": "deepl"}
+{"h": "fee47f465fdcc46a8ee21b69b70fffa5b47e7f24", "src": "查询用户。", "en": "Query a user.", "engine": "deepl"}
+{"h": "ff06c243d727d56e934500e2ea01ec79817e5910", "src": "超时", "en": "Timeout", "engine": "deepl"}
+{"h": "ff3a51f6fd9cb4e2e9c9d86fd9dc327149f59dab", "src": "更新用户请求。", "en": "Update the user request.", "engine": "deepl"}
+{"h": "ff80ae71f244b02a47b1661e9e326cc7d421ee25", "src": "当内置适配器不满足需求时，可以注册自定义", "en": "When the built-in adapter does not meet your needs, you can register a custom one.", "engine": "deepl"}
