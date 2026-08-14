@@ -23,7 +23,7 @@ See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-
 
 ## Status
 
-**Tasks 1-12 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 104/104 tests passing.** The Task 12 pilot run against `go-wind-bootstrap` (70 files, real DeepL translation, `go build`/`go vet` clean) surfaced and fixed three real bugs in `gwt` itself: a doc-move collision in `docs_layout.apply_moves`, a missing README-variant exclusion in `classify.EXCLUDE_GLOBS`, and a markdown false-positive in `verify.identifier_drift`. `cache/segments.jsonl` now carries bootstrap's 904 translated segments. Fan-out to the other ten repos (Task 13) and the optional LLM quality pass (Task 14) are next.
+**Tasks 1-13 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 117/117 tests passing.** All 11 `go-wind*` repos have been translated and have open PRs on `chore/i18n-en-default`. The fan-out surfaced and fixed 11 real bugs in `gwt` itself — see [HANDOFF.md](HANDOFF.md) for the full list, including two recurring runtime-i18n corruption patterns (self-referential language labels, locale-keyed message catalogs) now guarded against via `dictionary.tsv` identity pins and a `classify.py` glob. The optional LLM quality pass (Task 14) is next; see HANDOFF.md's "What's left" for the specific patterns worth targeting.
 
 ## Quick start
 
