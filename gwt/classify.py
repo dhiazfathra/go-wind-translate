@@ -12,6 +12,7 @@ CJK = re.compile(r"[一-鿿]")
 EXCLUDE_GLOBS: tuple[str, ...] = (
     "*/locales/*", "*/messages/*", "*/langs/*", "*/i18n/*",
     "*/[[]locale[]]/*",
+    "*locale*/messages.*", "*locale*/langs.*", "*locale*/messages/*",
     "*.arb",
     "*zh-CN*", "*zh_CN*", "*.zh.*",
     "*README*.ja*", "*README*_ja*", "*README*_JA*",

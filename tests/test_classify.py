@@ -26,6 +26,10 @@ def test_translatable_sources(path):
     # when extraction runs first in cmd_run's pipeline)
     "go-wind-bootstrap/README_ja.md",
     "go-wind-bootstrap/README_en.md",
+    # runtime i18n message catalog: dir name doesn't literally match
+    # "locales"/"messages", but it's a Record<Locale, ...> keyed by locale
+    # code -- translating the zh-CN entry corrupts what that locale renders
+    "go-wind-cms/frontend/admin/packages/@core/composables/src/use-simple-locale/messages.ts",
     # generated: regenerate, do not translate
     "go-wind-cms/backend/api/gen/go/admin/service/v1/user.pb.go",
     "go-wind-admin/frontend/admin/react/src/api/generated/admin/service/v1/index.ts",
