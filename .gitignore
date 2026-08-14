@@ -1,0 +1,13 @@
+# per-repo extraction output, regenerable from source
+work/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# macos
+.DS_Store
