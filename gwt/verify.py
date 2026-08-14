@@ -16,6 +16,7 @@ _CODE_LINE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\s*[:=(]")
 # so a translated string's *content* can never trip _CODE_LINE — only an
 # actual change to the surrounding code skeleton should.
 _DQ_STRING = re.compile(r'"[^"\\]*(?:\\.[^"\\]*)*"')
+_SQ_STRING = re.compile(r"'[^'\\]*(?:\\.[^'\\]*)*'")
 _BACKTICK_STRING = re.compile(r'`[^`]*`')
 _LINE_COMMENT = re.compile(r'(//|#).*$')
 _BLOCK_COMMENT = re.compile(r'/\*.*?\*/')
@@ -28,9 +29,13 @@ def _blank_literals(body: str) -> str:
     so two lines that differ only in what a string/comment says compare
     equal — content length isn't preserved, unlike gwt.splice's byte-offset
     masking, since this is diff-line text, not a byte span to write back.
+    Single-quoted strings (shell, PowerShell) get the same treatment as
+    double-quoted ones — otherwise a translated `'...'` argument (e.g. a
+    PowerShell `-match` pattern) reads as a code skeleton change.
     """
     body = _BLOCK_COMMENT.sub('/**/', body)
     body = _DQ_STRING.sub('""', body)
+    body = _SQ_STRING.sub("''", body)
     body = _BACKTICK_STRING.sub('``', body)
     body = _LINE_COMMENT.sub(lambda m: m.group(1), body)
     return body

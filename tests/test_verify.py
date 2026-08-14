@@ -74,6 +74,19 @@ def test_identifier_drift_ignores_markdown_prose(tmp_path):
     assert identifier_drift(tmp_path) == []
 
 
+def test_identifier_drift_ignores_translated_single_quoted_string(tmp_path):
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.ps1"
+    f.write_text("if ($x -match '不支持所指定的方法') { exit 1 }\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text("if ($x -match 'not supported') { exit 1 }\n", encoding="utf-8")
+    assert identifier_drift(tmp_path) == []
+
+
 def test_identifier_drift_ignores_comment_only_change(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
