@@ -111,4 +111,4 @@ Every variant carries a switcher line: `[English](./README.md) · [简体中文]
 
 `go-wind`, `go-wind-admin`, `go-wind-admin-template`, `go-wind-bi`, `go-wind-bootstrap`, `go-wind-cms`, `go-wind-ledger`, `go-wind-plugins`, `go-wind-shop`, `go-wind-toolkit`, `go-wind-uba`
 
-One branch per repo (`chore/i18n-en-default`), one PR per repo.
+Each repo got one branch (`chore/i18n-en-default`) and one PR; all 10 have been reviewed and squash-merged.
