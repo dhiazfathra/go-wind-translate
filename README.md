@@ -23,9 +23,9 @@ See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-
 
 ## Status
 
-**Planning complete. Implementation not started.** Task 1 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) is the entry point. The commands below describe the CLI that plan builds — they do not run yet.
+**Tooling built (Tasks 1-11 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md)), 100/100 tests passing.** The `gwt` CLI below runs end to end against a stub engine; a live pilot run against `go-wind-bootstrap` (Task 12) needs a `DEEPL_API_KEY`. Fan-out to the other ten repos (Task 13) and the optional LLM quality pass (Task 14) follow after the pilot.
 
-## Quick start (once implemented)
+## Quick start
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
