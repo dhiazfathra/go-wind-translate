@@ -1,6 +1,6 @@
 import subprocess
 import pytest
-from gwt.docs_layout import ensure_switcher, plan_moves, switcher_line
+from gwt.docs_layout import apply_moves, ensure_switcher, plan_moves, switcher_line
 
 
 @pytest.fixture
@@ -42,6 +42,18 @@ def test_all_en_naming_variants_normalize(repo, variant):
     _commit(repo, "README.md", variant)
     moves = dict((a.name, b.name) for a, b in plan_moves(repo))
     assert moves[variant] == "README.md"
+
+
+def test_apply_moves_with_existing_en_variant_does_not_collide(repo):
+    # Archiving README.md -> README.zh-CN.md recreates README.md so it can
+    # later be translated in place — but here README_en.md is also being
+    # promoted onto README.md. The promote move must win; recreating the
+    # archived copy at README.md first must not collide with it.
+    _commit(repo, "README.md", "README_en.md")
+    moves = plan_moves(repo)
+    apply_moves(repo, moves)
+    assert (repo / "README.zh-CN.md").read_text(encoding="utf-8") == "# 中文\n"
+    assert (repo / "README.md").read_text(encoding="utf-8") == "# README_en.md\n"
 
 
 def test_ja_variants_normalize_to_ja_jp(repo):

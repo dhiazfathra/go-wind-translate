@@ -52,6 +52,10 @@ def plan_moves(repo_root: Path) -> list[tuple[Path, Path]]:
 
 
 def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
+    # Sources that something else in this batch will move onto — an `en`
+    # variant being promoted to README.md, say. Recreating the archived
+    # file at that same path would collide with the later promote move.
+    incoming_dsts = {d for _, d in moves}
     for src, dst in moves:
         if dry_run:
             print(f"git mv {src.relative_to(repo_root)} {dst.relative_to(repo_root)}")
@@ -63,8 +67,11 @@ def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
         # Archival move (default doc -> a zh-CN-named backup): recreate the
         # original at its old path so extraction/translation can still turn
         # it into the English default. The zh-CN copy is left untouched from
-        # here on, which is what preserves the original Chinese.
-        if "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name:
+        # here on, which is what preserves the original Chinese. Skipped
+        # when another move in this batch (e.g. an `en` variant) is about
+        # to be promoted onto that same path instead.
+        is_archival = "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name
+        if is_archival and src not in incoming_dsts:
             shutil.copy2(dst, src)
             subprocess.run(["git", "add", str(src.relative_to(repo_root))],
                            cwd=repo_root, check=True)
