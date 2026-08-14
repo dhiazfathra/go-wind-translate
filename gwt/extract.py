@@ -16,7 +16,7 @@ NODE_KINDS: dict[str, dict[str, str]] = {
     "go": {
         "comment": "comment",
         "interpreted_string_literal": "string",
-        "raw_string_literal": "string",
+        "raw_string_literal": "raw_string",
     },
     "typescript": {
         "comment": "comment",
@@ -77,7 +77,7 @@ def _extract_treesitter(raw: bytes, rel: str, lang: str):
             for s, e, text in _cjk_spans(raw, node.start_byte, node.end_byte):
                 h = seg_hash(text)
                 segs.setdefault(h, Segment(h=h, src=text, kind=kind, lang=lang))
-                occs.append(Occurrence(file=rel, start=s, end=e, h=h))
+                occs.append(Occurrence(file=rel, start=s, end=e, h=h, kind=kind))
         else:
             stack.extend(node.children)
     return list(segs.values()), occs
@@ -95,7 +95,7 @@ def _extract_lines(raw: bytes, rel: str, lang: str):
             for s, e, t in _cjk_spans(raw, offset, offset + len(line)):
                 h = seg_hash(t)
                 segs.setdefault(h, Segment(h=h, src=t, kind=kind, lang=lang))
-                occs.append(Occurrence(file=rel, start=s, end=e, h=h))
+                occs.append(Occurrence(file=rel, start=s, end=e, h=h, kind=kind))
         offset += len(line) + 1
     return list(segs.values()), occs
 

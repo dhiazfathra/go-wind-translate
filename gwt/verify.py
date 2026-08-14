@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 import subprocess
-from itertools import zip_longest
 from pathlib import Path
 
 from gwt.classify import CJK, has_cjk, iter_translatable
@@ -16,6 +15,7 @@ _CODE_LINE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\s*[:=(]")
 # so a translated string's *content* can never trip _CODE_LINE — only an
 # actual change to the surrounding code skeleton should.
 _DQ_STRING = re.compile(r'"[^"\\]*(?:\\.[^"\\]*)*"')
+_SQ_STRING = re.compile(r"'[^'\\]*(?:\\.[^'\\]*)*'")
 _BACKTICK_STRING = re.compile(r'`[^`]*`')
 _LINE_COMMENT = re.compile(r'(//|#).*$')
 _BLOCK_COMMENT = re.compile(r'/\*.*?\*/')
@@ -28,9 +28,13 @@ def _blank_literals(body: str) -> str:
     so two lines that differ only in what a string/comment says compare
     equal — content length isn't preserved, unlike gwt.splice's byte-offset
     masking, since this is diff-line text, not a byte span to write back.
+    Single-quoted strings (shell, PowerShell) get the same treatment as
+    double-quoted ones — otherwise a translated `'...'` argument (e.g. a
+    PowerShell `-match` pattern) reads as a code skeleton change.
     """
     body = _BLOCK_COMMENT.sub('/**/', body)
     body = _DQ_STRING.sub('""', body)
+    body = _SQ_STRING.sub("''", body)
     body = _BACKTICK_STRING.sub('``', body)
     body = _LINE_COMMENT.sub(lambda m: m.group(1), body)
     return body
@@ -112,35 +116,120 @@ def _pair_verdict(old: str | None, new: str | None) -> str | None:
     return new if _CODE_LINE.search(new_skel) else None
 
 
+_MULTILINE_OPAQUE = [
+    (re.compile(r'`[^`]*`', re.DOTALL), '`', '`'),        # Go raw string literal
+    (re.compile(r'/\*.*?\*/', re.DOTALL), '/*', '*/'),    # block comment (Go, proto)
+]
+
+
+def _multiline_opaque(text: str) -> tuple[set[int], dict[int, tuple[str, bool]]]:
+    """Interior line numbers and boundary-line roles for a raw string or
+    block comment spanning more than one line.
+
+    A multi-line Go raw string is common for embedded templates — email
+    bodies, LLM prompts, Lua/SQL scripts. Each of its interior lines is
+    just translated prose/script content, but `_pair_verdict` sees isolated
+    diff lines with no way to know they're inside one literal: a line like
+    "Verification code:{code}" or a Lua "-- comment" trips `_CODE_LINE` on
+    its own — those are skipped outright by the caller.
+
+    The opening/closing delimiter lines are different: real code can share
+    that line (var tmpl = `Hello), and a rename there is genuine drift.
+    They're reported as boundary roles instead of being blanket-skipped, so
+    the caller can mask only the literal-content side of the line before
+    running it through `_pair_verdict` — the code-bearing side still gets
+    compared.
+    """
+    interior: set[int] = set()
+    boundary: dict[int, tuple[str, bool]] = {}
+    for pat, open_delim, close_delim in _MULTILINE_OPAQUE:
+        for m in pat.finditer(text):
+            start = text.count("\n", 0, m.start()) + 1
+            end = text.count("\n", 0, m.end()) + 1
+            if end > start:
+                interior.update(range(start + 1, end))
+                boundary[start] = (open_delim, True)
+                boundary[end] = (close_delim, False)
+    return interior, boundary
+
+
+def _mask_multiline_boundary(body: str, delim: str, is_open: bool) -> str:
+    """Blank the literal-content side of a multi-line-literal boundary line.
+
+    An opening line keeps everything up to and including the delimiter
+    (code, then the delimiter); a closing line keeps everything from the
+    delimiter onward (the delimiter, then any trailing code). Either way,
+    the content that lives inside the literal — the side with no delimiter
+    on it — is discarded before comparison.
+    """
+    idx = body.find(delim) if is_open else body.rfind(delim)
+    if idx == -1:
+        return body
+    return body[:idx + len(delim)] if is_open else body[idx:]
+
+
+_HUNK_HEADER = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
+
+
 def identifier_drift(repo_root: Path) -> list[str]:
-    """Diff lines that changed actual code, not just string/comment content."""
-    diff = subprocess.run(["git", "diff", "-U0"], cwd=repo_root,
-                          capture_output=True, text=True).stdout
-    lines = [ln for ln in diff.splitlines()
-              if ln and ln[0] in "+-" and ln[:3] not in ("+++", "---")]
-    out = []
-    i = 0
-    while i < len(lines):
-        if lines[i][0] == "-":
-            removed = []
-            while i < len(lines) and lines[i][0] == "-":
-                removed.append(lines[i])
-                i += 1
-            added = []
-            while i < len(lines) and lines[i][0] == "+":
-                added.append(lines[i])
-                i += 1
-            # git diff -U0 pairs a single-line change as one removed line
-            # immediately followed by one added line; pair positionally.
-            for old, new in zip_longest(removed, added):
-                verdict = _pair_verdict(old, new)
-                if verdict:
-                    out.append(verdict)
-        else:
-            verdict = _pair_verdict(None, lines[i])
+    """Diff lines that changed actual code, not just string/comment content.
+
+    Scoped to `.go`/`.proto`, matching the manual check this automates
+    (Task 12's `grep -E '\\b(func|type|var|const|package|import)\\b'` was
+    only ever run against `*.go`/`*.proto`). Every other language this repo
+    set carries breaks the line-diff heuristic a different way: markdown
+    prose trips it on a bare `word:`, YAML/shell/PowerShell on translated
+    scalar values and single-quoted strings, Vue/HTML on inner text between
+    tags (not inside any string literal `_blank_literals` can mask) sharing
+    a line with an unrelated `attr="..."`. None of those carry the actual
+    identifier/signature risk this gate exists to catch.
+    """
+    root = Path(repo_root)
+    diff = subprocess.run(
+        ["git", "diff", "-U0", "--", "*.go", "*.proto"],
+        cwd=root, capture_output=True, text=True).stdout
+
+    out: list[str] = []
+    opaque: set[int] = set()
+    boundary: dict[int, tuple[str, bool]] = {}
+    new_lineno = 0
+    # A "-" run followed by a "+" run within one hunk pairs positionally
+    # (git diff -U0's convention for a same-size replacement); track the
+    # pending "-" run so each "+" line consumes the next one in order.
+    pending_removed: list[str] = []
+
+    for line in diff.splitlines():
+        if line.startswith("+++ b/"):
+            path = root / line[6:]
+            text = path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
+            opaque, boundary = _multiline_opaque(text)
+            pending_removed.clear()
+            continue
+        m = _HUNK_HEADER.match(line)
+        if m:
+            pending_removed.clear()  # stale "-" run from the previous hunk
+            new_lineno = int(m.group(1))
+            continue
+        if not line or line[:3] in ("---", "+++"):
+            continue
+        if line[0] == "-":
+            pending_removed.append(line)
+        elif line[0] == "+":
+            old = pending_removed.pop(0) if pending_removed else None
+            if new_lineno in opaque:
+                new_lineno += 1
+                continue
+            role = boundary.get(new_lineno)
+            new_for_verdict, old_for_verdict = line, old
+            if role:
+                delim, is_open = role
+                new_for_verdict = "+" + _mask_multiline_boundary(line[1:], delim, is_open)
+                if old is not None:
+                    old_for_verdict = "-" + _mask_multiline_boundary(old[1:], delim, is_open)
+            verdict = _pair_verdict(old_for_verdict, new_for_verdict)
             if verdict:
-                out.append(verdict)
-            i += 1
+                out.append(line)
+            new_lineno += 1
     return out
 
 

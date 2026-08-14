@@ -61,6 +61,99 @@ def test_identifier_drift_flags_changed_code_line(tmp_path):
     assert any("GetUserList" in d for d in drift)
 
 
+def test_identifier_drift_ignores_markdown_prose(tmp_path):
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "README.md"
+    f.write_text("依赖方向：`cmd -> server`\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text("Dependency Direction:`cmd -> server`\n", encoding="utf-8")
+    assert identifier_drift(tmp_path) == []
+
+
+def test_identifier_drift_ignores_translated_single_quoted_string(tmp_path):
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.ps1"
+    f.write_text("if ($x -match '不支持所指定的方法') { exit 1 }\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text("if ($x -match 'not supported') { exit 1 }\n", encoding="utf-8")
+    assert identifier_drift(tmp_path) == []
+
+
+def test_identifier_drift_ignores_translated_multiline_raw_string(tmp_path):
+    # A multi-line Go raw string (backtick-delimited) is common for
+    # embedded templates -- prompts, email bodies, Lua/SQL scripts. Each
+    # line looks like isolated prose/script content to the line-by-line
+    # heuristic; "Verification code:{code}" alone would trip _CODE_LINE.
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.go"
+    f.write_text(
+        "var tmpl = `你正在重置账户密码。\n"
+        "验证码：{code}\n"
+        "有效期：{minutes} 分钟`\n",
+        encoding="utf-8",
+    )
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text(
+        "var tmpl = `You are resetting your account password.\n"
+        "Verification code:{code}\n"
+        "Valid until:{minutes} minutes`\n",
+        encoding="utf-8",
+    )
+    assert identifier_drift(tmp_path) == []
+
+
+def test_identifier_drift_still_flags_code_change_outside_raw_string(tmp_path):
+    # The opacity fix must not swallow a real identifier change that
+    # happens to sit next to a translated multi-line raw string.
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.go"
+    f.write_text(
+        "func GetUser() {}\n\nvar tmpl = `你好\n世界`\n",
+        encoding="utf-8",
+    )
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text(
+        "func GetUserList() {}\n\nvar tmpl = `Hello\nWorld`\n",
+        encoding="utf-8",
+    )
+    drift = identifier_drift(tmp_path)
+    assert any("GetUserList" in d for d in drift)
+    assert not any("Hello" in d or "World" in d for d in drift)
+
+
+def test_identifier_drift_flags_rename_on_multiline_raw_string_boundary(tmp_path):
+    # A rename sharing a line with the opening/closing delimiter of a
+    # multi-line raw string is real drift, not translated literal content --
+    # unlike the fully-interior lines, which stay masked.
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.go"
+    f.write_text("package p\n\nvar tmpl = `Hello\nWorld`\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text("package p\n\nvar emailTemplate = `Hello\nWorld`\n", encoding="utf-8")
+    drift = identifier_drift(tmp_path)
+    assert any("emailTemplate" in d for d in drift)
+
+
 def test_identifier_drift_ignores_comment_only_change(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)

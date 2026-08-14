@@ -19,6 +19,10 @@ _EN_VARIANT = re.compile(r"^README[._-](en([-_]US)?|EN)\.md$", re.IGNORECASE)
 _JA_VARIANT = re.compile(r"^README[._-](ja([-_]JP)?|JA)\.md$", re.IGNORECASE)
 _ZH_VARIANT = re.compile(r"^README[._-](zh([-_]CN)?|ZH)\.md$", re.IGNORECASE)
 
+# A README *filename*, not the bare word: "[README](./README.md)" is one
+# link to one file and must count once, not twice (link text + href).
+_README_FILENAME = re.compile(r"README[\w.-]*\.md", re.IGNORECASE)
+
 
 def plan_moves(repo_root: Path) -> list[tuple[Path, Path]]:
     """Return (src, dst) pairs. Never returns a move onto an existing file."""
@@ -51,7 +55,38 @@ def plan_moves(repo_root: Path) -> list[tuple[Path, Path]]:
     return [(s, d) for s, d in moves if s.name not in NEVER_MOVE and s != d]
 
 
+_MD_LINK_TARGET = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def _rewrite_relative_links(path: Path, up_levels: int) -> None:
+    """Prepend `../` × up_levels to relative markdown link targets.
+
+    A doc moved into a deeper directory (docs/x.md -> docs/zh-CN/x.md)
+    keeps its original relative links, which now resolve one level too
+    shallow — "../backend/foo.md" needs to become "../../backend/foo.md".
+    Absolute paths, anchors, and full URLs are left alone.
+    """
+    if up_levels <= 0:
+        return
+    text = Path(path).read_text(encoding="utf-8")
+    prefix = "../" * up_levels
+
+    def repl(m: re.Match) -> str:
+        target = m.group(1)
+        if target.startswith(("http://", "https://", "#", "/", "mailto:")):
+            return m.group(0)
+        return f"]({prefix}{target})"
+
+    new_text = _MD_LINK_TARGET.sub(repl, text)
+    if new_text != text:
+        Path(path).write_text(new_text, encoding="utf-8")
+
+
 def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
+    # Sources that something else in this batch will move onto — an `en`
+    # variant being promoted to README.md, say. Recreating the archived
+    # file at that same path would collide with the later promote move.
+    incoming_dsts = {d for _, d in moves}
     for src, dst in moves:
         if dry_run:
             print(f"git mv {src.relative_to(repo_root)} {dst.relative_to(repo_root)}")
@@ -63,10 +98,20 @@ def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
         # Archival move (default doc -> a zh-CN-named backup): recreate the
         # original at its old path so extraction/translation can still turn
         # it into the English default. The zh-CN copy is left untouched from
-        # here on, which is what preserves the original Chinese.
-        if "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name:
+        # here on, which is what preserves the original Chinese. Skipped
+        # when another move in this batch (e.g. an `en` variant) is about
+        # to be promoted onto that same path instead. Must happen BEFORE
+        # any link rewrite below — src stays at the same directory depth,
+        # so it needs the original (unrewritten) link targets, not dst's.
+        is_archival = "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name
+        if is_archival and src not in incoming_dsts:
             shutil.copy2(dst, src)
             subprocess.run(["git", "add", str(src.relative_to(repo_root))],
+                           cwd=repo_root, check=True)
+        if dst.parent != src.parent:
+            up_levels = len(dst.parent.relative_to(src.parent).parts)
+            _rewrite_relative_links(dst, up_levels)
+            subprocess.run(["git", "add", str(dst.relative_to(repo_root))],
                            cwd=repo_root, check=True)
 
 
@@ -76,15 +121,63 @@ def switcher_line(variants: dict[str, str]) -> str:
     return " · ".join(parts)
 
 
+_SWITCHER_LINK = re.compile(r"^\[[^\]]+\]\(([^)]+)\)$")
+
+
+def _looks_like_label(segment: str) -> bool:
+    """A switcher segment is a link *to a README variant*, or a short bare
+    language name (e.g. "中文", "**English**") — never a sentence, and never
+    a link to something else. Distinguishes a real switcher from ordinary
+    prose/navigation that happens to contain a README link and a pipe
+    elsewhere on the line (e.g. "See [README](./README.md) for setup | more
+    details.", or "[README](./README.md) | [Changelog](./CHANGELOG.md)" —
+    a real two-item nav line, not a language switcher)."""
+    core = segment.strip("*").strip()
+    m = _SWITCHER_LINK.match(core)
+    if m:
+        return bool(_README_FILENAME.search(m.group(1)))
+    return bool(core) and len(core) <= 16 and " " not in core
+
+
+def _is_stale_switcher(text: str) -> bool:
+    """A hand-written language-switcher line from before the doc move.
+
+    Some repos already had their own language-switcher line pointing at
+    the pre-move filenames (README_en.md, README_JA.md, ...) — separator
+    style varies by repo (' · ', ' | ', ...), so detection doesn't depend
+    on one: any line naming two or more README variants is a switcher,
+    since prose has no reason to link the same doc under two names.
+
+    A 2-language switcher's *current*-language side needs no link (it's
+    already this file), so it may name a README file only once — e.g.
+    "[English](./README.en-US.md) | **中文**". Trust a single mention only
+    when every separator-delimited segment on the line looks like a
+    language label, not prose.
+    """
+    files = {m.upper() for m in _README_FILENAME.findall(text)}
+    if len(files) >= 2:
+        return True
+    if not files:
+        return False
+    sep = " · " if " · " in text else (" | " if " | " in text else None)
+    if sep is None:
+        return False
+    return all(_looks_like_label(seg) for seg in text.split(sep))
+
+
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     """Insert the language switcher after the H1. Returns True if it changed."""
     line = switcher_line(variants)
     text = Path(path).read_text(encoding="utf-8")
-    if line in text:
-        return False
     lines = text.splitlines()
+    stale = [i for i, ln in enumerate(lines) if _is_stale_switcher(ln) and ln != line]
+    if line in text and not stale:
+        return False
+    for i in reversed(stale):
+        del lines[i]
     idx = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
     at = idx + 1 if idx >= 0 else 0
-    lines[at:at] = ["", line]
+    if line not in lines:
+        lines[at:at] = ["", line]
     Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
     return True

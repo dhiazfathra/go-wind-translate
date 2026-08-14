@@ -63,20 +63,39 @@ def cmd_translate(segs: list[Segment], cache: Cache, engines: list) -> None:
         print(f"  WARNING: {len(pending)} segments unresolved", file=sys.stderr)
 
 
+def cmd_switchers(repo: str) -> None:
+    """Insert/update the language switcher line in every README variant, in
+    every directory that has one — a repo like go-wind-toolkit carries a
+    README triad per sub-tool (protoc-gen-go-http/, protoc-gen-dart-http/,
+    ...), not just at the repo root.
+
+    Kept separate from the moves so cmd_run can defer it until after
+    splice: the README.md left behind for a default (Chinese) doc is the
+    same file cmd_extract already recorded byte offsets against, and
+    ensure_switcher inserting a line would shift every offset after it,
+    breaking splice's hash-matched byte spans.
+    """
+    repo_root = _safe_repo_root(repo)
+    readme_dirs = {p.parent for p in repo_root.rglob("README*.md")
+                   if ".git" not in p.parts and "node_modules" not in p.parts}
+    for readme_dir in readme_dirs:
+        variants = {}
+        for lang, name in (("en", "README.md"), ("zh-CN", "README.zh-CN.md"),
+                           ("ja-JP", "README.ja-JP.md")):
+            if (readme_dir / name).exists():
+                variants[lang] = f"./{name}"
+        if len(variants) > 1:
+            for name in variants.values():
+                ensure_switcher(readme_dir / name.lstrip("./"), variants)
+
+
 def cmd_docs(repo: str, dry_run: bool = False) -> None:
     repo_root = _safe_repo_root(repo)
     moves = plan_moves(repo_root)
     apply_moves(repo_root, moves, dry_run=dry_run)
     if dry_run:
         return
-    variants = {}
-    for lang, name in (("en", "README.md"), ("zh-CN", "README.zh-CN.md"),
-                       ("ja-JP", "README.ja-JP.md")):
-        if (repo_root / name).exists():
-            variants[lang] = f"./{name}"
-    if len(variants) > 1:
-        for name in variants.values():
-            ensure_switcher(repo_root / name.lstrip("./"), variants)
+    cmd_switchers(repo)
 
 
 def cmd_verify(repo: str, skip_build: bool = False, baseline_path: str | Path | None = None,
@@ -113,7 +132,8 @@ def cmd_run(repo: str, engine: str, skip_build: bool) -> int:
     # before any Chinese content is overwritten with English. The archival
     # copy left at the original path (see docs_layout.apply_moves) keeps the
     # occurrence file paths recorded by cmd_extract valid.
-    cmd_docs(repo)
+    repo_root = _safe_repo_root(repo)
+    apply_moves(repo_root, plan_moves(repo_root))
 
     chain = [get_engine("dictionary")]
     if engine == "deepl":
@@ -123,8 +143,13 @@ def cmd_run(repo: str, engine: str, skip_build: bool) -> int:
     cmd_translate(segs, cache, chain)
     cache.save()
 
-    counts = splice_repo(_safe_repo_root(repo), WORK / repo / "occurrences.jsonl", cache)
+    counts = splice_repo(repo_root, WORK / repo / "occurrences.jsonl", cache)
     print(f"{repo}: spliced {sum(counts.values())} spans across {len(counts)} files")
+
+    # Switcher insertion mutates README bytes — must happen after splice,
+    # not before: it would otherwise shift the byte offsets cmd_extract
+    # recorded for the archived-and-recreated README (see cmd_switchers).
+    cmd_switchers(repo)
 
     # Regenerate anything derived from the now-English proto / ent schema.
     for sub in ("backend", "."):

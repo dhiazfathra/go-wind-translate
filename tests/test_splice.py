@@ -21,6 +21,71 @@ def test_replaces_single_span(tmp_path):
     assert f.read_text(encoding="utf-8") == "// Create user\n"
 
 
+def test_string_kind_escapes_embedded_quotes(tmp_path):
+    # DeepL sometimes wraps a negation word in literal quotes for emphasis
+    # (observed: 非 -> "not"). Spliced raw into a Go string literal, that
+    # quote terminates it early and breaks the build.
+    f = tmp_path / "a.go"
+    f.write_text('t.Fatalf("Ctx.Err() 应为非 nil")\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "应为非 nil"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="string")]
+    en = 'Should be "not" nil'
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
+    assert n == 1
+    result = f.read_text(encoding="utf-8")
+    assert result == 't.Fatalf("Ctx.Err() Should be \\"not\\" nil")\n'
+
+
+def test_raw_string_kind_leaves_backslash_and_quotes_unescaped(tmp_path):
+    # A Go raw string (backtick-delimited) treats backslash and double-quote
+    # as literal bytes, not escapes. Applying interpreted-string escaping
+    # here would corrupt content like a Windows path or an embedded quote.
+    f = tmp_path / "a.go"
+    f.write_text('var tmpl = `原始路径`\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "原始路径"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="raw_string")]
+    en = r'C:\tmp "quoted"'
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == 'var tmpl = `C:\\tmp "quoted"`\n'
+
+
+def test_raw_string_kind_skips_translation_containing_backtick(tmp_path):
+    # A raw string literal cannot represent a literal backtick -- it would
+    # terminate the literal early and break the build. Skip rather than
+    # emit invalid source.
+    f = tmp_path / "a.go"
+    f.write_text('var tmpl = `原始`\n', encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "原始"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="raw_string")]
+    en = "has a ` backtick"
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, en)]))
+    assert n == 0
+    assert f.read_text(encoding="utf-8") == 'var tmpl = `原始`\n'
+
+
+def test_comment_kind_leaves_quotes_unescaped(tmp_path):
+    f = tmp_path / "a.go"
+    f.write_text("// 创建用户\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "创建用户"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, 'Create "user"')]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == '// Create "user"\n'
+
+
 def test_multiple_spans_keep_offsets_valid(tmp_path):
     f = tmp_path / "b.go"
     f.write_text("// 甲\nx := \"乙\"\n// 丙\n", encoding="utf-8")
