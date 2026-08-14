@@ -1,4 +1,3 @@
-from pathlib import Path
 from gwt.segments import Cache, Occurrence, seg_hash
 from gwt.splice import splice_file
 

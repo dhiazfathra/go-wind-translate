@@ -1,5 +1,4 @@
 import subprocess
-from pathlib import Path
 import pytest
 from gwt.docs_layout import ensure_switcher, plan_moves, switcher_line
 

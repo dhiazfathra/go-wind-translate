@@ -8,7 +8,7 @@ class ArgosEngine:
     def __init__(self) -> None:
         import argostranslate.package as pkg
         import argostranslate.translate as tr
-        installed = {(l.code) for l in tr.get_installed_languages()}
+        installed = {lang.code for lang in tr.get_installed_languages()}
         if "zh" not in installed or "en" not in installed:
             pkg.update_package_index()
             cand = [p for p in pkg.get_available_packages()

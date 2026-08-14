@@ -83,7 +83,7 @@ def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     if line in text:
         return False
     lines = text.splitlines()
-    idx = next((i for i, l in enumerate(lines) if l.startswith("# ")), -1)
+    idx = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
     at = idx + 1 if idx >= 0 else 0
     lines[at:at] = ["", line]
     Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")

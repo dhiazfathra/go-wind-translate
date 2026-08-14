@@ -1,6 +1,4 @@
 import subprocess
-from pathlib import Path
-import pytest
 from gwt.verify import broken_doc_links, build_commands, identifier_drift, residual_cjk
 
 
