@@ -1,9 +1,9 @@
-# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 partially done
+# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 closed as descoped
 
 ## State as of this handoff
 
 - **Master** has the full `gwt` tooling plus every fix from Tasks 12-14.
-  148/148 tests passing (`python3 -m pytest`, ~4s).
+  162/162 tests passing (`python3 -m pytest`, ~4s), `ruff check .` clean.
 - **Tasks 1-11 done**: the tooling itself, merged in PR #1.
 - **Task 12 done**: pilot run against `go-wind-bootstrap`, PR merged.
 - **Task 13 done**: fanned out to all 10 remaining `go-wind*` repos. Every
@@ -11,15 +11,20 @@
   go-wind#1, go-wind-bi#1, go-wind-admin-template#1, go-wind-toolkit#1,
   go-wind-plugins#1, go-wind-ledger#1, go-wind-uba#1, go-wind-shop#1,
   go-wind-cms#1, go-wind-admin#1.
-- **Task 14: three targeted quality slices done, the plan's own Task 14
-  (bulk LLM re-translation) never run** — see "What's left" below. The three
-  slices came out of post-merge review findings, not from the plan's Step 1-4
-  script.
+- **Task 14 is CLOSED as descoped** by
+  [ADR-0006](docs/decisions/0006-close-task-14-bulk-llm-pass.md). Its bulk LLM
+  re-translation was never run and will not be; the three targeted quality
+  slices that shipped came from post-merge review findings instead. See
+  item 2 under "What's left" for the measurements behind that call.
+- **Markdown masking policy settled** by
+  [ADR-0007](docs/decisions/0007-markdown-masking-policy-and-derived-target-repair.md),
+  which also fixed a real defect it surfaced (bug 19: translated headings
+  orphaning their in-page anchors).
 - This repo's own PRs are all squash-merged into `master`: **#2** (Task
   12/13), **#5** (Task 14 slice 1 — recreated after #2's merge triggered
-  GitHub's stacked-PR merge restriction on the original #3, see Ruling #12),
+  GitHub's stacked-PR merge restriction on the original #3, see Ruling #13),
   **#6** (slice 2), **#7** (slice 3), **#8** (doc correction after #7's
-  review fix).
+  review fix), **#9** (per-language string escaping, `verify --out`).
 - `cache/segments.jsonl` (43,100 segments) and `dictionary.tsv` (47 entries)
   are up to date with all 11 repos' resolved segments. The cache is warm:
   any re-splice or re-run is free and offline.
@@ -108,7 +113,7 @@ since they're data/content, not `gwt` logic):
     a link segment must target a README-variant filename, not just look
     like a markdown link.
 
-Follow-up hardening (2, each with regression tests):
+Follow-up hardening (3, each with regression tests):
 17. `splice.py` applied Go/TS string-literal escaping to *every* language,
     corrupting `.sql` literals on all three characters involved (apostrophe,
     backslash, double quote). Fixed with `_escape_string(en, suffix)` —
@@ -118,6 +123,19 @@ Follow-up hardening (2, each with regression tests):
     anything past the cap and every later finding read as "new". Added
     `--out`, which writes the untruncated result; stdout keeps the cap for
     readability.
+19. **Translating a markdown heading orphaned every in-page anchor pointing
+    at it**, and the gate was blind to it: `broken_doc_links` skips any
+    `#`-prefixed target by design. A heading is prose (translated); an
+    anchor is a link target (masked) — both correct individually, broken
+    together. Measured in merged output: 23 dead links in go-wind-cms
+    (4 files), 9 in go-wind-admin (2 files), 0 in go-wind-bootstrap. Fixed
+    with `quality.repair_anchors` (post-splice, per markdown file) plus a
+    new `verify.broken_anchors` gate check. See
+    [ADR-0007](docs/decisions/0007-markdown-masking-policy-and-derived-target-repair.md).
+    Verified end-to-end against the genuine pre-translation file from
+    go-wind-cms's git history: 7 broken anchors in that file become 0, with
+    correct mappings (`#架构概览` → `#architecture-overview`), and only the
+    7 anchor lines change.
 
 ## Task 14 slices done (post-merge review findings)
 
@@ -176,11 +194,13 @@ Follow-up hardening (2, each with regression tests):
   (unit-level in `test_quality.py`, one end-to-end splice test).
 ## What's left
 
-Ordered by value. **Item 1 is the only remaining actionable engineering task**
-and it needs target-repo pushes, so it needs the user's go-ahead. Item 2 is a
-scoping decision the user should make. Items 3 and 5 were prerequisites for
-item 1 and are now **done** (kept below for the record). Item 4 stays blocked
-on an ADR.
+**Item 1 is the only thing left, and it is an action, not a decision.** Items
+2-5 are all resolved — 3 and 5 by fixing them, 2 and 4 by deciding them in
+ADR-0006 and ADR-0007. Their entries below are kept as the record of what was
+decided and why.
+
+Item 1 needs pushes against the ten target repos, so it needs the user's
+go-ahead. Everything it was waiting on is now in place.
 
 ### 1. Propagate the slice 1-3 fixes into the 11 target repos (highest value)
 
@@ -250,30 +270,43 @@ Sequence it smallest-repo-first, same as Task 13, and confirm with the user
 before any push or PR against a target repo — that standing rule has not
 changed.
 
-### 2. Decide the fate of the plan's actual Task 14
+**What the re-run now fixes, beyond slices 1-3**: the 32 broken in-page anchors
+(bug 19) are repaired by `repair_anchors` during splice, and the new
+`broken_anchors` gate check proves it. Note that a baseline captured before that
+key existed has no `broken_anchors` entry, and `cmd_verify` reads a missing key
+as an empty list — so those 32 correctly surface as findings rather than being
+suppressed. That is the desired behaviour: they *should* appear, then go to zero
+once the re-run repairs them.
 
-The plan's [Task 14](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md)
-(line ~2770) is a **bulk LLM re-translation**: select every segment under 8
-characters (Step 1, expected 6,000-9,000 of them), re-translate in batches of
-100 through an LLM with a code-comment-appropriate prompt, write back with
-`Cache.put(h, src, en, "llm")`, then re-splice and re-verify all 11 repos.
+### 2. The plan's actual Task 14 — DECIDED: closed, do not run
 
-**None of that has been run.** Slices 1-3 were targeted bugfixes for specific
-defects review surfaced; they are not a substitute for the corpus-wide pass,
-and the handoff should not be read as "Task 14 is done."
+Resolved by
+[ADR-0006](docs/decisions/0006-close-task-14-bulk-llm-pass.md). Task 14's bulk
+LLM re-translation is descoped. Three measurements settled it:
 
-Two honest options — pick one and record it, don't leave it ambiguous:
+- **Its selection criterion is broken.** Step 1 expects 6,000-9,000 segments
+  under 8 characters ("1-2% of the token cost"); the real count is **25,311 of
+  43,100 (58.7%)**. ADR-0005's span narrowing deliberately produces short
+  segments, so `len(src) < 8` picks the median segment, not a low-context tail.
+- **Its write-back is unsafe as specified.** A cache record is
+  `{h, src, en, engine}` — no occurrence kind. One English value serves every
+  occurrence of a hash, comment and string literal alike. A comment-tuned
+  rewrite through `Cache.put` is the bug already fixed once in PR #3/#5
+  (`接口客户端` → `APIClient` must survive a `string` splice byte-identical).
+- **The defect rate doesn't justify it.** Across 11 repos and 5,171 files,
+  layered review found three systematic patterns; two were splice-boundary
+  artifacts (tool bugs, not MT errors) and one was a real MT miss fixed with a
+  dictionary pin. One MT-quality defect in 43,100 segments.
 
-- **Run it.** Step 1's selection script is ready to use as written. Cost is
-  roughly 1-2% of translating the corpus. This subsumes item 1's re-splice
-  (Step 3 is the same sweep), so if you're doing both, do this one and get
-  item 1 for free.
-- **Descope it.** Write an ADR recording that MT quality was judged good
-  enough for a comment/doc corpus, that the three review-surfaced patterns
-  were fixed at the tool level instead, and that the cache stays open to
-  targeted `dictionary.tsv` pins (Ruling #4/#9) as future problems appear.
-  This is the cheaper answer and is defensible — but it needs writing down,
-  because the plan currently reads as unfinished.
+`dictionary.tsv` pins are the quality mechanism from here on (Rulings #4/#9).
+ADR-0006 records two paths worth revisiting if a future review ever *does*
+surface a systematic MT problem — restricting a pass to comment-only hashes, or
+using an LLM as a reviewer that feeds the dictionary rather than as a translator
+that bypasses it — so neither has to be re-derived.
+
+**This supersedes ADR-0005's retained "optional LLM pass over segments under 8
+characters."** Item 1 is therefore a plain re-splice, not a subset of a larger
+LLM sweep.
 
 ### 3. `.sql` string-literal escaping in `splice.py` — DONE
 
@@ -302,25 +335,38 @@ always inside a `'...'` literal, so the doubling is right; a CJK run sitting
 outside any literal would produce a stray `''`, but such a line wouldn't be
 valid SQL to begin with.
 
-### 4. Fenced-code-block CJK (accepted scope limit, not a bug)
+### 4. Markdown masking — DECIDED, and it surfaced a real bug
 
-See Ruling #8. The corpus-wide residual-CJK sweep (Task 13 Step 9, plan line
-~2747) came back far above the plan's "well under 1,000 per repo" expectation
-(range: 4 to ~24,000). Investigated on go-wind-admin: the dominant source is
-CJK *inside markdown fenced code blocks* — e.g. ASCII directory-tree diagrams
-in component READMEs (`Pro/README.md`, `Editor/README.md`) with inline Chinese
-comments (`├── ProForm/  # 动态表单`). `extract_md.py` deliberately masks
-fenced code blocks (ADR-0005: "prose only, code and URLs masked out"), so this
-Chinese is structurally never extracted — not a splice failure, not a missed
-dictionary entry, not a build/identifier/runtime-i18n risk.
+Resolved by
+[ADR-0007](docs/decisions/0007-markdown-masking-policy-and-derived-target-repair.md).
+Measuring the residual honestly (excluding `*.zh-CN.md`/`*.ja-JP.md` variants,
+`node_modules`, `vendor`) on go-wind-admin:
 
-**Do not patch `extract_md.py` for this without writing an ADR first.** The
-masking rule it would change is the one ADR-0005 states explicitly, and
-distinguishing "comment token in an illustrative code fence" from "actual
-code" is a design decision with a real false-positive cost: translating
-something a fence meant literally. The current `_SKIP` regex can't make that
-distinction. Write the ADR, then the code. Ruled out of scope for Task 13 and
-still out of scope for a quick patch.
+| where the residual CJK is | chars |
+|---|---:|
+| inside fenced code blocks | 13,090 |
+| prose, in files `classify.py` deliberately excludes | 7,241 |
+| prose, in files `gwt` considers translatable | **585** |
+
+96% is fenced code or a correctly-skipped file. Sampling the remaining 585
+chars found four categories, all masked deliberately: fenced code, HTML
+comments in issue/PR templates, inline code naming literals the documented code
+compares against (translating `"新增"` would make the doc describe behaviour
+the code doesn't have), and link/anchor targets.
+
+**Decision: fenced-code CJK is accepted permanently, not deferred.** A reader
+seeing Chinese in a tree diagram is visible and harmless; translating a line a
+fence meant literally silently corrupts a copy-pasteable command. ADR-0005
+already errs in that direction and this keeps it. `residual_cjk` being
+non-empty is expected, and its count is not a defect measure.
+
+**But the fourth category was hiding a real defect** — see bug 19 above. A
+heading is prose (translated), an anchor is a link target (masked); both correct
+alone, broken together, and `broken_doc_links` skips `#` targets so nothing
+caught it. Fixed with `repair_anchors` + a `broken_anchors` gate check. The
+general rule, now in ADR-0007: **masking a region means the pipeline won't
+translate it, not that the region is independent of what the pipeline does
+translate.**
 
 ### 5. Residual-CJK sweep command hygiene — DONE
 
@@ -334,6 +380,30 @@ it next, and invited reading a high count as a pipeline failure.
 note directly under it recording that the sweep did **not** meet its stated
 "well under 1,000 per repo" expectation when actually run (4 to ~24,000) and
 pointing at item 4 for why that is by design rather than a bug.
+
+### 6. `_mask_md` mis-tracks nested fences (known, low priority, NOT blocking)
+
+Found while dogfooding the gate against this repo's own docs. `_mask_md` toggles
+fenced-block state on any line starting with ``` — including one *quoted inside*
+another fence. The plan file has a Python test fixture whose string contains
+`"```markdown\n"`, which flips the masker off mid-block and leaks the example
+links that follow:
+
+```
+broken_doc_links('.') -> [('docs/superpowers/plans/2026-08-14-...md', './README.md'),
+                          (... , './README.ja-JP.md')]
+```
+
+Both are illustrations inside a code fence, so both are false positives — the
+exact failure mode `broken_doc_links` masks code to avoid.
+
+Not fixed here, and not urgent: the gate runs against *target* repos, and this
+instance is in this repo's own plan. But a target repo's docs showing markdown
+examples inside fences would hit it too, so it's worth a fix if the gate ever
+starts crying wolf. Proper handling means tracking fence delimiter *length and
+character* (CommonMark: a closing fence must be at least as long as the opener
+and use the same character), not a boolean toggle. `broken_anchors` inherits the
+same masker and therefore the same limitation.
 
 ## Rulings carried forward (Tasks 1-13)
 
@@ -363,11 +433,14 @@ pointing at item 4 for why that is by design rather than a bug.
    corruption.
 7. **`cmd_translate` raises on an engine result-count mismatch** before
    writing to the cache.
-8. **`residual_cjk` can be legitimately non-empty by design.** Confirmed
-   sources: (a) language-switcher labels naming each language in its own
-   script; (b) CJK inside markdown fenced code blocks (masked by design,
-   see "What's left" above — this is the dominant source, larger than
-   originally scoped in Task 12's bootstrap-only observation).
+8. **`residual_cjk` can be legitimately non-empty by design, and its count is
+   not a defect measure** ([ADR-0007](docs/decisions/0007-markdown-masking-policy-and-derived-target-repair.md)).
+   Confirmed sources: (a) language-switcher labels naming each language in its
+   own script; (b) CJK inside markdown fenced code blocks — the dominant
+   source, masked by design and now permanently accepted; (c) HTML comments
+   and inline code spans naming literals the documented code matches on.
+   Measured split on go-wind-admin: 96% of the residual is fenced code or a
+   file `classify.py` correctly skips.
 9. **A literal string that names a language in its own script (`简体中文`)
    or that carries un-translatable domain slang must be pinned in
    `dictionary.tsv`, not chased with `classify.py` glob exclusions.**
@@ -380,14 +453,23 @@ pointing at item 4 for why that is by design rather than a bug.
     already-fixed-in-tool mistranslation* (after the cache and classify/
     dictionary fix are committed here) is fine and faster than a full
     repo re-run, since the cache stays warm for next time regardless.
-11. **An `Occurrence`'s `kind` says what construct a span sits in, not whose
+11. **Masking a region means the pipeline won't *translate* it — not that the
+    region is independent of what the pipeline does translate**
+    ([ADR-0007](docs/decisions/0007-markdown-masking-policy-and-derived-target-repair.md)).
+    A heading anchor is derived from heading text; mask the anchor, translate
+    the heading, and the link rots silently (bug 19). Known instances, both
+    now handled: heading anchors (`quality.repair_anchors`) and relative link
+    paths under a file move (`docs_layout`'s link rewriting). Any new masked
+    region whose value derives from translatable text needs the same
+    treatment plus a gate check — masking alone is not a correctness argument.
+12. **An `Occurrence`'s `kind` says what construct a span sits in, not whose
     syntax rules apply to it.** Escaping, quoting, and comment conventions
     are properties of the *language*, so they dispatch on the file suffix
     (`_escape_string` in `splice.py`), not on `kind`. Conflating the two is
     what let `.sql` literals get Go escaping (bug 17). `kind` is still the
     right switch for construct-shaped questions — comment-boundary padding
     genuinely only applies to comments.
-12. **A PR whose base branch was retargeted by GitHub after its original
+13. **A PR whose base branch was retargeted by GitHub after its original
     base merged (base-branch deletion auto-retargets to the repo default
     branch) can get stuck as a "stacked PR"** — GitHub blocks both
     `mergePullRequest` (GraphQL) and the REST merge endpoint with
@@ -409,7 +491,8 @@ its worktree removed. Pick up from "What's left" above.
 ```bash
 cd ~/Documents/GitHub/dhiazfathra/go-wind-translate
 git pull --ff-only origin master   # local master goes stale fast; work happened in worktrees
-python3 -m pytest -q               # must be 143/143 before touching anything
+python3 -m pytest -q               # must be 162/162 before touching anything
+ruff check .                       # must be clean
 ```
 
 The pull matters: this repo's local checkout was stale by five merged commits
@@ -417,16 +500,18 @@ when this handoff was written, because every slice was built in a worktree and
 merged on GitHub. `git log --oneline origin/master` is the truth, not the
 working copy.
 
-**Then, by item:**
+**Then: there is exactly one thing left, item 1.** Everything else in "What's
+left" is closed — items 3 and 5 by fixing them, items 2 and 4 by deciding them
+in ADR-0006 and ADR-0007. Do not reopen a closed item without a superseding
+ADR; the measurements behind each decision are recorded there so they don't
+have to be re-derived.
 
-- **Item 1 or 2** (target-repo re-splice, or the bulk LLM pass): both end in
-  the same 11-repo sweep, so if you want both, do item 2 and item 1 comes
-  free. Read item 1's two caveats before the first reset — the
-  reset-to-translated-state trap silently produces a no-op that looks like a
-  broken fix. Item 1's prerequisites (items 3 and 5) are already done.
-- **Item 2** is a decision, not a task. Don't start the bulk LLM pass or
-  write the descoping ADR without the user picking one.
-- **Item 4** (fenced code blocks): write the ADR before any code.
+Item 1 is a re-run of the pipeline over the eleven target repos to propagate
+every tool fix that landed after their PRs merged. It needs the user's
+go-ahead because it pushes to those repos. Read its two caveats before the
+first reset — the reset-to-translated-state trap silently produces a no-op
+that looks like a broken fix. It is a plain re-splice now, not a subset of
+some larger LLM sweep (ADR-0006).
 
 **Standing rules that still apply** (see CLAUDE.md for the full set):
 

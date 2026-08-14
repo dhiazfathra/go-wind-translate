@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
-from gwt.quality import fix_spacing, pad_comment_boundary
+from gwt.quality import fix_spacing, pad_comment_boundary, repair_anchors
 from gwt.segments import Cache, Occurrence, read_occurrences, seg_hash
 
 
@@ -31,7 +31,8 @@ def _escape_string(en: str, suffix: str) -> str:
 
 
 def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
-    raw = bytearray(Path(path).read_bytes())
+    original = Path(path).read_bytes()
+    raw = bytearray(original)
     suffix = Path(path).suffix
     n = 0
     for o in sorted(occs, key=lambda o: o.start, reverse=True):
@@ -70,7 +71,14 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1
     if n:
-        Path(path).write_bytes(bytes(raw))
+        out = bytes(raw)
+        if suffix == ".md":
+            # A translated heading invalidates every in-page anchor pointing
+            # at it. Must run after the whole file is spliced, not per
+            # occurrence: a slug is derived from the complete heading line,
+            # which may hold several segments plus untranslated Latin runs.
+            out = repair_anchors(original, out)
+        Path(path).write_bytes(out)
     return n
 
 

@@ -1,5 +1,6 @@
 import subprocess
-from gwt.verify import broken_doc_links, build_commands, identifier_drift, residual_cjk
+from gwt.verify import (broken_anchors, broken_doc_links, build_commands,
+                        identifier_drift, residual_cjk, run_gate)
 
 
 def test_residual_cjk_reports_translatable_files_only(tmp_path):
@@ -179,3 +180,40 @@ def test_build_commands_uses_makefile_when_present(tmp_path):
 def test_build_commands_falls_back_to_go_build(tmp_path):
     (tmp_path / "go.mod").write_text("module x\n", encoding="utf-8")
     assert ["go", "build", "./..."] in build_commands(tmp_path)
+
+
+def test_broken_anchors_flags_anchor_pointing_at_translated_heading(tmp_path):
+    # The gap this closes: broken_doc_links skips "#"-prefixed targets, so a
+    # heading translated out from under its own anchor passed the gate
+    # silently (9 such links in go-wind-admin, 23 in go-wind-cms).
+    (tmp_path / "a.md").write_text(
+        "# Architecture Overview\n\n- [Overview](#架构概览)\n", encoding="utf-8")
+    bad = broken_anchors(tmp_path)
+    assert bad == [("a.md", "架构概览")]
+
+
+def test_broken_anchors_accepts_a_resolving_anchor(tmp_path):
+    (tmp_path / "a.md").write_text(
+        "# Architecture Overview\n\n- [x](#architecture-overview)\n", encoding="utf-8")
+    assert broken_anchors(tmp_path) == []
+
+
+def test_broken_anchors_ignores_fenced_and_inline_code(tmp_path):
+    # Docs show example link syntax; a gate that fires on illustrations is a
+    # gate reviewers learn to ignore (same rationale as broken_doc_links).
+    (tmp_path / "a.md").write_text(
+        "# Title\n\n```md\n[x](#不存在)\n```\n\n`[y](#也不存在)`\n", encoding="utf-8")
+    assert broken_anchors(tmp_path) == []
+
+
+def test_broken_anchors_ignores_cross_file_anchor(tmp_path):
+    # Resolving an anchor into another file needs that file's headings; out of
+    # scope here, and cross-file targets are already covered by broken_doc_links.
+    (tmp_path / "a.md").write_text("# T\n\n[x](./other.md#whatever)\n", encoding="utf-8")
+    assert broken_anchors(tmp_path) == []
+
+
+def test_run_gate_includes_broken_anchors(tmp_path):
+    (tmp_path / "a.md").write_text("# Title\n\n[x](#缺失)\n", encoding="utf-8")
+    result = run_gate(tmp_path, skip_build=True)
+    assert result["broken_anchors"] == [("a.md", "缺失")]

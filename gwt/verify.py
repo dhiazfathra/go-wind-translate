@@ -94,6 +94,38 @@ def broken_doc_links(repo_root: Path) -> list[tuple[str, str]]:
     return bad
 
 
+_ANCHOR_ONLY = re.compile(r"\]\(#([^)]+)\)")
+
+
+def broken_anchors(repo_root: Path) -> list[tuple[str, str]]:
+    """In-page `](#fragment)` links that no heading in the same file resolves.
+
+    Complements `broken_doc_links`, which skips `#`-prefixed targets entirely.
+    That exemption is why translating a heading could silently orphan every
+    anchor pointing at it (ADR-0007) without the gate noticing.
+
+    Scoped to same-file anchors: cross-file `other.md#frag` needs the other
+    file's headings, and its *file* half is already checked above. Fenced and
+    inline code are masked first, for the same reason as `broken_doc_links` —
+    docs illustrate link syntax, and a gate that fires on illustrations is one
+    reviewers learn to ignore.
+    """
+    from gwt.quality import _headings, heading_slug
+
+    root = Path(repo_root)
+    bad = []
+    for md in root.rglob("*.md"):
+        if ".git" in md.parts or "node_modules" in md.parts:
+            continue
+        raw = md.read_bytes()
+        prose = bytes(_mask_md(raw)).decode("utf-8", errors="replace")
+        slugs = {heading_slug(h) for h in _headings(raw.decode("utf-8", errors="replace"))}
+        for frag in _ANCHOR_ONLY.findall(prose):
+            if frag.lower() not in slugs:
+                bad.append((md.relative_to(root).as_posix(), frag))
+    return bad
+
+
 def _pair_verdict(old: str | None, new: str | None) -> str | None:
     """Return the `new` line if it represents real code drift, else None.
 
@@ -257,6 +289,7 @@ def run_gate(repo_root: Path, skip_build: bool = False) -> dict[str, list]:
     result = {
         "residual_cjk": residual_cjk(repo_root),
         "broken_links": broken_doc_links(repo_root),
+        "broken_anchors": broken_anchors(repo_root),
         "identifier_drift": identifier_drift(repo_root),
         "build_failures": [],
     }

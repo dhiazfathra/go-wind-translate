@@ -2772,6 +2772,15 @@ new segments, which is what the prior go-admin-translate attempt lacked."
 
 ### Task 14: Optional scoped LLM quality pass
 
+> **CLOSED — descoped, do not run. See [ADR-0006](../../decisions/0006-close-task-14-bulk-llm-pass.md) before reading further.**
+>
+> This section is kept as a record of what was planned. Two of its premises turned out to be wrong when measured against the finished corpus:
+>
+> - **Step 1's estimate is off by 3-4×.** It expects 6,000–9,000 short segments ("1–2% of the token cost"); the actual count is **25,311 of 43,100 (58.7%)**. ADR-0005's span narrowing deliberately produces short segments, so `len(src) < 8` describes the median segment rather than a low-context tail.
+> - **Step 2's write-back is unsafe as specified.** A cache record is `{h, src, en, engine}` with no occurrence kind, so one English value serves every occurrence of a hash — comment, string literal, and raw string alike. Writing comment-tuned text through `Cache.put` is the same bug class already fixed once in PR #3/#5.
+>
+> What Task 14's budget actually bought: two tool-level splice fixes (acronym and full-width-punctuation boundary glue) and one `dictionary.tsv` pin (`180天`), each driven by an observed defect. Quality misses are handled that way from here on.
+
 Run this only if Task 13 Step 6 reviewers flagged wording problems, or if you want README prose to read better than machine translation.
 
 **Files:**
