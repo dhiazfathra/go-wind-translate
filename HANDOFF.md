@@ -1,19 +1,21 @@
-# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 slice 1 done
+# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 slices 1-2 done
 
 ## State as of this handoff
 
 - **Master** (`cfe6abf`) has the full `gwt` tooling: Tasks 1-11.
-- **Task 12 done**: pilot run against `go-wind-bootstrap`. Pushed and PR'd
-  ([go-wind-bootstrap#1](https://github.com/dhiazfathra/go-wind-bootstrap/pulls)).
+- **Task 12 done**: pilot run against `go-wind-bootstrap`, PR merged.
 - **Task 13 done**: fanned out to all 10 remaining `go-wind*` repos. Every
-  repo is committed on `chore/i18n-en-default`, pushed, and has an open,
-  self-assigned PR:
+  repo's `chore/i18n-en-default` PR has been reviewed and **squash-merged**:
   go-wind#1, go-wind-bi#1, go-wind-admin-template#1, go-wind-toolkit#1,
   go-wind-plugins#1, go-wind-ledger#1, go-wind-uba#1, go-wind-shop#1,
   go-wind-cms#1, go-wind-admin#1.
+- This repo's own Task 12/13 PR (#2) and Task 14 slice 1 PR (recreated as
+  #5 after #2's merge triggered GitHub's stacked-PR merge restriction on
+  the original #3 — see Ruling #11 below) are both squash-merged into
+  `master`.
 - `cache/segments.jsonl` and `dictionary.tsv` here are up to date with all
   11 repos' resolved segments.
-- 138/138 tests passing in this repo.
+- 139/139 tests passing in this repo.
 
 ## Bugs found across Task 12-13 (fixed in this worktree's commits — see git log)
 
@@ -134,14 +136,13 @@ since they're data/content, not `gwt` logic):
   tool-only fix PR; a follow-up run of `gwt run <repo>` after a
   `git checkout -- . && git clean -fd` reset would pick it up for free
   (cache is warm) next time any of those repos' translation gets touched.
-- **Task 14, remaining scope (not started)**: a genuine MT-quality miss
-  distinct from the spacing bug above — `180天` (a segment, not a boundary
-  artifact) came back from DeepL as `180Tian`, an untranslated
-  transliteration of 天/day. This needs either a `dictionary.tsv` pin for
-  the specific segment or a scoped LLM re-translation pass over
-  short/numeric-adjacent segments, not a spacing fix. Also unaddressed:
-  full-width Chinese punctuation left adjacent to translated text in a few
-  comments (stray `、`/`（）`).
+- **Task 14 slice 2 done** (branch `worktree-task14-slice2`): pinned
+  `180天` → `180 days` in `dictionary.tsv` (was coming back from DeepL as
+  the untranslated transliteration `180Tian`). Dictionary lookups are
+  exact-match and checked before any MT engine, so this segment now never
+  reaches DeepL. 1 new regression test. Still unaddressed: full-width
+  Chinese punctuation left adjacent to translated text in a few comments
+  (stray `、`/`（）`).
 - **Known, accepted scope limit (not a bug — see Ruling #8 below, extended)**:
   the corpus-wide residual-CJK sweep (Task 13 Step 9, plan line ~2747) came
   back far above the plan's "well under 1,000 per repo" expectation (range:
@@ -179,8 +180,9 @@ since they're data/content, not `gwt` logic):
 3. **`gwt/verify.py`'s `broken_doc_links` uses its own narrower `_mask_md()`**
    (code/HTML only) — don't swap in `extract_md._mask`, which also blanks
    link targets.
-4. **`dictionary.tsv` now has 46 entries** (41 boilerplate + 2 identity
-   language-label pins + 3 spender-tier pins — see bugs 10-12 above).
+4. **`dictionary.tsv` now has 47 entries** (41 boilerplate + 2 identity
+   language-label pins + 3 spender-tier pins + 1 `180天` MT-quality pin —
+   see bugs 10-12 above and Task 14 slice 2).
    Dictionary lookups are exact-match, checked before DeepL, and win —
    this is the correct place to pin any future "translate this exact
    segment to exactly this" cases, including identity (no-op) pins.
@@ -210,14 +212,26 @@ since they're data/content, not `gwt` logic):
     already-fixed-in-tool mistranslation* (after the cache and classify/
     dictionary fix are committed here) is fine and faster than a full
     repo re-run, since the cache stays warm for next time regardless.
+11. **A PR whose base branch was retargeted by GitHub after its original
+    base merged (base-branch deletion auto-retargets to the repo default
+    branch) can get stuck as a "stacked PR"** — GitHub blocks both
+    `mergePullRequest` (GraphQL) and the REST merge endpoint with
+    "Merging stacked PRs via this endpoint is not supported", and
+    `enablePullRequestAutoMerge` fails the same way. No async/queue
+    endpoint resolves it headlessly. Fix: close the stuck PR and open a
+    plain new PR from the same branch against the current default branch
+    — content is identical, but it's no longer tracked as part of a stack
+    and merges normally.
 
 ## How to resume (Task 14, optional)
 
-1. Read the "What's left" section above for the two concrete quality
-   patterns worth an LLM pass, and the fenced-code-comment scope gap if
+1. Read the "What's left" section above for the remaining quality pattern
+   (stray full-width punctuation) and the fenced-code-comment scope gap if
    pursuing broader residual-CJK reduction.
-2. If pursuing Task 14: scope it as a new plan section or ADR before
+2. If pursuing further: scope it as a new plan section or ADR before
    touching `extract_md.py` — the fenced-code-comment case especially
    needs a masking design decision, not just a quick patch.
-3. All 10 target-repo PRs are open and self-assigned; no further push/PR
-   action needed unless CI feedback or review comments come back on them.
+3. All 11 `go-wind*` repos (target repos + this tool repo) have their
+   Task 12/13/14 work merged to `master`/`chore/i18n-en-default` as
+   applicable; no further push/PR action needed unless new CI feedback or
+   review comments come back.
