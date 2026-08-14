@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 import subprocess
-from itertools import zip_longest
 from pathlib import Path
 
 from gwt.classify import CJK, has_cjk, iter_translatable
@@ -117,6 +116,37 @@ def _pair_verdict(old: str | None, new: str | None) -> str | None:
     return new if _CODE_LINE.search(new_skel) else None
 
 
+_MULTILINE_OPAQUE = [
+    re.compile(r'`[^`]*`', re.DOTALL),      # Go raw string literal
+    re.compile(r'/\*.*?\*/', re.DOTALL),    # block comment (Go, proto)
+]
+
+
+def _multiline_opaque_lines(text: str) -> set[int]:
+    """1-indexed line numbers inside a raw string or block comment that
+    spans more than one line.
+
+    A multi-line Go raw string is common for embedded templates — email
+    bodies, LLM prompts, Lua/SQL scripts. Each of its lines is just
+    translated prose/script content, but `_pair_verdict` sees isolated
+    diff lines with no way to know they're inside one literal: a line like
+    "Verification code:{code}" or a Lua "-- comment" trips `_CODE_LINE` on
+    its own. Single-line literals don't need this — `_blank_literals`
+    already masks those correctly.
+    """
+    covered = set()
+    for pat in _MULTILINE_OPAQUE:
+        for m in pat.finditer(text):
+            start = text.count("\n", 0, m.start()) + 1
+            end = text.count("\n", 0, m.end()) + 1
+            if end > start:
+                covered.update(range(start, end + 1))
+    return covered
+
+
+_HUNK_HEADER = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
+
+
 def identifier_drift(repo_root: Path) -> list[str]:
     """Diff lines that changed actual code, not just string/comment content.
 
@@ -130,34 +160,45 @@ def identifier_drift(repo_root: Path) -> list[str]:
     a line with an unrelated `attr="..."`. None of those carry the actual
     identifier/signature risk this gate exists to catch.
     """
+    root = Path(repo_root)
     diff = subprocess.run(
         ["git", "diff", "-U0", "--", "*.go", "*.proto"],
-        cwd=repo_root, capture_output=True, text=True).stdout
-    lines = [ln for ln in diff.splitlines()
-              if ln and ln[0] in "+-" and ln[:3] not in ("+++", "---")]
-    out = []
-    i = 0
-    while i < len(lines):
-        if lines[i][0] == "-":
-            removed = []
-            while i < len(lines) and lines[i][0] == "-":
-                removed.append(lines[i])
-                i += 1
-            added = []
-            while i < len(lines) and lines[i][0] == "+":
-                added.append(lines[i])
-                i += 1
-            # git diff -U0 pairs a single-line change as one removed line
-            # immediately followed by one added line; pair positionally.
-            for old, new in zip_longest(removed, added):
-                verdict = _pair_verdict(old, new)
-                if verdict:
-                    out.append(verdict)
-        else:
-            verdict = _pair_verdict(None, lines[i])
+        cwd=root, capture_output=True, text=True).stdout
+
+    out: list[str] = []
+    opaque: set[int] = set()
+    new_lineno = 0
+    # A "-" run followed by a "+" run within one hunk pairs positionally
+    # (git diff -U0's convention for a same-size replacement); track the
+    # pending "-" run so each "+" line consumes the next one in order.
+    pending_removed: list[str] = []
+
+    for line in diff.splitlines():
+        if line.startswith("+++ b/"):
+            path = root / line[6:]
+            text = path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
+            opaque = _multiline_opaque_lines(text)
+            pending_removed.clear()
+            continue
+        m = _HUNK_HEADER.match(line)
+        if m:
+            pending_removed.clear()  # stale "-" run from the previous hunk
+            new_lineno = int(m.group(1))
+            continue
+        if not line or line[:3] in ("---", "+++"):
+            continue
+        if line[0] == "-":
+            pending_removed.append(line)
+        elif line[0] == "+":
+            if new_lineno in opaque:
+                if pending_removed:
+                    pending_removed.pop(0)  # consume in order, no verdict
+                new_lineno += 1
+                continue
+            verdict = _pair_verdict(pending_removed.pop(0) if pending_removed else None, line)
             if verdict:
                 out.append(verdict)
-            i += 1
+            new_lineno += 1
     return out
 
 
