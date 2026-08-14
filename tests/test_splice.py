@@ -122,6 +122,23 @@ def test_comment_kind_pads_glued_acronym_boundary(tmp_path):
     assert f.read_text(encoding="utf-8") == "// UserID Invalid\n"
 
 
+def test_comment_kind_pads_glued_fullwidth_bracket_boundary(tmp_path):
+    # "（配置项）" glues both full-width brackets directly onto the
+    # translated span for the same reason as the acronym case: extraction
+    # narrows to the CJK-letter run only, so the brackets outside it are
+    # never touched by translation.
+    f = tmp_path / "a.go"
+    f.write_text("// （配置项）get value\n", encoding="utf-8")
+    raw = f.read_bytes()
+    zh = "配置项"
+    start = raw.index(zh.encode())
+    occ = [Occurrence(file="a.go", start=start, end=start + len(zh.encode()),
+                      h=seg_hash(zh), kind="comment")]
+    n = splice_file(f, occ, _cache(tmp_path, [(zh, "Config item")]))
+    assert n == 1
+    assert f.read_text(encoding="utf-8") == "// （ Config item ）get value\n"
+
+
 def test_comment_kind_leaves_quotes_unescaped(tmp_path):
     f = tmp_path / "a.go"
     f.write_text("// 创建用户\n", encoding="utf-8")

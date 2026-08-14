@@ -1,4 +1,4 @@
-# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 slices 1-2 done
+# Handoff: zh->en translation tooling — Tasks 1-13 done, Task 14 slices 1-3 done
 
 ## State as of this handoff
 
@@ -15,7 +15,7 @@
   `master`.
 - `cache/segments.jsonl` and `dictionary.tsv` here are up to date with all
   11 repos' resolved segments.
-- 139/139 tests passing in this repo.
+- 143/143 tests passing in this repo.
 
 ## Bugs found across Task 12-13 (fixed in this worktree's commits — see git log)
 
@@ -136,13 +136,24 @@ since they're data/content, not `gwt` logic):
   tool-only fix PR; a follow-up run of `gwt run <repo>` after a
   `git checkout -- . && git clean -fd` reset would pick it up for free
   (cache is warm) next time any of those repos' translation gets touched.
-- **Task 14 slice 2 done** (branch `worktree-task14-slice2`): pinned
+- **Task 14 slice 2 done** (branch `worktree-task14-slice2`, merged): pinned
   `180天` → `180 days` in `dictionary.tsv` (was coming back from DeepL as
   the untranslated transliteration `180Tian`). Dictionary lookups are
   exact-match and checked before any MT engine, so this segment now never
-  reaches DeepL. 1 new regression test. Still unaddressed: full-width
-  Chinese punctuation left adjacent to translated text in a few comments
-  (stray `、`/`（）`).
+  reaches DeepL. 1 new regression test.
+- **Task 14 slice 3 done** (branch `worktree-task14-slice3`): full-width
+  Chinese punctuation (`，。、；：（）！？`) glued directly onto a
+  comment-kind translated span, same root cause as slice 1's acronym-glue
+  fix — extraction narrows to the CJK-letter run only, so punctuation
+  immediately outside it (e.g. the brackets in `（配置项）`) is never part
+  of the segment and never touched by translation, leaving it stuck
+  directly against the English word on the other side of the splice.
+  `pad_comment_boundary` (`gwt/quality.py`) now pads a leading/trailing
+  space on either side when a full-width mark is glued to a capitalized
+  word (leading side) or a lowercase-ending word (trailing side) —
+  mirrors the acronym heuristic's scope exactly, reusing the same
+  boundary-inspection function rather than a new one. 4 new regression
+  tests (unit-level in `test_quality.py`, one end-to-end splice test).
 - **Known, accepted scope limit (not a bug — see Ruling #8 below, extended)**:
   the corpus-wide residual-CJK sweep (Task 13 Step 9, plan line ~2747) came
   back far above the plan's "well under 1,000 per repo" expectation (range:
@@ -225,9 +236,10 @@ since they're data/content, not `gwt` logic):
 
 ## How to resume (Task 14, optional)
 
-1. Read the "What's left" section above for the remaining quality pattern
-   (stray full-width punctuation) and the fenced-code-comment scope gap if
-   pursuing broader residual-CJK reduction.
+1. All three known Task 14 quality patterns are now fixed (slices 1-3).
+   What remains is the fenced-code-comment scope gap in the "Known,
+   accepted scope limit" note above, if pursuing broader residual-CJK
+   reduction.
 2. If pursuing further: scope it as a new plan section or ADR before
    touching `extract_md.py` — the fenced-code-comment case especially
    needs a masking design decision, not just a quick patch.
