@@ -45,8 +45,8 @@ Target repos are expected as siblings of this one, under `~/Documents/GitHub/dhi
 | `gwt translate <repo> --engine deepl` | Translate segments not already in the cache; chains dictionary → engine |
 | `gwt splice <repo>` | Write cached translations back into the repo by byte span |
 | `gwt docs <repo> [--dry-run]` | Restructure READMEs and `docs/` to English-default, insert language switchers |
-| `gwt verify <repo> [--skip-build]` | Residual CJK, broken doc links, identifier drift, build |
-| `gwt run <repo> --engine deepl` | The whole pipeline: extract → translate → splice → docs → `make gen` → verify |
+| `gwt verify <repo> [--skip-build] [--baseline <path>]` | Residual CJK, broken doc links, identifier drift, build. `--baseline` takes a prior `gwt verify` JSON result and only reports findings that are new relative to it |
+| `gwt run <repo> --engine deepl` | The whole pipeline: extract → docs → translate → splice → `make gen` → verify |
 
 ## Architecture
 
@@ -54,12 +54,19 @@ Target repos are expected as siblings of this one, under `~/Documents/GitHub/dhi
 extract   tree-sitter parse; spans narrow to the Chinese run only,
           so adjacent identifiers are never part of a segment
 dedup     NFC + whitespace-collapse + SHA-1; 174,310 occurrences → ~61,000 segments
+docs      README.md moves to README.zh-CN.md via git mv (preserved, untouched
+          from here on); a working copy is recreated at README.md so the
+          steps below can still translate it. Runs BEFORE translate/splice,
+          since the has_cjk() check that triggers the archival move needs to
+          see the still-Chinese content, not an already-translated README.
 translate chained engines, first hit wins: dictionary → DeepL → Argos
 cache     cache/segments.jsonl, committed and permanent
-splice    byte-span writeback, deepest offset first
-docs      README.md becomes English; Chinese moves to README.zh-CN.md via git mv
+splice    byte-span writeback, deepest offset first; skips a span whose
+          current bytes no longer hash-match the occurrence it was recorded
+          for (stale occurrences.jsonl), rather than risk corrupting it
 regen     each repo's own `make gen` propagates translated proto / ent schema
-verify    residual CJK, link integrity, identifier drift, build
+verify    residual CJK, link integrity, identifier drift, build; optionally
+          diffed against a baseline to ignore pre-existing defects
 ```
 
 The cache is committed, not gitignored — it *is* the artifact. Re-running after an upstream merge only pays for genuinely new segments, which is the property the prior attempt lacked.

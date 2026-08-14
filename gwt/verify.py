@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 import subprocess
+from itertools import zip_longest
 from pathlib import Path
 
 from gwt.classify import CJK, has_cjk, iter_translatable
@@ -10,6 +11,29 @@ from gwt.classify import CJK, has_cjk, iter_translatable
 _MD_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 # A diff line that carries code, not prose: assignment, call, declaration.
 _CODE_LINE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\s*[:=(]")
+
+# String/comment literal bodies to blank out before checking for code drift,
+# so a translated string's *content* can never trip _CODE_LINE — only an
+# actual change to the surrounding code skeleton should.
+_DQ_STRING = re.compile(r'"[^"\\]*(?:\\.[^"\\]*)*"')
+_BACKTICK_STRING = re.compile(r'`[^`]*`')
+_LINE_COMMENT = re.compile(r'(//|#).*$')
+_BLOCK_COMMENT = re.compile(r'/\*.*?\*/')
+
+
+def _blank_literals(body: str) -> str:
+    """Replace string/comment literal contents with a fixed placeholder.
+
+    Only the *code skeleton* survives (e.g. `msg := "..."` -> `msg := ""`),
+    so two lines that differ only in what a string/comment says compare
+    equal — content length isn't preserved, unlike gwt.splice's byte-offset
+    masking, since this is diff-line text, not a byte span to write back.
+    """
+    body = _BLOCK_COMMENT.sub('/**/', body)
+    body = _DQ_STRING.sub('""', body)
+    body = _BACKTICK_STRING.sub('``', body)
+    body = _LINE_COMMENT.sub(lambda m: m.group(1), body)
+    return body
 
 # Masking patterns for markdown: code blocks and inline code only.
 # Note: we do NOT mask link targets, because we need to detect links to check if they're broken.
@@ -66,20 +90,57 @@ def broken_doc_links(repo_root: Path) -> list[tuple[str, str]]:
     return bad
 
 
+def _pair_verdict(old: str | None, new: str | None) -> str | None:
+    """Return the `new` line if it represents real code drift, else None.
+
+    Compares the `-`/`+` lines with string and comment literal *contents*
+    blanked out: a translated string literal keeps the same code skeleton
+    (e.g. `msg := "..."` before and after), so it is not drift. Only a
+    skeleton change — a change outside any literal — counts.
+    """
+    for line in (old, new):
+        if line is not None and line[1:].strip().startswith(("//", "*", "/*", "#")):
+            return None  # comment-only change, never drift
+    if new is None:
+        return None
+    new_body = new[1:].strip()
+    if has_cjk(new_body):
+        return None
+    new_skel = _blank_literals(new_body)
+    if old is not None and _blank_literals(old[1:].strip()) == new_skel:
+        return None
+    return new if _CODE_LINE.search(new_skel) else None
+
+
 def identifier_drift(repo_root: Path) -> list[str]:
-    """Diff lines that changed actual code, not just comments or strings."""
+    """Diff lines that changed actual code, not just string/comment content."""
     diff = subprocess.run(["git", "diff", "-U0"], cwd=repo_root,
                           capture_output=True, text=True).stdout
+    lines = [ln for ln in diff.splitlines()
+              if ln and ln[0] in "+-" and ln[:3] not in ("+++", "---")]
     out = []
-    for line in diff.splitlines():
-        if not line or line[0] not in "+-" or line[:3] in ("+++", "---"):
-            continue
-        body = line[1:].strip()
-        if body.startswith(("//", "*", "/*", "#")) or has_cjk(body):
-            continue
-        if _CODE_LINE.search(body):
-            out.append(line)
-    # A pure comment translation shows up as one -/+ pair with no code line.
+    i = 0
+    while i < len(lines):
+        if lines[i][0] == "-":
+            removed = []
+            while i < len(lines) and lines[i][0] == "-":
+                removed.append(lines[i])
+                i += 1
+            added = []
+            while i < len(lines) and lines[i][0] == "+":
+                added.append(lines[i])
+                i += 1
+            # git diff -U0 pairs a single-line change as one removed line
+            # immediately followed by one added line; pair positionally.
+            for old, new in zip_longest(removed, added):
+                verdict = _pair_verdict(old, new)
+                if verdict:
+                    out.append(verdict)
+        else:
+            verdict = _pair_verdict(None, lines[i])
+            if verdict:
+                out.append(verdict)
+            i += 1
     return out
 
 

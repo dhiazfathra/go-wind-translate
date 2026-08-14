@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
-from gwt.segments import Cache, Occurrence, read_occurrences
+from gwt.segments import Cache, Occurrence, read_occurrences, seg_hash
 
 
 def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
@@ -13,6 +13,16 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
     for o in sorted(occs, key=lambda o: o.start, reverse=True):
         en = cache.get(o.h)
         if en is None:
+            continue
+        # Guard against a stale occurrences.jsonl (e.g. a standalone `gwt
+        # splice` run against a file that has since changed): only write if
+        # the span still holds the source text this occurrence was recorded
+        # for. Skip rather than corrupt — residual_cjk will still flag it.
+        try:
+            current = raw[o.start:o.end].decode("utf-8")
+        except (UnicodeDecodeError, IndexError):
+            continue
+        if seg_hash(current) != o.h:
             continue
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1

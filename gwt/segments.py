@@ -38,7 +38,8 @@ class Occurrence:
 
 
 class Cache:
-    """Append-only JSONL store of hash -> English. Committed to git."""
+    """JSONL store of hash -> English, rewritten in sorted order on save
+    for deterministic diffs. Committed to git."""
 
     def __init__(self, path: Path, entries: dict[str, dict]) -> None:
         self.path = path
@@ -59,6 +60,11 @@ class Cache:
     def get(self, h: str) -> str | None:
         rec = self._entries.get(h)
         return rec["en"] if rec else None
+
+    def get_src(self, h: str) -> str | None:
+        """The original (pre-translation) source text cached for this hash."""
+        rec = self._entries.get(h)
+        return rec["src"] if rec else None
 
     def put(self, h: str, src: str, en: str, engine: str) -> None:
         self._entries[h] = {"h": h, "src": src, "en": en, "engine": engine}

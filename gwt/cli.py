@@ -21,8 +21,15 @@ CACHE_PATH = HERE / "cache" / "segments.jsonl"
 WORK = HERE / "work"
 
 
+def _safe_repo_root(repo: str) -> Path:
+    """Reject repo args that could escape the sibling-repo directory."""
+    if "/" in repo or "\\" in repo or repo in ("..", "."):
+        raise ValueError(f"invalid repo name: {repo!r}")
+    return ROOT / repo
+
+
 def cmd_extract(repo: str) -> list[Segment]:
-    repo_root = ROOT / repo
+    repo_root = _safe_repo_root(repo)
     all_segs: dict[str, Segment] = {}
     all_occs = []
     for f in iter_translatable(repo_root):
@@ -44,6 +51,9 @@ def cmd_translate(segs: list[Segment], cache: Cache, engines: list) -> None:
         hashes = list(pending)
         texts = [pending[h] for h in hashes]
         results = eng.translate(texts)
+        if len(results) != len(texts):
+            raise RuntimeError(
+                f"engine {eng.name} returned {len(results)} results for {len(texts)} inputs")
         for h, src, en in zip(hashes, texts, results):
             if en and en.strip():
                 cache.put(h, src, en, eng.name)
@@ -54,7 +64,7 @@ def cmd_translate(segs: list[Segment], cache: Cache, engines: list) -> None:
 
 
 def cmd_docs(repo: str, dry_run: bool = False) -> None:
-    repo_root = ROOT / repo
+    repo_root = _safe_repo_root(repo)
     moves = plan_moves(repo_root)
     apply_moves(repo_root, moves, dry_run=dry_run)
     if dry_run:
@@ -69,8 +79,26 @@ def cmd_docs(repo: str, dry_run: bool = False) -> None:
             ensure_switcher(repo_root / name.lstrip("./"), variants)
 
 
-def cmd_verify(repo: str, skip_build: bool = False) -> int:
-    result = run_gate(ROOT / repo, skip_build=skip_build)
+def cmd_verify(repo: str, skip_build: bool = False, baseline_path: str | Path | None = None,
+              baseline: dict | None = None) -> int:
+    """`baseline`/`baseline_path` (a previously captured `gwt verify` JSON
+    result, e.g. work/<repo>-before.json per Task 12) suppress pre-existing
+    defects: only items NEW relative to the baseline are reported."""
+    if baseline_path is not None:
+        baseline = json.loads(Path(baseline_path).read_text(encoding="utf-8"))
+    result = run_gate(_safe_repo_root(repo), skip_build=skip_build)
+    if baseline:
+        # A baseline loaded from JSON has tuples turned into lists; normalize
+        # both sides the same way before comparing so pre-existing entries
+        # (e.g. an already-broken doc link) are actually recognized and
+        # excluded, rather than always appearing "new".
+        def _norm(x):
+            return list(x) if isinstance(x, (list, tuple)) else x
+
+        result = {k: [item for item in v if _norm(item) not in
+                      [_norm(b) for b in baseline.get(k, [])]]
+                  if isinstance(v, list) else v
+                  for k, v in result.items()}
     print(json.dumps({k: (v[:20] if isinstance(v, list) else v)
                       for k, v in result.items()}, ensure_ascii=False, indent=2))
     return 0 if not any(result.values()) else 1
@@ -80,6 +108,13 @@ def cmd_run(repo: str, engine: str, skip_build: bool) -> int:
     cache = Cache.load(CACHE_PATH)
     segs = cmd_extract(repo)
 
+    # Docs layout moves BEFORE translate/splice: plan_moves' has_cjk check
+    # needs to see the still-untranslated README, and this must happen
+    # before any Chinese content is overwritten with English. The archival
+    # copy left at the original path (see docs_layout.apply_moves) keeps the
+    # occurrence file paths recorded by cmd_extract valid.
+    cmd_docs(repo)
+
     chain = [get_engine("dictionary")]
     if engine == "deepl":
         chain.append(get_engine("deepl"))
@@ -88,14 +123,12 @@ def cmd_run(repo: str, engine: str, skip_build: bool) -> int:
     cmd_translate(segs, cache, chain)
     cache.save()
 
-    counts = splice_repo(ROOT / repo, WORK / repo / "occurrences.jsonl", cache)
+    counts = splice_repo(_safe_repo_root(repo), WORK / repo / "occurrences.jsonl", cache)
     print(f"{repo}: spliced {sum(counts.values())} spans across {len(counts)} files")
-
-    cmd_docs(repo)
 
     # Regenerate anything derived from the now-English proto / ent schema.
     for sub in ("backend", "."):
-        mk = ROOT / repo / sub / "Makefile"
+        mk = _safe_repo_root(repo) / sub / "Makefile"
         if mk.exists():
             subprocess.run(["make", "gen"], cwd=mk.parent, check=False)
             break
@@ -112,6 +145,8 @@ def build_parser() -> argparse.ArgumentParser:
         s.add_argument("repo")
         if name in ("verify",):
             s.add_argument("--skip-build", action="store_true")
+            s.add_argument("--baseline", default=None,
+                          help="path to a prior `gwt verify` JSON result; only NEW findings fail")
         if name == "docs":
             s.add_argument("--dry-run", action="store_true")
 
@@ -139,14 +174,14 @@ def main() -> int:
         return 0
     if ns.cmd == "splice":
         cache = Cache.load(CACHE_PATH)
-        counts = splice_repo(ROOT / ns.repo, WORK / ns.repo / "occurrences.jsonl", cache)
+        counts = splice_repo(_safe_repo_root(ns.repo), WORK / ns.repo / "occurrences.jsonl", cache)
         print(f"spliced {sum(counts.values())} spans")
         return 0
     if ns.cmd == "docs":
         cmd_docs(ns.repo, dry_run=ns.dry_run)
         return 0
     if ns.cmd == "verify":
-        return cmd_verify(ns.repo, skip_build=ns.skip_build)
+        return cmd_verify(ns.repo, skip_build=ns.skip_build, baseline_path=ns.baseline)
     if ns.cmd == "run":
         return cmd_run(ns.repo, ns.engine, ns.skip_build)
     return 1

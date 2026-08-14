@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -59,6 +60,14 @@ def apply_moves(repo_root: Path, moves, dry_run: bool = False) -> None:
         subprocess.run(["git", "mv", str(src.relative_to(repo_root)),
                         str(dst.relative_to(repo_root))],
                        cwd=repo_root, check=True)
+        # Archival move (default doc -> a zh-CN-named backup): recreate the
+        # original at its old path so extraction/translation can still turn
+        # it into the English default. The zh-CN copy is left untouched from
+        # here on, which is what preserves the original Chinese.
+        if "zh-CN" in dst.relative_to(repo_root).parts or "zh-CN" in dst.name:
+            shutil.copy2(dst, src)
+            subprocess.run(["git", "add", str(src.relative_to(repo_root))],
+                           cwd=repo_root, check=True)
 
 
 def switcher_line(variants: dict[str, str]) -> str:
