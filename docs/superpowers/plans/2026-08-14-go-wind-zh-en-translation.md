@@ -2748,11 +2748,14 @@ for r in go-wind go-wind-admin go-wind-admin-template go-wind-bi go-wind-bootstr
       -g '!**/locales/**' -g '!**/messages/**' -g '!**/langs/**' -g '!**/i18n/**' \
       -g '!*.arb' -g '!*zh-CN*' -g '!*.zh-CN.md' -g '!*ja-JP*' \
       -g '!**/gen/**' -g '!**/generated/**' -g '!*.pb.go' -g '!*.pb.ts' \
+      -g '!**/migrate/schema.go' -g '!**/node_modules/**' -g '!**/vendor/**' \
       --no-filename 2>/dev/null | wc -l | tr -d ' ')
   echo "$r residual: $n"
 done
 ```
 Expected: every repo reports a residual well under 1,000 (from 969,853 across the set). Compare against `go-admin-translate`'s 75,224 residual to confirm this approach actually converged where the prior LLM-driven attempt did not.
+
+**When this was actually run, it did not meet that expectation** — the range came back 4 to ~24,000. The dominant cause is CJK inside markdown fenced code blocks, which `extract_md.py` masks by design (ADR-0005), so it is structurally never extracted and is not a pipeline failure. See `HANDOFF.md` → "What's left" → item 4 for the full investigation before treating a high count here as a bug. The three exclusions added above (`migrate/schema.go`, `node_modules`, `vendor`) cover generated and third-party trees that are never translation candidates; without them the count is inflated further, though that was never the dominant factor.
 
 - [ ] **Step 10: Commit the final cache**
 

@@ -99,10 +99,15 @@ def cmd_docs(repo: str, dry_run: bool = False) -> None:
 
 
 def cmd_verify(repo: str, skip_build: bool = False, baseline_path: str | Path | None = None,
-              baseline: dict | None = None) -> int:
+              baseline: dict | None = None, out_path: str | Path | None = None) -> int:
     """`baseline`/`baseline_path` (a previously captured `gwt verify` JSON
     result, e.g. work/<repo>-before.json per Task 12) suppress pre-existing
-    defects: only items NEW relative to the baseline are reported."""
+    defects: only items NEW relative to the baseline are reported.
+
+    `out_path` writes the **untruncated** result there. Capture baselines this
+    way, not by redirecting stdout — stdout caps each list at 20 items for
+    readability, and a truncated baseline silently stops suppressing anything
+    past that cap."""
     if baseline_path is not None:
         baseline = json.loads(Path(baseline_path).read_text(encoding="utf-8"))
     result = run_gate(_safe_repo_root(repo), skip_build=skip_build)
@@ -118,6 +123,10 @@ def cmd_verify(repo: str, skip_build: bool = False, baseline_path: str | Path | 
                       [_norm(b) for b in baseline.get(k, [])]]
                   if isinstance(v, list) else v
                   for k, v in result.items()}
+    if out_path is not None:
+        Path(out_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_path).write_text(json.dumps(result, ensure_ascii=False, indent=2),
+                                  encoding="utf-8")
     print(json.dumps({k: (v[:20] if isinstance(v, list) else v)
                       for k, v in result.items()}, ensure_ascii=False, indent=2))
     return 0 if not any(result.values()) else 1
@@ -172,6 +181,9 @@ def build_parser() -> argparse.ArgumentParser:
             s.add_argument("--skip-build", action="store_true")
             s.add_argument("--baseline", default=None,
                           help="path to a prior `gwt verify` JSON result; only NEW findings fail")
+            s.add_argument("--out", default=None,
+                          help="write the untruncated result here; use this to capture a "
+                               "baseline (stdout caps each list at 20 items)")
         if name == "docs":
             s.add_argument("--dry-run", action="store_true")
 
@@ -206,7 +218,8 @@ def main() -> int:
         cmd_docs(ns.repo, dry_run=ns.dry_run)
         return 0
     if ns.cmd == "verify":
-        return cmd_verify(ns.repo, skip_build=ns.skip_build, baseline_path=ns.baseline)
+        return cmd_verify(ns.repo, skip_build=ns.skip_build, baseline_path=ns.baseline,
+                          out_path=ns.out)
     if ns.cmd == "run":
         return cmd_run(ns.repo, ns.engine, ns.skip_build)
     return 1

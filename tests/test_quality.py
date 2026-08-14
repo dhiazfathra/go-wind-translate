@@ -37,10 +37,7 @@ def test_pad_comment_boundary_pads_after_leading_acronym():
 
 def test_pad_comment_boundary_pads_before_trailing_acronym():
     raw = "// 太长URI\n".encode("utf-8")
-    start = 0
-    end = raw.index("URI".encode())
-    text = raw[start:end]
-    # simulate: the CJK span is "太长", occupying bytes [3:9) after "// "
+    # The CJK span is "太长", occupying bytes [3:9) after "// ".
     start = 3
     end = start + len("太长".encode())
     assert pad_comment_boundary(raw, start, end, "Too long") == "Too long "
