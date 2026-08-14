@@ -106,6 +106,13 @@ def extract_file(path: Path, rel: str) -> tuple[list[Segment], list[Occurrence]]
     if lang == "markdown":
         from gwt.extract_md import extract_markdown
         return extract_markdown(raw, rel)
+    if lang == "vue":
+        try:
+            return _extract_treesitter(raw, rel, "vue")
+        except Exception:
+            # No vue grammar: script-block comments and template text both
+            # reduce to "lines containing CJK", which the fallback handles.
+            return _extract_lines(raw, rel, "vue")
     if lang in NODE_KINDS:
         try:
             return _extract_treesitter(raw, rel, lang)
