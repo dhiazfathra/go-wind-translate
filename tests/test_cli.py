@@ -107,6 +107,42 @@ def test_run_pipeline_preserves_chinese_readme_and_produces_english_default(tmp_
     assert "你好世界" not in (repo / "README.md").read_text(encoding="utf-8")
 
 
+def test_switcher_insertion_after_splice_does_not_corrupt_offsets(tmp_path, monkeypatch):
+    """Regression: ensure_switcher inserts a line after the H1, which shifts
+    every byte offset recorded for content below it. Running it before
+    splice (the old cmd_docs-does-everything order) made splice's hash
+    check skip nearly every occurrence in the recreated README. cmd_run
+    must apply moves, translate, splice, THEN insert switchers."""
+    root = tmp_path / "root"
+    repo = root / "acme"
+    repo.mkdir(parents=True)
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=repo, check=True)
+    (repo / "README.md").write_text("# Title\n\n你好世界\n\n再见\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-qm", "init"], cwd=repo, check=True)
+
+    work = tmp_path / "work"
+    monkeypatch.setattr(cli, "ROOT", root)
+    monkeypatch.setattr(cli, "WORK", work)
+
+    cache = Cache.load(tmp_path / "cache.jsonl")
+    segs = cli.cmd_extract("acme")
+    from gwt.docs_layout import apply_moves, plan_moves
+    apply_moves(repo, plan_moves(repo))
+    cli.cmd_translate(segs, cache, [StubEngine("dictionary",
+                                                {"你好世界": "Hello World", "再见": "Goodbye"})])
+    splice_repo(repo, work / "acme" / "occurrences.jsonl", cache)
+    cli.cmd_switchers("acme")
+
+    text = (repo / "README.md").read_text(encoding="utf-8")
+    assert "Hello World" in text
+    assert "Goodbye" in text
+    assert "你好世界" not in text
+    assert "再见" not in text
+
+
 def test_safe_repo_root_rejects_path_traversal():
     with pytest.raises(ValueError):
         cli._safe_repo_root("../../etc")
