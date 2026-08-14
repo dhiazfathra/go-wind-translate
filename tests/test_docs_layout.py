@@ -198,3 +198,85 @@ def test_switcher_goes_after_h1(tmp_path):
     lines = p.read_text(encoding="utf-8").splitlines()
     assert lines[0] == "# Title"
     assert "简体中文" in lines[2]
+
+
+def test_switcher_removal_takes_the_emptied_html_wrapper_with_it(tmp_path):
+    # go-wind-bootstrap's README centres its hand-written switcher inside a
+    # <p align="center"> block. Deleting the stale line by index left the
+    # wrapper behind as an empty centred paragraph -- visible cruft in the
+    # rendered README, and a regression against the previous translation.
+    p = tmp_path / "README.md"
+    p.write_text(
+        '<p align="center">\n'
+        '  <h1 align="center">Title</h1>\n'
+        '</p>\n'
+        '\n'
+        '<p align="center">\n'
+        '  <a href="README.md">中文</a> · <a href="README_en.md">English</a>\n'
+        '</p>\n'
+        '\n'
+        '# Title\n'
+        '\n'
+        'Body\n',
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert "README_en.md" not in text
+    assert switcher_line(variants) in text
+    # The wrapper that held only that line must be gone, not left empty.
+    assert '<p align="center">\n</p>' not in text
+    assert '<p align="center">\n\n</p>' not in text
+    # The unrelated wrapper around the H1 must survive untouched.
+    assert '  <h1 align="center">Title</h1>' in text
+
+
+def test_switcher_removal_keeps_a_wrapper_that_holds_other_content(tmp_path):
+    # Only an *emptied* wrapper is removed. A wrapper with sibling content
+    # (badges, a tagline) must keep its tags.
+    p = tmp_path / "README.md"
+    p.write_text(
+        '<p align="center">\n'
+        '  <a href="README.md">中文</a> · <a href="README_en.md">English</a>\n'
+        '  <img src="badge.svg" />\n'
+        '</p>\n'
+        '\n'
+        '# Title\n',
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert '<p align="center">' in text
+    assert '<img src="badge.svg" />' in text
+    assert "README_en.md" not in text
+
+
+def test_switcher_removal_does_not_leave_a_doubled_blank_line(tmp_path):
+    # The wrapper block is normally surrounded by blank lines. Removing it
+    # would otherwise leave the two neighbours adjacent, i.e. a doubled
+    # blank in every README the pipeline touches.
+    p = tmp_path / "README.md"
+    p.write_text(
+        '<p align="center">\n'
+        '  <h1 align="center">T</h1>\n'
+        '</p>\n'
+        '\n'
+        '<p align="center">\n'
+        '  <a href="README.md">中文</a> · <a href="README_en.md">English</a>\n'
+        '</p>\n'
+        '\n'
+        '<p align="center">\n'
+        '  <img src="badge.svg" />\n'
+        '</p>\n'
+        '\n'
+        '# T\n',
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert "README_en.md" not in text
+    assert "\n\n\n" not in text
+    assert '<img src="badge.svg" />' in text
