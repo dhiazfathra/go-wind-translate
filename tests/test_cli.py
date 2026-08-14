@@ -143,6 +143,25 @@ def test_switcher_insertion_after_splice_does_not_corrupt_offsets(tmp_path, monk
     assert "再见" not in text
 
 
+def test_switchers_apply_to_every_readme_directory(tmp_path, monkeypatch):
+    """A repo like go-wind-toolkit carries a README triad per sub-tool, not
+    just at the root — cmd_switchers must not stop at the root README."""
+    root = tmp_path / "root"
+    repo = root / "acme"
+    sub = repo / "tools" / "widget"
+    sub.mkdir(parents=True)
+    (repo / "README.md").write_text("# Root\n\nHi\n", encoding="utf-8")
+    (repo / "README.zh-CN.md").write_text("# Root\n\n你好\n", encoding="utf-8")
+    (sub / "README.md").write_text("# Widget\n\nHi\n", encoding="utf-8")
+    (sub / "README.zh-CN.md").write_text("# Widget\n\n你好\n", encoding="utf-8")
+
+    monkeypatch.setattr(cli, "ROOT", root)
+    cli.cmd_switchers("acme")
+
+    assert "简体中文" in (repo / "README.md").read_text(encoding="utf-8")
+    assert "简体中文" in (sub / "README.md").read_text(encoding="utf-8")
+
+
 def test_safe_repo_root_rejects_path_traversal():
     with pytest.raises(ValueError):
         cli._safe_repo_root("../../etc")

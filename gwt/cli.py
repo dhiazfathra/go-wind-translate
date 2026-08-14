@@ -64,7 +64,10 @@ def cmd_translate(segs: list[Segment], cache: Cache, engines: list) -> None:
 
 
 def cmd_switchers(repo: str) -> None:
-    """Insert/update the language switcher line in every README variant.
+    """Insert/update the language switcher line in every README variant, in
+    every directory that has one — a repo like go-wind-toolkit carries a
+    README triad per sub-tool (protoc-gen-go-http/, protoc-gen-dart-http/,
+    ...), not just at the repo root.
 
     Kept separate from the moves so cmd_run can defer it until after
     splice: the README.md left behind for a default (Chinese) doc is the
@@ -73,14 +76,17 @@ def cmd_switchers(repo: str) -> None:
     breaking splice's hash-matched byte spans.
     """
     repo_root = _safe_repo_root(repo)
-    variants = {}
-    for lang, name in (("en", "README.md"), ("zh-CN", "README.zh-CN.md"),
-                       ("ja-JP", "README.ja-JP.md")):
-        if (repo_root / name).exists():
-            variants[lang] = f"./{name}"
-    if len(variants) > 1:
-        for name in variants.values():
-            ensure_switcher(repo_root / name.lstrip("./"), variants)
+    readme_dirs = {p.parent for p in repo_root.rglob("README*.md")
+                   if ".git" not in p.parts and "node_modules" not in p.parts}
+    for readme_dir in readme_dirs:
+        variants = {}
+        for lang, name in (("en", "README.md"), ("zh-CN", "README.zh-CN.md"),
+                           ("ja-JP", "README.ja-JP.md")):
+            if (readme_dir / name).exists():
+                variants[lang] = f"./{name}"
+        if len(variants) > 1:
+            for name in variants.values():
+                ensure_switcher(readme_dir / name.lstrip("./"), variants)
 
 
 def cmd_docs(repo: str, dry_run: bool = False) -> None:
