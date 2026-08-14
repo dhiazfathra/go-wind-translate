@@ -86,12 +86,13 @@ def switcher_line(variants: dict[str, str]) -> str:
 def _is_stale_switcher(text: str) -> bool:
     """A hand-written language-switcher line from before the doc move.
 
-    Some repos already had their own " · "-joined language links pointing at
-    the pre-move filenames (README_en.md, README_ja.md, ...); once those
-    files are renamed, that line's targets 404. Detected, not parsed: any
-    line joining segments with " · " that also names a README variant.
+    Some repos already had their own language-switcher line pointing at
+    the pre-move filenames (README_en.md, README_JA.md, ...) — separator
+    style varies by repo (" · ", " | ", ...), so detection doesn't depend
+    on one: any line naming two or more README variants is a switcher,
+    since prose has no reason to link the same doc under two names.
     """
-    return " · " in text and "README" in text
+    return text.upper().count("README") >= 2
 
 
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:

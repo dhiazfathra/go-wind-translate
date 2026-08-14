@@ -108,6 +108,22 @@ def test_switcher_replaces_stale_pre_move_line(tmp_path):
     assert switcher_line(variants) in text
 
 
+def test_switcher_replaces_stale_pipe_separated_line(tmp_path):
+    # Some repos use " | " instead of " · " for their own hand-written
+    # switcher — detection must not depend on the separator character.
+    p = tmp_path / "README.md"
+    p.write_text(
+        "# Title\n\n[中文](README.md) | **[English](README_EN.md)** | [Japanese](README_JA.md)\n\nBody\n",
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md", "ja-JP": "./README.ja-JP.md"}
+    assert ensure_switcher(p, variants) is True
+    text = p.read_text(encoding="utf-8")
+    assert "README_EN.md" not in text
+    assert "README_JA.md" not in text
+    assert switcher_line(variants) in text
+
+
 def test_switcher_goes_after_h1(tmp_path):
     p = tmp_path / "README.md"
     p.write_text("# Title\n\nBody\n", encoding="utf-8")
