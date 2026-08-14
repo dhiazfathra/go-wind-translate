@@ -87,7 +87,22 @@ def switcher_line(variants: dict[str, str]) -> str:
     return " · ".join(parts)
 
 
-def _is_stale_switcher(text: str, near_h1: bool = False) -> bool:
+_SWITCHER_LINK = re.compile(r"^\[[^\]]+\]\([^)]+\)$")
+
+
+def _looks_like_label(segment: str) -> bool:
+    """A switcher segment is a markdown link, or a short bare language name
+    (e.g. "中文", "**English**") — never a sentence. Distinguishes a real
+    switcher from ordinary prose that happens to contain a README link and
+    a pipe elsewhere on the line (e.g. "See [README](./README.md) for
+    setup | more details.")."""
+    core = segment.strip("*").strip()
+    if _SWITCHER_LINK.match(core):
+        return True
+    return bool(core) and len(core) <= 16 and " " not in core
+
+
+def _is_stale_switcher(text: str) -> bool:
     """A hand-written language-switcher line from before the doc move.
 
     Some repos already had their own language-switcher line pointing at
@@ -98,19 +113,19 @@ def _is_stale_switcher(text: str, near_h1: bool = False) -> bool:
 
     A 2-language switcher's *current*-language side needs no link (it's
     already this file), so it may name a README file only once — e.g.
-    "[English](./README.en-US.md) | **中文**". Only trust a single mention
-    when the line also has switcher shape (a separator plus a link or bold
-    span) AND sits right after the H1, where a real intro paragraph is
-    unlikely to look like this.
+    "[English](./README.en-US.md) | **中文**". Trust a single mention only
+    when every separator-delimited segment on the line looks like a
+    language label, not prose.
     """
     files = {m.upper() for m in _README_FILENAME.findall(text)}
     if len(files) >= 2:
         return True
-    if not near_h1 or not files:
+    if not files:
         return False
-    has_separator = " · " in text or " | " in text
-    has_emphasis = "[" in text or "**" in text
-    return has_separator and has_emphasis
+    sep = " · " if " · " in text else (" | " if " | " in text else None)
+    if sep is None:
+        return False
+    return all(_looks_like_label(seg) for seg in text.split(sep))
 
 
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
@@ -118,9 +133,7 @@ def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     line = switcher_line(variants)
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
-    h1 = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
-    stale = [i for i, ln in enumerate(lines)
-             if _is_stale_switcher(ln, near_h1=h1 >= 0 and i <= h1 + 2) and ln != line]
+    stale = [i for i, ln in enumerate(lines) if _is_stale_switcher(ln) and ln != line]
     if line in text and not stale:
         return False
     for i in reversed(stale):
