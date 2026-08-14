@@ -162,6 +162,20 @@ def test_switcher_replaces_stale_single_mention_line_near_h1(tmp_path):
     assert switcher_line(variants) in text
 
 
+def test_switcher_leaves_readme_and_changelog_nav_line_untouched(tmp_path):
+    # A real two-item nav line, one link a README and the other not a
+    # language variant at all -- not a switcher, must survive untouched.
+    p = tmp_path / "README.md"
+    p.write_text(
+        "# Title\n\n[README](./README.md) | [Changelog](./CHANGELOG.md)\n\nBody\n",
+        encoding="utf-8",
+    )
+    variants = {"en": "./README.md", "zh-CN": "./README.zh-CN.md"}
+    ensure_switcher(p, variants)
+    text = p.read_text(encoding="utf-8")
+    assert "[README](./README.md) | [Changelog](./CHANGELOG.md)" in text
+
+
 def test_switcher_leaves_unrelated_readme_mention_further_down(tmp_path):
     # A single README mention away from the H1, with no switcher shape,
     # is ordinary prose -- must survive untouched.

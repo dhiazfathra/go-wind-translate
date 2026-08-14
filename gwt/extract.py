@@ -16,7 +16,7 @@ NODE_KINDS: dict[str, dict[str, str]] = {
     "go": {
         "comment": "comment",
         "interpreted_string_literal": "string",
-        "raw_string_literal": "string",
+        "raw_string_literal": "raw_string",
     },
     "typescript": {
         "comment": "comment",

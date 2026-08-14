@@ -23,7 +23,7 @@ See [ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-
 
 ## Status
 
-**Tasks 1-13 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 117/117 tests passing.** All 11 `go-wind*` repos have been translated and have open PRs on `chore/i18n-en-default`. The fan-out surfaced and fixed 11 real bugs in `gwt` itself — see [HANDOFF.md](HANDOFF.md) for the full list, including two recurring runtime-i18n corruption patterns (self-referential language labels, locale-keyed message catalogs) now guarded against via `dictionary.tsv` identity pins and a `classify.py` glob. The optional LLM quality pass (Task 14) is next; see HANDOFF.md's "What's left" for the specific patterns worth targeting.
+**Tasks 1-13 of the [implementation plan](docs/superpowers/plans/2026-08-14-go-wind-zh-en-translation.md) are done, 121/121 tests passing.** All 11 `go-wind*` repos have been translated and have open PRs on `chore/i18n-en-default`. The fan-out and a CodeRabbit review pass on this repo's own PR surfaced and fixed 14 real bugs in `gwt` itself — see [HANDOFF.md](HANDOFF.md) for the full list, including two recurring runtime-i18n corruption patterns (self-referential language labels, locale-keyed message catalogs) now guarded against via `dictionary.tsv` identity pins and a `classify.py` glob. The optional LLM quality pass (Task 14) is next; see HANDOFF.md's "What's left" for the specific patterns worth targeting.
 
 ## Quick start
 
@@ -89,7 +89,7 @@ Design rationale lives in [`docs/decisions/`](docs/decisions/README.md):
 
 ## Scope rules
 
-**Never translated:** `locales/`, `messages/`, `langs/`, `i18n/`, `*.arb`, `[locale]/`, `*zh-CN*`, `README*.ja*` — these are deliberately Chinese runtime resources.
+**Never translated:** `locales/`, `messages/`, `langs/`, `i18n/`, `*.arb`, `[locale]/`, any `*locale*/messages.*`-shaped catalog file, `*zh-CN*`, `README*.ja*`/`README*.zh*`/`README*.en*` (dot- and underscore-style, any case) — these are deliberately Chinese runtime resources or already-handled README language variants.
 
 **Never translated, regenerated instead:** `gen/`, `generated/`, `ent/` (except `ent/schema/`, which is hand-written), `*.pb.go`, `*.pb.ts`, `migrate/schema.go`. The proto and ent schema sources are translated, then each repo's `make gen` propagates. See [ADR-0002](docs/decisions/0002-translate-sources-regenerate-derived-artifacts.md).
 

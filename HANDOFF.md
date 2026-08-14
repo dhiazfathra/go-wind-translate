@@ -13,7 +13,7 @@
   go-wind-cms#1, go-wind-admin#1.
 - `cache/segments.jsonl` and `dictionary.tsv` here are up to date with all
   11 repos' resolved segments.
-- 117/117 tests passing in this repo.
+- 121/121 tests passing in this repo.
 
 ## Bugs found across Task 12-13 (fixed in this worktree's commits — see git log)
 
@@ -21,7 +21,7 @@ Task 12 (3 bugs): `docs_layout.apply_moves` recreate/rename collision;
 `classify.EXCLUDE_GLOBS` missing underscore-style README language variants;
 `verify.identifier_drift`'s `_CODE_LINE` heuristic firing on markdown prose.
 
-Task 13 (8 more bugs, each with a regression test):
+Task 13, `gwt` code bugs (6, each with a regression test):
 4. `docs_layout` link rewriting: relative markdown links weren't adjusted
    when a file moved to a different directory depth (archival).
 5. `_is_stale_switcher` false positives/negatives on existing switcher lines.
@@ -34,8 +34,12 @@ Task 13 (8 more bugs, each with a regression test):
    raw string (backtick-delimited, common for embedded email/prompt
    templates) had each interior line misread as isolated code — rewrote to
    be hunk/line-number aware with precomputed multi-line-opaque ranges.
-10. **Runtime i18n violation, found via reviewer-subagent pass on the four
-    large repos, recurring across go-wind-cms/shop/uba**:
+
+Task 13, target-repo content findings (4, from a reviewer-subagent pass on
+the four large repos — 2 fixed with a `gwt` code change, 2 fixed by hand
+with a `dictionary.tsv` pin, none of these four have a new pytest test
+since they're data/content, not `gwt` logic):
+10. **Runtime i18n violation**, recurring across go-wind-cms/shop/uba:
     `use-simple-locale/messages.ts`'s `Record<Locale, ...>` catalog keyed by
     locale code doesn't match any `EXCLUDE_GLOBS` (dir isn't literally named
     `locales`/`messages`) — the pipeline translated the `zh-CN` block's
@@ -67,10 +71,33 @@ Task 13 (8 more bugs, each with a regression test):
     Reverting the whole block to Chinese fixed both at once. This surfaced
     a real `splice.py` gap: string-literal escaping assumes Go/TS quoting
     rules universally — a `.sql` file's single-quote escape convention
-    (`''`) is different and untouched by the current `kind == "string"`
-    escape path. Not fixed generically this round (scope: this was one
-    seed-data file, not identifier-risk-bearing); worth hardening in
-    `splice.py` if `.sql` translation becomes routine.
+    (`''`) is different and untouched by the `kind == "string"` escape path
+    (see bug 7). Not fixed generically this round (scope: this was one
+    seed-data file, not identifier-risk-bearing); worth hardening if `.sql`
+    translation becomes routine.
+
+`gwt`/PR #2 bugs found by CodeRabbit review (3, each with a regression test):
+14. `splice.py`'s bug-7 escaping (backslash/quote) applied to *both* Go
+    interpreted and raw (backtick-delimited) string literals, but a raw
+    string treats those characters literally — the escaping corrupted
+    content like a Windows path (`C:\tmp`) or an embedded quote when spliced
+    into a raw string. Split `NODE_KINDS["go"]` into `"string"`
+    (interpreted, escaped) vs `"raw_string"` (unescaped; translations
+    containing a backtick are skipped rather than emitted as broken source,
+    since a raw string can't represent one).
+15. `verify.identifier_drift`'s bug-9 fix (masking multi-line raw-string
+    interior lines) also masked the opening/closing *delimiter* lines
+    entirely, so a real identifier rename sharing a line with the delimiter
+    (`var tmpl = \`Hello`) was silently skipped. Fixed: only interior lines
+    are fully skipped; boundary lines get their literal-content side masked
+    (via a new `_mask_multiline_boundary`) and still run through
+    `_pair_verdict`, so a genuine rename is still caught.
+16. `docs_layout._is_stale_switcher`'s `_looks_like_label` accepted *any*
+    markdown-link-shaped segment as a language label, so a real two-item nav
+    line like `[README](./README.md) | [Changelog](./CHANGELOG.md)` read as
+    a stale switcher and `ensure_switcher` would have deleted it. Fixed:
+    a link segment must target a README-variant filename, not just look
+    like a markdown link.
 
 ## What's left
 
@@ -120,7 +147,7 @@ Task 13 (8 more bugs, each with a regression test):
 3. **`gwt/verify.py`'s `broken_doc_links` uses its own narrower `_mask_md()`**
    (code/HTML only) — don't swap in `extract_md._mask`, which also blanks
    link targets.
-4. **`dictionary.tsv` now has 43 entries** (41 boilerplate + 2 identity
+4. **`dictionary.tsv` now has 46 entries** (41 boilerplate + 2 identity
    language-label pins + 3 spender-tier pins — see bugs 10-12 above).
    Dictionary lookups are exact-match, checked before DeepL, and win —
    this is the correct place to pin any future "translate this exact

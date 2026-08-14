@@ -121,18 +121,21 @@ def switcher_line(variants: dict[str, str]) -> str:
     return " · ".join(parts)
 
 
-_SWITCHER_LINK = re.compile(r"^\[[^\]]+\]\([^)]+\)$")
+_SWITCHER_LINK = re.compile(r"^\[[^\]]+\]\(([^)]+)\)$")
 
 
 def _looks_like_label(segment: str) -> bool:
-    """A switcher segment is a markdown link, or a short bare language name
-    (e.g. "中文", "**English**") — never a sentence. Distinguishes a real
-    switcher from ordinary prose that happens to contain a README link and
-    a pipe elsewhere on the line (e.g. "See [README](./README.md) for
-    setup | more details.")."""
+    """A switcher segment is a link *to a README variant*, or a short bare
+    language name (e.g. "中文", "**English**") — never a sentence, and never
+    a link to something else. Distinguishes a real switcher from ordinary
+    prose/navigation that happens to contain a README link and a pipe
+    elsewhere on the line (e.g. "See [README](./README.md) for setup | more
+    details.", or "[README](./README.md) | [Changelog](./CHANGELOG.md)" —
+    a real two-item nav line, not a language switcher)."""
     core = segment.strip("*").strip()
-    if _SWITCHER_LINK.match(core):
-        return True
+    m = _SWITCHER_LINK.match(core)
+    if m:
+        return bool(_README_FILENAME.search(m.group(1)))
     return bool(core) and len(core) <= 16 and " " not in core
 
 

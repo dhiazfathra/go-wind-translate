@@ -137,6 +137,23 @@ def test_identifier_drift_still_flags_code_change_outside_raw_string(tmp_path):
     assert not any("Hello" in d or "World" in d for d in drift)
 
 
+def test_identifier_drift_flags_rename_on_multiline_raw_string_boundary(tmp_path):
+    # A rename sharing a line with the opening/closing delimiter of a
+    # multi-line raw string is real drift, not translated literal content --
+    # unlike the fully-interior lines, which stay masked.
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
+    f = tmp_path / "a.go"
+    f.write_text("package p\n\nvar tmpl = `Hello\nWorld`\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "i"], cwd=tmp_path, check=True)
+
+    f.write_text("package p\n\nvar emailTemplate = `Hello\nWorld`\n", encoding="utf-8")
+    drift = identifier_drift(tmp_path)
+    assert any("emailTemplate" in d for d in drift)
+
+
 def test_identifier_drift_ignores_comment_only_change(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)

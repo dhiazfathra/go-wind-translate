@@ -31,6 +31,16 @@ def splice_file(path: Path, occs: list[Occurrence], cache: Cache) -> int:
             # quote terminates the literal early and breaks the build —
             # escape it the same way the host language would.
             en = en.replace("\\", "\\\\").replace('"', '\\"')
+        elif o.kind == "raw_string":
+            # A raw string literal (Go: backtick-delimited) treats backslash
+            # and double-quote as plain bytes, not escapes — applying the
+            # interpreted-string escaping here would corrupt content like a
+            # Windows path (C:\tmp) or an embedded quote. The one thing a raw
+            # string genuinely cannot represent is a literal backtick (it
+            # would terminate the literal); if MT output contains one, skip
+            # this occurrence rather than emit a broken source file.
+            if "`" in en:
+                continue
         raw[o.start:o.end] = en.encode("utf-8")
         n += 1
     if n:

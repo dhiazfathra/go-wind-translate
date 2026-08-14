@@ -117,31 +117,55 @@ def _pair_verdict(old: str | None, new: str | None) -> str | None:
 
 
 _MULTILINE_OPAQUE = [
-    re.compile(r'`[^`]*`', re.DOTALL),      # Go raw string literal
-    re.compile(r'/\*.*?\*/', re.DOTALL),    # block comment (Go, proto)
+    (re.compile(r'`[^`]*`', re.DOTALL), '`', '`'),        # Go raw string literal
+    (re.compile(r'/\*.*?\*/', re.DOTALL), '/*', '*/'),    # block comment (Go, proto)
 ]
 
 
-def _multiline_opaque_lines(text: str) -> set[int]:
-    """1-indexed line numbers inside a raw string or block comment that
-    spans more than one line.
+def _multiline_opaque(text: str) -> tuple[set[int], dict[int, tuple[str, bool]]]:
+    """Interior line numbers and boundary-line roles for a raw string or
+    block comment spanning more than one line.
 
     A multi-line Go raw string is common for embedded templates — email
-    bodies, LLM prompts, Lua/SQL scripts. Each of its lines is just
-    translated prose/script content, but `_pair_verdict` sees isolated
+    bodies, LLM prompts, Lua/SQL scripts. Each of its interior lines is
+    just translated prose/script content, but `_pair_verdict` sees isolated
     diff lines with no way to know they're inside one literal: a line like
     "Verification code:{code}" or a Lua "-- comment" trips `_CODE_LINE` on
-    its own. Single-line literals don't need this — `_blank_literals`
-    already masks those correctly.
+    its own — those are skipped outright by the caller.
+
+    The opening/closing delimiter lines are different: real code can share
+    that line (var tmpl = `Hello), and a rename there is genuine drift.
+    They're reported as boundary roles instead of being blanket-skipped, so
+    the caller can mask only the literal-content side of the line before
+    running it through `_pair_verdict` — the code-bearing side still gets
+    compared.
     """
-    covered = set()
-    for pat in _MULTILINE_OPAQUE:
+    interior: set[int] = set()
+    boundary: dict[int, tuple[str, bool]] = {}
+    for pat, open_delim, close_delim in _MULTILINE_OPAQUE:
         for m in pat.finditer(text):
             start = text.count("\n", 0, m.start()) + 1
             end = text.count("\n", 0, m.end()) + 1
             if end > start:
-                covered.update(range(start, end + 1))
-    return covered
+                interior.update(range(start + 1, end))
+                boundary[start] = (open_delim, True)
+                boundary[end] = (close_delim, False)
+    return interior, boundary
+
+
+def _mask_multiline_boundary(body: str, delim: str, is_open: bool) -> str:
+    """Blank the literal-content side of a multi-line-literal boundary line.
+
+    An opening line keeps everything up to and including the delimiter
+    (code, then the delimiter); a closing line keeps everything from the
+    delimiter onward (the delimiter, then any trailing code). Either way,
+    the content that lives inside the literal — the side with no delimiter
+    on it — is discarded before comparison.
+    """
+    idx = body.find(delim) if is_open else body.rfind(delim)
+    if idx == -1:
+        return body
+    return body[:idx + len(delim)] if is_open else body[idx:]
 
 
 _HUNK_HEADER = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
@@ -167,6 +191,7 @@ def identifier_drift(repo_root: Path) -> list[str]:
 
     out: list[str] = []
     opaque: set[int] = set()
+    boundary: dict[int, tuple[str, bool]] = {}
     new_lineno = 0
     # A "-" run followed by a "+" run within one hunk pairs positionally
     # (git diff -U0's convention for a same-size replacement); track the
@@ -177,7 +202,7 @@ def identifier_drift(repo_root: Path) -> list[str]:
         if line.startswith("+++ b/"):
             path = root / line[6:]
             text = path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
-            opaque = _multiline_opaque_lines(text)
+            opaque, boundary = _multiline_opaque(text)
             pending_removed.clear()
             continue
         m = _HUNK_HEADER.match(line)
@@ -190,14 +215,20 @@ def identifier_drift(repo_root: Path) -> list[str]:
         if line[0] == "-":
             pending_removed.append(line)
         elif line[0] == "+":
+            old = pending_removed.pop(0) if pending_removed else None
             if new_lineno in opaque:
-                if pending_removed:
-                    pending_removed.pop(0)  # consume in order, no verdict
                 new_lineno += 1
                 continue
-            verdict = _pair_verdict(pending_removed.pop(0) if pending_removed else None, line)
+            role = boundary.get(new_lineno)
+            new_for_verdict, old_for_verdict = line, old
+            if role:
+                delim, is_open = role
+                new_for_verdict = "+" + _mask_multiline_boundary(line[1:], delim, is_open)
+                if old is not None:
+                    old_for_verdict = "-" + _mask_multiline_boundary(old[1:], delim, is_open)
+            verdict = _pair_verdict(old_for_verdict, new_for_verdict)
             if verdict:
-                out.append(verdict)
+                out.append(line)
             new_lineno += 1
     return out
 
