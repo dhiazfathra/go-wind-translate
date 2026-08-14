@@ -120,12 +120,18 @@ def _pair_verdict(old: str | None, new: str | None) -> str | None:
 def identifier_drift(repo_root: Path) -> list[str]:
     """Diff lines that changed actual code, not just string/comment content.
 
-    Scoped to code files only: markdown prose routinely has a word followed
-    by `:` or `(` (e.g. "Direction:`cmd -> ...`"), which trips `_CODE_LINE`
-    despite carrying no identifiers at all.
+    Scoped to `.go`/`.proto`, matching the manual check this automates
+    (Task 12's `grep -E '\\b(func|type|var|const|package|import)\\b'` was
+    only ever run against `*.go`/`*.proto`). Every other language this repo
+    set carries breaks the line-diff heuristic a different way: markdown
+    prose trips it on a bare `word:`, YAML/shell/PowerShell on translated
+    scalar values and single-quoted strings, Vue/HTML on inner text between
+    tags (not inside any string literal `_blank_literals` can mask) sharing
+    a line with an unrelated `attr="..."`. None of those carry the actual
+    identifier/signature risk this gate exists to catch.
     """
     diff = subprocess.run(
-        ["git", "diff", "-U0", "--", ".", ":(exclude)*.md", ":(exclude)*.mdx"],
+        ["git", "diff", "-U0", "--", "*.go", "*.proto"],
         cwd=repo_root, capture_output=True, text=True).stdout
     lines = [ln for ln in diff.splitlines()
               if ln and ln[0] in "+-" and ln[:3] not in ("+++", "---")]
