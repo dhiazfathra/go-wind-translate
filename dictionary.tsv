@@ -1,0 +1,41 @@
+创建	Create
+更新	Update
+删除	Delete
+查询	Query
+列表	List
+用户	User
+名称	Name
+备注	Remark
+创建时间	Creation time
+更新时间	Update time
+删除时间	Deletion time
+是否启用	Whether enabled
+排序	Sort order
+状态	Status
+类型	Type
+主键	Primary key
+请求	Request
+默认	Default
+租户	Tenant
+可选	Optional
+使用	Use
+回应	Response
+地址	Address
+资源	Resource
+角色	Role
+创建者	Creator
+更新者	Updater
+删除者	Deletor
+说明	Description
+开始	Start
+通过	By
+租户名称	Tenant name
+返回	Return
+条件	Condition
+过滤	Filter
+表达式	Expression
+ID	ID
+分页	Pagination
+游标	Cursor
+字段	Field
+掩码	Mask
