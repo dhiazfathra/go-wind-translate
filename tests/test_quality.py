@@ -65,3 +65,30 @@ def test_pad_comment_boundary_leaves_ordinary_comment_text_untouched():
     start = raw.index(b"fine")
     end = start + len(b"fine")
     assert pad_comment_boundary(raw, start, end, "fine") == "fine"
+
+
+def test_pad_comment_boundary_pads_both_sides_inside_fullwidth_brackets():
+    # "（配置项）" glues both the opening "（" and closing "）" directly onto
+    # the span, same root cause as the acronym case: extraction narrows to
+    # the CJK-letter run only, so the brackets outside it are never touched.
+    raw = "// （配置项）get value\n".encode("utf-8")
+    start = raw.index("（".encode()) + len("（".encode())
+    end = raw.index("）".encode())
+    assert pad_comment_boundary(raw, start, end, "Config item") == " Config item "
+
+
+def test_pad_comment_boundary_pads_before_trailing_fullwidth_punct():
+    raw = "// 说明。get value\n".encode("utf-8")
+    start = 3
+    end = start + len("说明".encode())
+    assert pad_comment_boundary(raw, start, end, "Note") == "Note "
+
+
+def test_pad_comment_boundary_leaves_lowercase_word_unpadded_on_leading_side():
+    # Only a capitalized real word is treated as a genuine translated word
+    # boundary (mirrors the acronym-glue heuristic's scope) -- an all-lower
+    # fragment doesn't trigger leading-side padding.
+    raw = "// （配置项）get value\n".encode("utf-8")
+    start = raw.index("（".encode()) + len("（".encode())
+    end = raw.index("）".encode())
+    assert pad_comment_boundary(raw, start, end, "config item") == "config item "

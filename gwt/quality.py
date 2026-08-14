@@ -42,6 +42,18 @@ _LEADING_ACRONYM = re.compile(r"^(?:" + _ACRONYM_ALT + r")")
 _WORD_START = re.compile(r"^[A-Z][a-z]")
 _WORD_END = re.compile(r"[a-z]$")
 
+# Full-width Chinese punctuation left glued to a translated span for the same
+# reason as the acronym case above: extraction narrows to the CJK-letter run
+# only, so punctuation immediately outside it is never part of the segment
+# and is never touched by translation. Left as-is, it reads as e.g.
+# "the request、then respond" or "get value（configured elsewhere）" — a
+# half-width English word directly touching a full-width mark. Pad with a
+# space rather than converting the mark itself: the mark may still be
+# bracketing untranslated Chinese on its far side, so swapping it for an
+# ASCII equivalent isn't always correct, but a boundary space always reads
+# better than none.
+_FULLWIDTH_PUNCT = "，。、；：（）！？"
+
 # Bytes of lookaround around a splice span, enough for the longest acronym
 # ("HTTPS", 5 chars) plus slack.
 _LOOKAROUND = 10
@@ -64,6 +76,10 @@ def pad_comment_boundary(raw: bytes, start: int, end: int, en: str) -> str:
     after = raw[end:end + _LOOKAROUND].decode("utf-8", errors="ignore")
     if _TRAILING_ACRONYM.search(before) and _WORD_START.match(en):
         en = " " + en
+    elif before and before[-1] in _FULLWIDTH_PUNCT and _WORD_START.match(en):
+        en = " " + en
     if _LEADING_ACRONYM.match(after) and _WORD_END.search(en):
+        en = en + " "
+    elif after and after[0] in _FULLWIDTH_PUNCT and _WORD_END.search(en):
         en = en + " "
     return en
