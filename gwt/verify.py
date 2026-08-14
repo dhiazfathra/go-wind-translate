@@ -113,9 +113,15 @@ def _pair_verdict(old: str | None, new: str | None) -> str | None:
 
 
 def identifier_drift(repo_root: Path) -> list[str]:
-    """Diff lines that changed actual code, not just string/comment content."""
-    diff = subprocess.run(["git", "diff", "-U0"], cwd=repo_root,
-                          capture_output=True, text=True).stdout
+    """Diff lines that changed actual code, not just string/comment content.
+
+    Scoped to code files only: markdown prose routinely has a word followed
+    by `:` or `(` (e.g. "Direction:`cmd -> ...`"), which trips `_CODE_LINE`
+    despite carrying no identifiers at all.
+    """
+    diff = subprocess.run(
+        ["git", "diff", "-U0", "--", ".", ":(exclude)*.md", ":(exclude)*.mdx"],
+        cwd=repo_root, capture_output=True, text=True).stdout
     lines = [ln for ln in diff.splitlines()
               if ln and ln[0] in "+-" and ln[:3] not in ("+++", "---")]
     out = []
