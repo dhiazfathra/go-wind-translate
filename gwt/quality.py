@@ -76,7 +76,7 @@ def pad_comment_boundary(raw: bytes, start: int, end: int, en: str) -> str:
     after = raw[end:end + _LOOKAROUND].decode("utf-8", errors="ignore")
     if _TRAILING_ACRONYM.search(before) and _WORD_START.match(en):
         en = " " + en
-    elif before and before[-1] in _FULLWIDTH_PUNCT and _WORD_START.match(en):
+    elif before and before[-1] in _FULLWIDTH_PUNCT and en:
         en = " " + en
     if _LEADING_ACRONYM.match(after) and _WORD_END.search(en):
         en = en + " "

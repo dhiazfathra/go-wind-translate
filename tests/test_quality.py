@@ -84,11 +84,11 @@ def test_pad_comment_boundary_pads_before_trailing_fullwidth_punct():
     assert pad_comment_boundary(raw, start, end, "Note") == "Note "
 
 
-def test_pad_comment_boundary_leaves_lowercase_word_unpadded_on_leading_side():
-    # Only a capitalized real word is treated as a genuine translated word
-    # boundary (mirrors the acronym-glue heuristic's scope) -- an all-lower
-    # fragment doesn't trigger leading-side padding.
+def test_pad_comment_boundary_pads_lowercase_word_on_leading_side():
+    # A fullwidth punct mark can't be a code identifier, so leading-side
+    # padding applies regardless of capitalization (symmetric with the
+    # trailing-side fullwidth-punct check).
     raw = "// （配置项）get value\n".encode("utf-8")
     start = raw.index("（".encode()) + len("（".encode())
     end = raw.index("）".encode())
-    assert pad_comment_boundary(raw, start, end, "config item") == "config item "
+    assert pad_comment_boundary(raw, start, end, "config item") == " config item "
