@@ -37,3 +37,11 @@ def test_get_engine_returns_named_engine():
 def test_engine_preserves_input_length():
     e = get_engine("dictionary")
     assert len(e.translate(["甲", "乙", "丙"])) == 3
+
+
+def test_dictionary_pins_180tian_mistranslation():
+    # DeepL returned "180Tian" for this segment -- an untranslated
+    # transliteration of the day-count suffix, not a boundary artifact.
+    # Pinned in dictionary.tsv so it never reaches the MT engine.
+    e = get_engine("dictionary")
+    assert e.translate(["180天"]) == ["180 days"]
