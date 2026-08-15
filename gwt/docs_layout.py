@@ -165,6 +165,33 @@ def _is_stale_switcher(text: str) -> bool:
     return all(_looks_like_label(seg) for seg in text.split(sep))
 
 
+_HTML_OPEN = re.compile(r"^\s*<(p|div)\b[^>]*>\s*$")
+_HTML_CLOSE = re.compile(r"^\s*</(p|div)>\s*$")
+
+
+def _stale_span(lines: list[str], i: int) -> tuple[int, int]:
+    """The slice to delete for the stale switcher at `lines[i]`.
+
+    Several repos centre their hand-written switcher inside its own
+    `<p align="center">` block. Deleting only the switcher line leaves that
+    wrapper behind as an empty centred paragraph — visible cruft in the
+    rendered README. When the line is the wrapper's *sole* content, the
+    wrapper goes with it; a wrapper holding sibling content (badges, a
+    tagline) keeps its tags.
+    """
+    if (i > 0 and i + 1 < len(lines)
+            and _HTML_OPEN.match(lines[i - 1]) and _HTML_CLOSE.match(lines[i + 1])):
+        start, stop = i - 1, i + 2
+        # The block is normally set off by blank lines on both sides; removing
+        # it would leave those two adjacent, i.e. a doubled blank line. Take
+        # one of them with the block.
+        if start > 0 and not lines[start - 1].strip() and \
+                stop < len(lines) and not lines[stop].strip():
+            stop += 1
+        return start, stop
+    return i, i + 1
+
+
 def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     """Insert the language switcher after the H1. Returns True if it changed."""
     line = switcher_line(variants)
@@ -174,7 +201,8 @@ def ensure_switcher(path: Path, variants: dict[str, str]) -> bool:
     if line in text and not stale:
         return False
     for i in reversed(stale):
-        del lines[i]
+        start, stop = _stale_span(lines, i)
+        del lines[start:stop]
     idx = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), -1)
     at = idx + 1 if idx >= 0 else 0
     if line not in lines:

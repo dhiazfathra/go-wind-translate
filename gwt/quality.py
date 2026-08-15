@@ -106,15 +106,22 @@ _ANCHOR_LINK = re.compile(r"(\]\([^)]*?#)([^)]+)(\))")
 def heading_slug(line: str) -> str:
     """GitHub's heading-to-fragment slug for an ATX heading line.
 
-    Lowercase, punctuation dropped, whitespace collapsed to hyphens. CJK is
-    kept verbatim — GitHub does not transliterate it, which is exactly why a
-    Chinese heading yields a Chinese fragment.
+    Lowercase, punctuation dropped, then **each** whitespace character becomes
+    one hyphen. CJK is kept verbatim — GitHub does not transliterate it, which
+    is exactly why a Chinese heading yields a Chinese fragment.
+
+    Replacing whitespace *runs* with a single hyphen is wrong and was the
+    original bug here: dropping the punctuation in `### Repeated / Map Fields`
+    leaves two adjacent spaces, and GitHub turns each into a hyphen, so the
+    real fragment is `repeated--map-fields`. Collapsing gave
+    `repeated-map-fields`, which made `broken_anchors` report three perfectly
+    valid anchors in go-wind-toolkit.
     """
     m = _ATX_HEADING.match(line)
     text = m.group(1) if m else line
     text = text.strip().lower()
     text = re.sub(r"[^\w\s一-鿿-]", "", text)
-    return re.sub(r"\s+", "-", text).strip("-")
+    return re.sub(r"\s", "-", text).strip("-")
 
 
 def _headings(text: str) -> list[str]:

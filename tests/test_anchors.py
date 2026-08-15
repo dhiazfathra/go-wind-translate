@@ -75,3 +75,19 @@ def test_ignores_heading_inside_fenced_block():
              "[x](#架构概览)\n").encode("utf-8")
     out = repair_anchors(before, after).decode("utf-8")
     assert "[x](#architecture-overview)" in out
+
+
+def test_heading_slug_maps_each_space_to_its_own_hyphen():
+    # go-wind-toolkit: dropping the "/" in "Repeated / Map Fields" leaves two
+    # adjacent spaces, and GitHub turns each into a hyphen. Collapsing the run
+    # into one hyphen made broken_anchors report three valid anchors.
+    assert heading_slug("### Repeated / Map Fields") == "repeated--map-fields"
+    assert heading_slug("## Hello - World") == "hello---world"
+    assert heading_slug("## A (b) c") == "a-b-c"
+
+
+def test_broken_anchors_accepts_an_anchor_with_a_doubled_hyphen(tmp_path):
+    from gwt.verify import broken_anchors
+    (tmp_path / "a.md").write_text(
+        "### Repeated / Map Fields\n\n- [x](#repeated--map-fields)\n", encoding="utf-8")
+    assert broken_anchors(tmp_path) == []

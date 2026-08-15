@@ -3,14 +3,23 @@
 ## State as of this handoff
 
 - **Master** has the full `gwt` tooling plus every fix from Tasks 12-14.
-  162/162 tests passing (`python3 -m pytest`, ~4s), `ruff check .` clean.
+  167/167 tests passing (`python3 -m pytest`, ~4s), `ruff check .` clean.
 - **Tasks 1-11 done**: the tooling itself, merged in PR #1.
-- **Task 12 done**: pilot run against `go-wind-bootstrap`, PR merged.
+- **Task 12: pilot run done, but its PR is still OPEN.**
+  `go-wind-bootstrap#1` was never merged — an earlier version of this
+  handoff claimed it was, which was wrong. It is now updated with the
+  quality-pass re-run (force-pushed onto `chore/i18n-en-default`, since the
+  PR was unmerged and the re-run supersedes its single commit).
 - **Task 13 done**: fanned out to all 10 remaining `go-wind*` repos. Every
   repo's `chore/i18n-en-default` PR has been reviewed and **squash-merged**:
   go-wind#1, go-wind-bi#1, go-wind-admin-template#1, go-wind-toolkit#1,
   go-wind-plugins#1, go-wind-ledger#1, go-wind-uba#1, go-wind-shop#1,
   go-wind-cms#1, go-wind-admin#1.
+- **Propagation done** (was item 1 below): the accumulated tool fixes have
+  been re-applied to every target repo. Eight new PRs (`#2` in
+  admin-template, toolkit, plugins, ledger, uba, shop, cms, admin) plus
+  bootstrap's updated `#1`. `go-wind` and `go-wind-bi` needed **no change**
+  — the current tool reproduces their merged output byte-for-byte.
 - **Task 14 is CLOSED as descoped** by
   [ADR-0006](docs/decisions/0006-close-task-14-bulk-llm-pass.md). Its bulk LLM
   re-translation was never run and will not be; the three targeted quality
@@ -113,7 +122,7 @@ since they're data/content, not `gwt` logic):
     a link segment must target a README-variant filename, not just look
     like a markdown link.
 
-Follow-up hardening (3, each with regression tests):
+Follow-up hardening (5, each with regression tests):
 17. `splice.py` applied Go/TS string-literal escaping to *every* language,
     corrupting `.sql` literals on all three characters involved (apostrophe,
     backslash, double quote). Fixed with `_escape_string(en, suffix)` —
@@ -136,6 +145,28 @@ Follow-up hardening (3, each with regression tests):
     go-wind-cms's git history: 7 broken anchors in that file become 0, with
     correct mappings (`#架构概览` → `#architecture-overview`), and only the
     7 anchor lines change.
+
+Both of the following were caught by **piloting the propagation re-run on
+`go-wind-bootstrap` before touching any other repo** — the direct argument
+for piloting rather than sweeping all eleven at once:
+
+20. `ensure_switcher` deleted a stale switcher line by index with no
+    awareness of the `<p align="center">` wrapper several repos centre it
+    in, leaving an empty centred paragraph — visible cruft in the rendered
+    README and a regression against the previous translation, which had
+    left the whole block alone. Fixed with `_stale_span`, which takes the
+    wrapper when the stale line is its sole content (a wrapper holding
+    badges or a tagline keeps its tags) plus one surrounding blank line so
+    removal doesn't leave a doubled blank.
+21. `heading_slug` collapsed whitespace *runs* to one hyphen; GitHub maps
+    **each** whitespace character to its own hyphen. Only equivalent when a
+    heading has no punctuation between words — and `### Repeated / Map
+    Fields` drops the `/`, leaving two adjacent spaces, so the real
+    fragment is `repeated--map-fields`. `broken_anchors` reported three
+    perfectly valid anchors in go-wind-toolkit as broken. `repair_anchors`
+    was not observed to corrupt anything (a mis-computed old slug simply
+    fails to match, so no rewrite happens) but could have mapped an anchor
+    onto a wrong new slug, so this is a correctness fix, not gate noise.
 
 ## Task 14 slices done (post-merge review findings)
 
@@ -194,89 +225,53 @@ Follow-up hardening (3, each with regression tests):
   (unit-level in `test_quality.py`, one end-to-end splice test).
 ## What's left
 
-**Item 1 is the only thing left, and it is an action, not a decision.** Items
-2-5 are all resolved — 3 and 5 by fixing them, 2 and 4 by deciding them in
-ADR-0006 and ADR-0007. Their entries below are kept as the record of what was
-decided and why.
+**Everything in this list is now closed.** Items 3 and 5 were fixed, items 2
+and 4 decided in ADR-0006 and ADR-0007, item 6 recorded as a known limitation,
+and item 1 — the propagation re-run — is done. What is left is review of the
+nine open target-repo PRs, plus the two follow-ups named at the end.
 
-Item 1 needs pushes against the ten target repos, so it needs the user's
-go-ahead. Everything it was waiting on is now in place.
+### 1. Propagate the accumulated fixes to the target repos — DONE
 
-### 1. Propagate the slice 1-3 fixes into the 11 target repos (highest value)
+Every `gwt` fix from Task 14 onward landed *after* the target repos' PRs
+merged, so their English output still carried the defects the tool now
+prevents. Re-ran the pipeline for all eleven repos from each one's
+pre-translation commit, with a gate baseline captured beforehand so
+pre-existing repo defects could not be mistaken for regressions.
 
-Every `gwt` fix from Task 14 landed **after** the target repos' PRs merged, so
-the merged English in those repos still contains the artifacts the tool now
-prevents. Verified live on `go-wind-cms` at the time of writing:
+**The cache was unchanged by every run** — 43,100 segments, all hits, no engine
+call, no `DEEPL_API_KEY` needed. This is what "the cache is the artifact"
+([ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-translation.md))
+buys: a full eleven-repo re-translation for free, offline.
 
-```
-frontend/admin/apps/admin/src/utils/query.ts:138
-  * Create a List QueryJSONFilter String            <- slice 1 (acronym glue)
-.../views/app/site_setting/navigation/navigation-view.state.ts:66
-  * According to the directionsIDGet the list of navigation items   <- slice 1
-.../app/core/preferences/use-preferences.ts:74
-  * @param mode Theme Mode (light/dark/auto）        <- slice 3 (full-width glue)
-```
+| repo | residual CJK (chars) | diff vs merged | PR |
+|---|---|---|---|
+| go-wind | 1,184 -> 7 | none | — none needed |
+| go-wind-bi | 598 -> 4 | none | — none needed |
+| go-wind-admin-template | 2,544 -> 0 | 3 files | #2 |
+| go-wind-toolkit | 19,662 -> 219 | 7 files | #2 |
+| go-wind-plugins | 74,456 -> 4,720 | 26 files | #2 |
+| go-wind-ledger | 135,094 -> 6,399 | 119 files | #2 |
+| go-wind-uba | 156,574 -> 3,293 | 131 files | #2 |
+| go-wind-shop | 167,117 -> 7,976 | 114 files | #2 |
+| go-wind-cms | 221,912 -> 13,363 | 157 files | #2 |
+| go-wind-admin | 215,103 -> 12,306 | 138 files | #2 |
+| go-wind-bootstrap | (pilot) | 5 files | #1, force-pushed |
 
-This is cosmetic-only (comments and doc prose, never identifiers or runtime
-i18n), which is why it wasn't a merge blocker. But it is the whole point of
-slices 1-3, and it is currently fixed in the tool and not in the output.
+`go-wind` and `go-wind-bi` reproduce their merged output exactly — the fixes
+touch nothing in them, so no PR was opened. That is a useful signal, not a
+failure.
 
-The re-run is **essentially free** — every already-resolved segment is a cache
-hit, and `cmd_translate` only calls an engine for segments the cache doesn't
-hold. Have `DEEPL_API_KEY` exported anyway: the `classify.py` glob fix from bug
-10 changed which files are in scope, so a small number of genuinely new
-segments is likely. Per repo:
+**Gate verdict across all eleven: no new broken links, no new broken anchors,
+no identifier drift.** Every apparent rise in `broken_links` is the *same*
+pre-existing broken target now also present in the `README.zh-CN.md` archival
+copy the doc move creates by design (ADR-0004) — verified by diffing the
+before/after finding lists, not by assuming. Same for the one apparent new
+broken anchor in cms: a stale `#三层架构详解` in the *Chinese source*, left over
+from that repo's own three-tier-to-two-tier refactor, duplicated into the
+archival copy.
 
-```bash
-# 1. capture a pre-run baseline so the gate reports only NEW defects.
-#    Use --out, NOT a stdout redirect -- stdout caps each list at 20 items.
-cd ~/Documents/GitHub/dhiazfathra/go-wind-translate
-python3 -m gwt.cli verify <repo> --skip-build --out work/<repo>-before.json
-
-# 2. reset the target to its PRE-TRANSLATION state (see caveat below)
-cd ~/Documents/GitHub/dhiazfathra/<repo>
-git checkout -b chore/i18n-quality-pass <pre-translation-sha>
-
-# 3. re-run and gate
-cd ~/Documents/GitHub/dhiazfathra/go-wind-translate
-python3 -m gwt.cli run <repo> --engine deepl
-python3 -m gwt.cli verify <repo> --baseline work/<repo>-before.json
-```
-
-Then rebuild (`make gen` where applicable — never hand-edit generated files,
-[ADR-0002](docs/decisions/0002-translate-sources-regenerate-derived-artifacts.md))
-and diff-review before pushing.
-
-Two things to watch:
-
-- **Reset caveat.** `git checkout -- . && git clean -fd` on a branch whose
-  translation is already committed resets to the *translated* state, not the
-  Chinese original. Re-splicing from there is a no-op at best, because
-  `splice_file` hash-checks each occurrence and skips non-matching spans
-  (Ruling #6). Branch off the **pre-translation** commit, or run
-  `git revert`/`git checkout <pre-translation-sha> -- .` first. Getting this
-  wrong looks like "the fix didn't apply" rather than an error.
-- **The hand-edits from bugs 10-13 are not reproducible by the tool.** The
-  `use-simple-locale/messages.ts` reverts and the go-wind-admin SQL block
-  revert exist only in the merged history. Bug 10's root cause *is* fixed in
-  `classify.py`, so a re-run won't re-break it; bugs 12-13's fixes live in
-  `dictionary.tsv` so they hold too. Bug 13's `.sql` **quoting** damage was
-  the one real blocker here and is now fixed in the tool (item 3), so the
-  re-run no longer needs `postgresql-demo-data.sql` excluded. Its *locale
-  mixup* half was a content revert and stays a manual check: confirm the
-  `language_code='zh-CN'` rows come back Chinese, not English.
-
-Sequence it smallest-repo-first, same as Task 13, and confirm with the user
-before any push or PR against a target repo — that standing rule has not
-changed.
-
-**What the re-run now fixes, beyond slices 1-3**: the 32 broken in-page anchors
-(bug 19) are repaired by `repair_anchors` during splice, and the new
-`broken_anchors` gate check proves it. Note that a baseline captured before that
-key existed has no `broken_anchors` entry, and `cmd_verify` reads a missing key
-as an empty list — so those 32 correctly surface as findings rather than being
-suppressed. That is the desired behaviour: they *should* appear, then go to zero
-once the re-run repairs them.
+**Two real bugs surfaced from the pilot alone** (bugs 20 and 21 above) — both
+would have shipped into eleven repos had the sweep gone straight through.
 
 ### 2. The plan's actual Task 14 — DECIDED: closed, do not run
 
@@ -405,6 +400,30 @@ character* (CommonMark: a closing fence must be at least as long as the opener
 and use the same character), not a boolean toggle. `broken_anchors` inherits the
 same masker and therefore the same limitation.
 
+### Follow-up: single-char CJK between two Latin runs
+
+`// PostgreSQL到Protobuf的类型映射` still comes out as
+`// PostgreSQL ToProtobufType Mapping`. Extraction narrows to `到` and
+`的类型映射` correctly; `pad_comment_boundary` pads the left boundary because
+`PostgreSQL` ends in the known acronym `SQL`, but not the right, because
+`Protobuf` is not a known acronym. Better than the merged
+`PostgreSQLToProtobufType Mapping`, still wrong.
+
+Fixing it means padding **any** Latin/English boundary in a comment rather than
+only known acronyms. That is likely safe — with span narrowing, adjacent Latin
+is by definition outside the segment, and identifiers in this corpus never
+contain CJK, so `GetUserList获取用户列表` -> `GetUserList Get the user list` is
+the desired result. But it is a deliberate widening of a rule whose docstring
+currently argues *for* the narrow version, so it needs its own change, its own
+tests, and its own review — not a quiet edit during a propagation sweep.
+
+### Follow-up: full-width punctuation in markdown prose
+
+`pad_comment_boundary` is `kind == "comment"` only, so markdown prose keeps
+source punctuation: `_examples/ddd/README.md` ends a translated English
+sentence with `HTTP API。`. Cosmetic, and out of scope for a comment-focused
+rule, but visible in rendered docs.
+
 ## Rulings carried forward (Tasks 1-13)
 
 1. **`cmd_run` pipeline order is `extract -> docs(moves only) -> translate
@@ -482,46 +501,64 @@ same masker and therefore the same limitation.
 
 ## How to resume
 
-Nothing is mid-flight. There is no dirty worktree, no open PR, no failing
-test, and no blocked step — every branch this project created is merged and
-its worktree removed. Pick up from "What's left" above.
-
-**First 10 minutes, whatever you pick:**
+**Nine target-repo PRs are open and awaiting review** — that is the only thing
+in flight. No dirty worktree, no failing test, no blocked step in this repo.
 
 ```bash
 cd ~/Documents/GitHub/dhiazfathra/go-wind-translate
-git pull --ff-only origin master   # local master goes stale fast; work happened in worktrees
-python3 -m pytest -q               # must be 162/162 before touching anything
-ruff check .                       # must be clean
+git pull --ff-only origin master   # local master goes stale fast; work happens in worktrees
+python3 -m pytest -q               # must be 167/167 before touching anything
+ruff check .                       # must be clean (scope to tests/ gwt/ if stale
+                                   # worktree dirs under .claude/ pollute the run)
 ```
 
-The pull matters: this repo's local checkout was stale by five merged commits
-when this handoff was written, because every slice was built in a worktree and
-merged on GitHub. `git log --oneline origin/master` is the truth, not the
-working copy.
+The pull matters: this repo's local checkout was once stale by five merged
+commits, because every slice is built in a worktree and merged on GitHub.
+`git log --oneline origin/master` is the truth, not the working copy.
 
-**Then: there is exactly one thing left, item 1.** Everything else in "What's
-left" is closed — items 3 and 5 by fixing them, items 2 and 4 by deciding them
-in ADR-0006 and ADR-0007. Do not reopen a closed item without a superseding
-ADR; the measurements behind each decision are recorded there so they don't
-have to be re-derived.
+**The open PRs**, all titled `chore(i18n): re-run translation with accumulated
+tool fixes`:
 
-Item 1 is a re-run of the pipeline over the eleven target repos to propagate
-every tool fix that landed after their PRs merged. It needs the user's
-go-ahead because it pushes to those repos. Read its two caveats before the
-first reset — the reset-to-translated-state trap silently produces a no-op
-that looks like a broken fix. It is a plain re-splice now, not a subset of
-some larger LLM sweep (ADR-0006).
+| repo | PR |
+|---|---|
+| go-wind-bootstrap | #1 (the Task 12 pilot, force-pushed — never merged) |
+| go-wind-admin-template, go-wind-toolkit, go-wind-plugins, go-wind-ledger | #2 each |
+| go-wind-uba, go-wind-shop, go-wind-cms, go-wind-admin | #2 each |
+
+Reviewing them: the diffs are large (up to 157 files) but repetitive — almost
+every line is a boundary-space insertion or an anchor fragment rewrite. Spot-check
+a few of each shape rather than reading all of it, and lean on the gate result
+recorded in item 1, which was taken against a pre-translation baseline.
+
+**Everything in "What's left" is closed.** Items 3 and 5 were fixed, items 2 and
+4 decided in ADR-0006 and ADR-0007, item 6 recorded as a known limitation, item 1
+executed. Do not reopen a closed item without a superseding ADR — the
+measurements behind each decision are recorded there so they don't have to be
+re-derived.
+
+**The two named follow-ups are the only new work on the table**, and both widen
+an existing rule deliberately, so both want their own change and review: padding
+any Latin boundary in a comment rather than only known acronyms, and full-width
+punctuation in markdown prose.
 
 **Standing rules that still apply** (see CLAUDE.md for the full set):
 
 - Fix bugs in `gwt`, never by hand-editing a target repo — Ruling #10 carves
   out only the narrow "revert an already-fixed-in-tool mistranslation" case.
+- **Pilot a sweep on one small repo before running it across all eleven.** The
+  propagation pass found two real bugs (20, 21) in the pilot alone, both of
+  which would otherwise have shipped everywhere at once.
 - `python3 -m pytest` green before any commit.
 - `cache/segments.jsonl` is the artifact — committed, never regenerated,
   never gitignored ([ADR-0001](docs/decisions/0001-deduplicated-segment-cache-over-per-file-llm-translation.md)).
+  A full eleven-repo re-run needed zero engine calls, which is the whole point.
 - Confirm with the user before any push or PR against a target `go-wind*`
   repo. Work inside this repo doesn't need that confirmation.
 - Work in a worktree (`superpowers:using-git-worktrees`) off fresh `master`,
   one slice per PR. Commit before `ExitWorktree` — `discard_changes: true`
   discards uncommitted working-tree edits along with unmerged commits.
+- Verify a PR body survived `no-mistakes` **programmatically, at the byte
+  level**. It replaced the body on 3 of 4 runs, and `diff` in this shell is
+  wrapped by `rtk` and rendered a false all-clear on one of them. Assert on
+  several distinctive substrings, not one — a single marker can survive in the
+  pipeline's own echoed intent text and give a false pass.
