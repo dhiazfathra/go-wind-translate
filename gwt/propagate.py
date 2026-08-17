@@ -73,8 +73,22 @@ def propagate(repo: Path, changed: list[dict]) -> tuple[int, int, list[dict]]:
 
     Returns (files_touched, replacements, skipped_pairs).
     """
-    pairs = [(c["before"], c["after"]) for c in changed if _safe_literal(c["before"])]
-    skipped = [c for c in changed if not _safe_literal(c["before"])]
+    # One English string can be the repair target of several different segments:
+    # 错误的请求, 不可接受的请求 and 错误请求 all came back as "Invalid Request", and
+    # text search cannot tell which occurrence is which. Ambiguous pairs are
+    # reported, never guessed at.
+    targets: dict[str, set[str]] = {}
+    for c in changed:
+        targets.setdefault(c["before"], set()).add(c["after"])
+    def usable(c: dict) -> bool:
+        return (
+            _safe_literal(c["before"])
+            and len(targets[c["before"]]) == 1
+            and not c.get("ambiguous")
+        )
+
+    pairs = [(c["before"], c["after"]) for c in changed if usable(c)]
+    skipped = [c for c in changed if not usable(c)]
     files_touched = replacements = 0
     for path in target_files(repo):
         try:

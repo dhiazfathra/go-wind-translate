@@ -51,3 +51,31 @@ def test_single_word_pairs_are_not_propagated_by_text_search():
     assert not _safe_literal("Execute")
     assert not _safe_literal("Equipment")
     assert _safe_literal("Git Warehouse")
+
+
+def test_ambiguous_before_values_are_not_propagated():
+    # 错误的请求 / 不可接受的请求 both came back as "Invalid Request"; text search
+    # cannot tell which occurrence is which.
+    from gwt.propagate import propagate
+
+    changed = [
+        {"before": "Invalid Request Here", "after": "Not Acceptable"},
+        {"before": "Invalid Request Here", "after": "Misdirected Request"},
+    ]
+    import subprocess, tempfile
+    with tempfile.TemporaryDirectory() as d:
+        subprocess.run(["git", "init", "-q", d], check=True)
+        f = __import__("pathlib").Path(d) / "a.go"
+        f.write_text("// Invalid Request Here\n")
+        subprocess.run(["git", "-C", d, "add", "a.go"], check=True)
+        files, reps, skipped = propagate(__import__("pathlib").Path(d), changed)
+        assert reps == 0
+        assert len(skipped) == 2
+        assert f.read_text() == "// Invalid Request Here\n"
+
+
+def test_collapses_a_word_the_substitution_duplicated():
+    # 站内信消息 came back as "Inbox Messages"; rewriting 站内信 to "Internal Message"
+    # would otherwise leave "Internal Message Messages".
+    got = apply_corrections("站内信消息列表", "Inbox Message Message List", [Correction("站内信", "Inbox Message", "Internal Message")])
+    assert got == "Internal Message List"

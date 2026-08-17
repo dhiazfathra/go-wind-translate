@@ -9,7 +9,9 @@
 角色	Cast	Role
 角色	character	role
 角色	characters	roles
-权限码	Authorization Code	Permission code
+权限码	Authorization Codes	Permission Codes
+权限码	Authorization Code	Permission Code
+权限码	authorization codes	permission codes
 权限码	authorization code	permission code
 职位	Job Posting	Position
 职位	Job Listing	Position
@@ -17,11 +19,12 @@
 岗位	Roles	positions
 岗位	Job Posting	Position
 分配者	Distributor	Assigner
-负责人	Primary User	Person in charge
+负责人	Primary UserID	Person in Charge ID
+负责人	Primary User	Person in Charge
 # domain terms — billing / tenancy
 套餐	Set Meals	Plan
 套餐	Meal Plans	Plans
-套餐	Menu	Plan Catalog
+套餐	Menu	Plan
 套餐	Package	Plan
 套餐	Packages	Plans
 凭证	Voucher	Credential
@@ -62,12 +65,15 @@
 波纹	accordion	ripple
 =固定	Fixed	Pin
 水平模式	landscape mode	horizontal mode
-实例	Examples	instance
-实例	examples	instance
+=实例	Examples	Instance
+=实例	examples	instance
 切亮色	highlighted	switching to light mode
 滚动相关	Related News	Scroll-related
-站内信	Private Message	Internal message
-站内信	Inbox	Internal message
+站内信	Private Messages	Internal Messages
+站内信	Private Message	Internal Message
+站内信	Inbox Messages	Internal Messages
+站内信	Inbox Message	Internal Message
+站内信	Inbox	Internal Message
 撤销	Unsubscribe	Revoke
 # units and literals
 天	Sky	days

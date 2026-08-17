@@ -66,7 +66,20 @@ def apply_corrections(src: str, en: str, corrections: list[Correction]) -> str:
         if any(f in src for f in forbidden):
             continue
         en = _pattern(c.wrong).sub(c.right, en)
-    return en
+    return _collapse_repeat(en)
+
+
+_REPEAT = re.compile(r"\b([A-Z][a-z]+) \1\b")
+
+
+def _collapse_repeat(en: str) -> str:
+    """Drop a word the substitution duplicated.
+
+    站内信消息 was "Inbox Messages"; rewriting 站内信 to "Internal Message" leaves
+    "Internal Message Messages". The repeat is an artifact of the rewrite, not of
+    the source.
+    """
+    return _REPEAT.sub(r"\1", en)
 
 
 def repair_cache(cache_path: Path, corrections: list[Correction]) -> tuple[int, list[dict]]:
@@ -79,6 +92,16 @@ def repair_cache(cache_path: Path, corrections: list[Correction]) -> tuple[int, 
             changed.append({"h": rec["h"], "src": rec["src"], "before": rec["en"], "after": fixed})
             rec["en"] = fixed
             rec["engine"] = "phase2-repair"
+    # Text propagation identifies a segment only by the English the splicer wrote.
+    # If a second, unrepaired segment produced the very same English, that English
+    # is not a handle for one segment any more: 权限码 -> "Authorization Code" is a
+    # defect, but 授权码 -> "Authorization Code" is the correct OAuth grant name.
+    # Mark those pairs so propagation reports them instead of guessing.
+    repaired_en = {c["before"] for c in changed}
+    unrepaired_en = {r["en"] for r in records if r["en"] in repaired_en}
+    for c in changed:
+        c["ambiguous"] = c["before"] in unrepaired_en
+
     if changed:
         cache_path.write_text(
             "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in records), encoding="utf-8"
