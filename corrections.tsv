@@ -47,8 +47,8 @@
 仓库!数据仓库	warehouse	repository
 =目录	Table of Contents	Catalog
 =文件目录	Table of Contents	Directory
-文件	Documents	Files
-文件	Document	File
+文件!文档	Documents	Files
+文件!文档	Document	File
 轮询	Rotation	Polling
 轮训	Rotation	Polling
 验签	ticket inspection	signature verification

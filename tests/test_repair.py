@@ -79,3 +79,8 @@ def test_collapses_a_word_the_substitution_duplicated():
     # would otherwise leave "Internal Message Messages".
     got = apply_corrections("站内信消息列表", "Inbox Message Message List", [Correction("站内信", "Inbox Message", "Internal Message")])
     assert got == "Internal Message List"
+
+
+def test_collapses_a_gloss_the_substitution_made_redundant():
+    got = apply_corrections("会话（Session）", "Conversation (Session)", [Correction("会话", "Conversation", "Session")])
+    assert got == "Session"

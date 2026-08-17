@@ -70,6 +70,7 @@ def apply_corrections(src: str, en: str, corrections: list[Correction]) -> str:
 
 
 _REPEAT = re.compile(r"\b([A-Z][a-z]+) \1\b")
+_GLOSSED = re.compile(r"\b([A-Z][a-z]+) \(\1\)")
 
 
 def _collapse_repeat(en: str) -> str:
@@ -79,7 +80,10 @@ def _collapse_repeat(en: str) -> str:
     "Internal Message Messages". The repeat is an artifact of the rewrite, not of
     the source.
     """
-    return _REPEAT.sub(r"\1", en)
+    en = _REPEAT.sub(r"\1", en)
+    # 会话（Session） was glossed as "Conversation (Session)"; correcting the term
+    # makes the gloss restate it.
+    return _GLOSSED.sub(r"\1", en)
 
 
 def repair_cache(cache_path: Path, corrections: list[Correction]) -> tuple[int, list[dict]]:
