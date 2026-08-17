@@ -40,8 +40,8 @@
 驱逐	Expulsion	Eviction
 驱逐	Deportation	Eviction
 键空间	Key Space	Keyspace
-仓库	Warehouse	Repository
-仓库	warehouse	repository
+仓库!数据仓库	Warehouse	Repository
+仓库!数据仓库	warehouse	repository
 =目录	Table of Contents	Catalog
 =文件目录	Table of Contents	Directory
 文件	Documents	Files

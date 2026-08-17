@@ -50,12 +50,20 @@ def apply_corrections(src: str, en: str, corrections: list[Correction]) -> str:
     Some words are only mistranslated in isolation — 执行 is "Enforcement" as a
     Code-of-Conduct heading and "Execute" everywhere else — so a substring gate
     would corrupt more than it fixes.
+
+    A term written as `词!例外` additionally requires that `例外` is absent, for
+    compounds where the longer form flips the right answer.
     """
     for c in corrections:
-        if c.zh.startswith("="):
-            if src.strip() != c.zh[1:]:
+        required, *forbidden = c.zh.split("!")
+        if required.startswith("="):
+            if src.strip() != required[1:]:
                 continue
-        elif c.zh not in src:
+        elif required not in src:
+            continue
+        # A longer compound can flip the right answer: 仓库 is "repository", but
+        # 数据仓库 really is a data warehouse.
+        if any(f in src for f in forbidden):
             continue
         en = _pattern(c.wrong).sub(c.right, en)
     return en
