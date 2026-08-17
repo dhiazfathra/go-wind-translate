@@ -17,6 +17,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from gwt.repair import _GLOSSED
+
 MIN_LITERAL = 6  # shorter `before` values collide with unrelated English
 
 
@@ -101,6 +103,9 @@ def propagate(repo: Path, changed: list[dict]) -> tuple[int, int, list[dict]]:
                 replacements += text.count(before)
                 text = text.replace(before, after)
         if text != original:
+            # A span can end mid-phrase (会话（ spliced as "Conversation ("), so
+            # correcting the term can leave the gloss restating it.
+            text = _GLOSSED.sub(r"\1", text)
             path.write_text(text, encoding="utf-8")
             files_touched += 1
     return files_touched, replacements, skipped
