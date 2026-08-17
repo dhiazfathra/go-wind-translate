@@ -1,0 +1,97 @@
+# Phase 2 term-repair table. Derived from the eleven-repo ZH_EN_TRANSLATION_REVIEW.md pass.
+# Format: zh_term <TAB> wrong_en <TAB> correct_en
+# A cache entry is rewritten only when src contains zh_term AND en contains wrong_en
+# (case-insensitive, word-boundary). Replacement preserves the leading capital of the match.
+#
+# domain terms — RBAC
+角色	Character	Role
+角色	Characters	Roles
+角色	Cast	Role
+角色	character	role
+角色	characters	roles
+权限码	Authorization Code	Permission code
+权限码	authorization code	permission code
+职位	Job Posting	Position
+职位	Job Listing	Position
+职位	Job Listings	Positions
+岗位	Roles	positions
+岗位	Job Posting	Position
+分配者	Distributor	Assigner
+负责人	Primary User	Person in charge
+# domain terms — billing / tenancy
+套餐	Set Meals	Plan
+套餐	Meal Plans	Plans
+套餐	Menu	Plan Catalog
+套餐	Package	Plan
+套餐	Packages	Plans
+凭证	Voucher	Credential
+凭证	Vouchers	Credentials
+凭证	Document	Credential
+凭证	Documents	Credentials
+# domain terms — storage / infra
+桶	Barrel	bucket
+桶	barrel	bucket
+镜像	Mirror	image
+镜像	mirror	image
+会话	Conversation	Session
+会话	conversation	session
+设备	Equipment	Device
+设备	equipment	device
+驱逐	Expulsion	Eviction
+驱逐	Deportation	Eviction
+键空间	Key Space	Keyspace
+仓库	Warehouse	Repository
+仓库	warehouse	repository
+=目录	Table of Contents	Catalog
+=文件目录	Table of Contents	Directory
+文件	Documents	Files
+文件	Document	File
+轮询	Rotation	Polling
+轮训	Rotation	Polling
+验签	ticket inspection	signature verification
+服务协议	Terms of Service	Service protocol
+# domain terms — UI
+表头	watch face	table header
+表头	dial	table header
+表头	dials	table headers
+表体	watch case	table body
+表项	Column Height	Row height
+单选	Multiple Choice	Single choice
+单选框	Checkbox	Radio button
+列名	Listed	Column name
+波纹	accordion	ripple
+=固定	Fixed	Pin
+水平模式	landscape mode	horizontal mode
+实例	Examples	instance
+实例	examples	instance
+切亮色	highlighted	switching to light mode
+滚动相关	Related News	Scroll-related
+站内信	Private Message	Internal message
+站内信	Inbox	Internal message
+撤销	Unsubscribe	Revoke
+# units and literals
+天	Sky	days
+分	jian	cents
+微度	arcminutes	microdegrees
+# proper nouns
+抖音	TikTok	Douyin
+掘金	Mining	Juejin
+B站	BWeb	Bilibili
+风行	FengXing	GoWind
+亮	Liang	Light
+# HTTP status names
+错误网关	Incorrect Gateway	Bad Gateway
+未扩展	Not expanded	Not Extended
+不可接受的请求	Invalid Request	Not Acceptable
+错误的请求	Invalid Request	Misdirected Request
+代理身份验证需要	Proxy authentication requires	Proxy Authentication Required
+# misc verbs and nouns
+重生成	Reborn as	Regenerate
+=覆盖率	Override	Coverage
+=测试覆盖	Override	Test coverage
+=执行	Execute	Enforcement
+用户服务	Customer Service	User Service
+女性	Women	Female
+授权类型	License Type	Grant Type
+引用	citation	reference
+引用	Citation	Reference

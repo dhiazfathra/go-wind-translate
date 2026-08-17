@@ -1,0 +1,44 @@
+import json
+
+from gwt.repair import Correction, apply_corrections, load_corrections, repair_cache
+
+ROLE = Correction("角色", "Character", "Role")
+
+
+def test_rewrites_when_zh_term_present():
+    assert apply_corrections("角色代码分隔符", "Character code separator", [ROLE]) == "Role code separator"
+
+
+def test_leaves_en_alone_when_zh_term_absent():
+    # A genuine "character" (as in a char) must survive.
+    assert apply_corrections("字符编码", "Character encoding", [ROLE]) == "Character encoding"
+
+
+def test_does_not_split_words():
+    assert apply_corrections("角色", "Characters", [ROLE]) == "Characters"
+    assert apply_corrections("角色", "Characters", [ROLE, Correction("角色", "Characters", "Roles")]) == "Roles"
+
+
+def test_repairs_only_matching_records(tmp_path):
+    cache = tmp_path / "segments.jsonl"
+    cache.write_text(
+        json.dumps({"h": "a", "src": "角色名称", "en": "Character Name", "engine": "deepl"}, ensure_ascii=False)
+        + "\n"
+        + json.dumps({"h": "b", "src": "字符集", "en": "Character set", "engine": "deepl"}, ensure_ascii=False)
+        + "\n",
+        encoding="utf-8",
+    )
+    count, changed = repair_cache(cache, [ROLE])
+    assert count == 1
+    assert changed[0]["after"] == "Role Name"
+    rows = [json.loads(x) for x in cache.read_text(encoding="utf-8").splitlines()]
+    assert rows[0]["engine"] == "phase2-repair"
+    assert rows[1]["en"] == "Character set"
+
+
+def test_shipped_corrections_table_parses():
+    from pathlib import Path
+
+    rows = load_corrections(Path(__file__).parent.parent / "corrections.tsv")
+    assert len(rows) > 50
+    assert Correction("角色", "Character", "Role") in rows
