@@ -94,7 +94,10 @@ def propagate(repo: Path, changed: list[dict]) -> tuple[int, int, list[dict]]:
     files_touched = replacements = 0
     for path in target_files(repo):
         try:
-            text = path.read_text(encoding="utf-8")
+            # newline="" keeps CRLF intact; universal-newline mode would rewrite
+            # every line of a CRLF file and bury the real change in the diff.
+            with path.open(encoding="utf-8", newline="") as fh:
+                text = fh.read()
         except UnicodeDecodeError:
             continue
         original = text
@@ -106,6 +109,7 @@ def propagate(repo: Path, changed: list[dict]) -> tuple[int, int, list[dict]]:
             # A span can end mid-phrase (会话（ spliced as "Conversation ("), so
             # correcting the term can leave the gloss restating it.
             text = _GLOSSED.sub(r"\1", text)
-            path.write_text(text, encoding="utf-8")
+            with path.open("w", encoding="utf-8", newline="") as fh:
+                fh.write(text)
             files_touched += 1
     return files_touched, replacements, skipped
