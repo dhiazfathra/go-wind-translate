@@ -42,3 +42,12 @@ def test_shipped_corrections_table_parses():
     rows = load_corrections(Path(__file__).parent.parent / "corrections.tsv")
     assert len(rows) > 50
     assert Correction("角色", "Character", "Role") in rows
+
+
+def test_single_word_pairs_are_not_propagated_by_text_search():
+    # "Execute" -> "Enforcement" rewrote a Go call site to root.Enforcement().
+    from gwt.propagate import _safe_literal
+
+    assert not _safe_literal("Execute")
+    assert not _safe_literal("Equipment")
+    assert _safe_literal("Git Warehouse")
